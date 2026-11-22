@@ -1,0 +1,13 @@
+{
+  "name": "seatbelt",
+  "description": "Vibe code like a pro developer, without being one. Plain-English guard rails for non-developers: plan first, save points, secret keys kept safe, two-strikes bug fixing and a ship check before going live.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Mohammed Hyder",
+    "url": "https://github.com/HYDERMAA"
+  },
+  "homepage": "https://github.com/HYDERMAA/seatbelt",
+  "repository": "https://github.com/HYDERMAA/seatbelt",
+  "license": "MIT",
+  "keywords": ["vibe-coding", "beginners", "security", "no-code", "supabase", "lovable", "bolt"]
+}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Seatbelt"
+  short_description: "Vibe code like a pro developer, without being one"
+  default_prompt: "Use Seatbelt to help me build this app safely, step by step, in plain English."
+policy:
+  allow_implicit_invocation: true

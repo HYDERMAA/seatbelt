@@ -1,0 +1,11 @@
+# release build (attach dist/seatbelt.zip to a GitHub release instead)
+dist/
+# secrets
+.env
+.env.*
+!.env.example
+# clutter
+__pycache__/
+*.pyc
+.DS_Store
+node_modules/
