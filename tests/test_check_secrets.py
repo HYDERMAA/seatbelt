@@ -154,6 +154,16 @@ class ScannerTests(unittest.TestCase):
         self.assertIn(("no-gitignore", "medium"), self.checks(data))
         self.assertEqual(code, 0)
 
+    @unittest.skipUnless(shutil.which("git"), "git not installed")
+    def test_example_env_variants_are_fine(self):
+        self.git("init", "-q")
+        self.write(".gitignore", ".env\n.env.local\n")
+        for n in (".env.local.example", ".env.sample", "app/.env.template"):
+            self.write(n, "OPENAI_API_KEY=\n")
+            self.git("add", n)
+        code, data = self.run_scan()
+        self.assertEqual(code, 0, data)
+
     def test_real_key_in_example_env(self):
         self.write(".gitignore", ".env\n")
         self.write(".env.example", f"OPENAI_API_KEY={FAKE_OPENAI}\n")
@@ -182,6 +192,156 @@ class ScannerTests(unittest.TestCase):
         self.write("src/ai.js", "const c = new OpenAI({ apiKey: k, dangerouslyAllowBrowser: true })\n")
         code, data = self.run_scan()
         self.assertIn(("ai-client-in-browser", "high"), self.checks(data))
+
+    def test_rls_before_create(self):
+        self.write("supabase/migrations/001.sql",
+                   "-- Enable RLS\nalter table if exists notes enable row level security;\n"
+                   "create table if not exists notes (id uuid primary key, user_id uuid);\n")
+        code, data = self.run_scan()
+        self.assertIn(("rls-before-create", "high"), self.checks(data))
+        self.assertNotIn("table-without-rls", {c for c, _ in self.checks(data)})
+
+    def test_user_can_edit_entitlement(self):
+        self.write("supabase/migrations/001.sql",
+                   "create table public.profiles (id uuid primary key, is_pro boolean default false);\n"
+                   "alter table public.profiles enable row level security;\n"
+                   "create policy \"own\" on public.profiles for update using (auth.uid() = id);\n")
+        code, data = self.run_scan()
+        self.assertIn(("user-can-edit-entitlement", "high"), self.checks(data))
+
+    def test_entitlement_guarded_by_column_grants(self):
+        self.write("supabase/migrations/001.sql",
+                   "create table public.profiles (id uuid primary key, display_name text, role text);\n"
+                   "alter table public.profiles enable row level security;\n"
+                   "create policy \"own\" on public.profiles for update using (auth.uid() = id);\n"
+                   "revoke update on public.profiles from anon, authenticated;\n"
+                   "grant update (display_name) on public.profiles to authenticated;\n")
+        code, data = self.run_scan()
+        self.assertEqual(code, 0, data)
+
+    def test_public_bucket_and_definer(self):
+        self.write("schema.sql",
+                   "insert into storage.buckets (id, name, public) values ('cv', 'cv', true);\n"
+                   "create function public.f() returns int language sql security definer as $$ select 1 $$;\n")
+        code, data = self.run_scan()
+        found = self.checks(data)
+        self.assertIn(("public-bucket", "medium"), found)
+        self.assertIn(("definer-without-search-path", "medium"), found)
+
+    def test_playbook_code_scans_clean(self):
+        import re as _re
+        book = os.path.join(HERE, "..", "skills", "seatbelt", "playbooks")
+        with open(os.path.join(book, "supabase.md")) as fh:
+            sql = _re.findall(r"```sql\n(.*?)```", fh.read(), _re.S)
+        self.write("supabase/migrations/001_all.sql", "\n".join(sql))
+        with open(os.path.join(book, "stripe-payments.md")) as fh:
+            ts = dict(_re.findall(r"<!-- test: (\w+) -->\n```ts\n(.*?)```", fh.read(), _re.S))
+        self.write("app/api/checkout/route.ts", ts["checkout_route"])
+        self.write("app/api/webhooks/stripe/route.ts", ts["webhook_route"])
+        self.write(".gitignore", ".env\n")
+        code, data = self.run_scan()
+        serious = [f for f in data["findings"] if f["severity"] in ("critical", "high")]
+        self.assertEqual(serious, [], serious)
+
+    def test_false_positive_guards(self):
+        self.write("supabase/migrations/001.sql",
+                   "create table public.chat_messages (id uuid primary key, user_id uuid, role text, content text);\n"
+                   "alter table public.chat_messages enable row level security;\n"
+                   "create policy \"own\" on public.chat_messages for all using (auth.uid() = user_id);\n")
+        self.write("src/Help.tsx", "<p>Paste the anon key here, never the service_role key</p>\n")
+        self.write("db/schema.sql", "create table jobs (id int);\n")
+        self.write("src/i18n/en.ts", 'export default { "auth.password": "Password1!" }\n')
+        self.write(".gitignore", ".env\n")
+        code, data = self.run_scan()
+        self.assertEqual(code, 0, data)
+        found = self.checks(data)
+        self.assertIn(("service-role-in-frontend", "medium"), found)
+        self.assertIn(("table-without-rls", "medium"), found)
+        self.assertNotIn("user-can-edit-entitlement", {c for c, _ in found})
+        self.assertNotIn("hardcoded-password", {c for c, _ in found})
+
+    def test_webhook_not_verified(self):
+        self.write("app/api/webhooks/stripe/route.ts",
+                   "import Stripe from 'stripe';\nexport async function POST(req){ const e = await req.json(); }\n")
+        code, data = self.run_scan()
+        self.assertIn(("webhook-not-verified", "high"), self.checks(data))
+
+    def test_success_page_grant(self):
+        self.write("src/pages/Success.tsx", "await supabase.from('profiles').update({ is_pro: true }).eq('id', user.id)\n")
+        code, data = self.run_scan()
+        self.assertIn(("success-page-grant", "high"), self.checks(data))
+
+    def test_cors_and_debug(self):
+        self.write("server/index.js", "app.use(cors({ origin: '*', credentials: true }))\n")
+        self.write("server/app.py", "app.run(host='0.0.0.0', debug=True)\n")
+        code, data = self.run_scan()
+        found = self.checks(data)
+        self.assertIn(("cors-open", "high"), found)
+        self.assertIn(("debug-mode", "high"), found)
+
+    def test_hardcoded_password(self):
+        self.write("server/db.js", 'const dbPassword = "Tr0ub4dor-horse";\nconst p = process.env.DB_PASSWORD;\n')
+        self.write("server/form.js", 'const label = { password: "your-password" };\nconst secretName = "STRIPE_SECRET_KEY";\n'
+                   'const passwordField = "current-password";\n')
+        code, data = self.run_scan()
+        hits = [f for f in data["findings"] if f["check"] == "hardcoded-password"]
+        self.assertEqual([(f["file"], f["line"]) for f in hits], [("server/db.js", 1)])
+
+    def test_env_in_public_folder(self):
+        self.write(".gitignore", ".env\n")
+        self.write("public/.env", "X=1\n")
+        code, data = self.run_scan()
+        self.assertIn(("env-file-public", "critical"), self.checks(data))
+
+    def test_source_maps_in_build(self):
+        self.write("dist/assets/index.js.map", "{}")
+        code, data = self.run_scan()
+        self.assertIn(("public-source-maps", "low"), self.checks(data))
+
+    def test_firebase_test_mode(self):
+        self.write("firestore.rules", "allow read, write: if request.time < timestamp.date(2026, 12, 1);\n")
+        code, data = self.run_scan()
+        self.assertIn(("firebase-test-mode", "high"), self.checks(data))
+
+    def test_use_client_marks_frontend(self):
+        self.write("lib/ai.ts", f'"use client";\nconst k = "{FAKE_OPENAI}";\n')
+        code, data = self.run_scan()
+        self.assertIn(("openai-key", "critical"), self.checks(data))
+
+    @unittest.skipUnless(shutil.which("git"), "git not installed")
+    def test_env_in_git_history(self):
+        self.git("init", "-q")
+        self.git("config", "user.email", "t@example.com")
+        self.git("config", "user.name", "t")
+        self.write(".env", "X=1\n")
+        self.git("add", ".env")
+        self.git("commit", "-qm", "oops")
+        self.git("rm", "-q", "--cached", ".env")
+        self.write(".gitignore", ".env\n")
+        self.git("add", ".gitignore")
+        self.git("commit", "-qm", "fix")
+        code, data = self.run_scan()
+        self.assertIn(("env-file-in-git-history", "critical"), self.checks(data))
+
+    def test_reports(self):
+        self.write("src/chat.js", f'const key = "{FAKE_OPENAI}";\n')
+        out = tempfile.mkdtemp()
+        try:
+            md, html = os.path.join(out, "r.md"), os.path.join(out, "r.html")
+            subprocess.run([sys.executable, SCRIPT, self.dir, "--report", md], capture_output=True)
+            subprocess.run([sys.executable, SCRIPT, self.dir, f"--report={html}", "--json"], capture_output=True)
+            md_text, html_text = open(md).read(), open(html).read()
+            self.assertIn("NOT READY", md_text)
+            self.assertIn("Still to check by hand", md_text)
+            self.assertNotIn(FAKE_OPENAI, md_text + html_text)
+            self.assertIn("<!doctype html>", html_text)
+            self.assertIn("Must fix now", html_text)
+        finally:
+            shutil.rmtree(out)
+
+    def test_audit_flag_without_lockfile(self):
+        r = subprocess.run([sys.executable, SCRIPT, self.dir, "--audit", "--json"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
 
     def test_rls_disabled(self):
         self.write("schema.sql", "alter table orders disable row level security;\n")
