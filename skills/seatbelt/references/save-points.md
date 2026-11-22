@@ -9,7 +9,8 @@ name it after what is about to change, and tell the user in one line.
 2. If git is not available
 3. In app builders
 4. Going back to a save point
-5. Saving a copy online (GitHub)
+5. Finding which change broke it (bisect)
+6. Saving a copy online (GitHub)
 
 ## 1. If git is available (preferred)
 
@@ -127,7 +128,39 @@ To make the main project match a save point exactly while keeping history, use
 
 Without git: unzip the backup into a new folder, check it runs, then use that folder.
 
-## 5. Saving a copy online (GitHub)
+## 5. Finding which change broke it (bisect)
+
+When "it was working yesterday" and you cannot see why, test save points between the last known
+good one and now, halving the gap each time. Ten save points take about four tests.
+
+With git, explain first ("I will check out older versions one at a time to find the change that
+broke it; nothing is lost"), make sure there are no unsaved changes, then:
+
+```bash
+git bisect start
+git bisect bad                 # the current version is broken
+git bisect good <save-point-id> # the last version you know worked
+# git now switches to a version in the middle. Test it (run the app, try the broken thing), then:
+git bisect good                # if this version works
+git bisect bad                 # if this version is broken
+# repeat until git names the first broken save point, then:
+git bisect reset               # go back to where you started
+```
+
+Then look at what that one save point changed (`git show <id> --stat`), explain it in plain
+English, and fix just that.
+
+Without git: unzip backups into separate folders and test the middle one first.
+
+In app builders: open the version history, preview a version halfway between "working" and now,
+and keep halving.
+
+Not everything that breaks is in the code. Before bisecting, rule out: an expired or replaced API
+key, a failed payment or billing limit on a provider, a free database project that was paused for
+inactivity, changed environment variables on the host, a provider outage (check its status page),
+or a new browser extension (try a private window).
+
+## 6. Saving a copy online (GitHub)
 
 GitHub is a website that stores copies of projects. Useful as an off-computer backup, but:
 

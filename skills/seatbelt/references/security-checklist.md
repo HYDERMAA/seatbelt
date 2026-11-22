@@ -68,6 +68,9 @@ If a key was ever in frontend code, pasted into a public chat, or uploaded to Gi
 RLS means each row of a table has rules about who may see or change it. Without RLS, anyone with
 the public key (which is in the browser) can read and change the whole table.
 
+Turn RLS on **in the same migration that creates the table**, straight after `create table`.
+Turning it on before the table exists does nothing, which leaves the new table open.
+
 For every table that holds user data:
 
 ```sql
@@ -94,6 +97,30 @@ create policy "Users can delete their own notes"
 Then check in the Supabase dashboard (Table Editor or Authentication > Policies) that no table
 says "RLS disabled", and use Supabase's Security Advisor if it is available. Avoid policies like
 `using (true)` on private data: that means "everyone".
+
+### Things users must not be able to change
+
+Owner-only policies are not enough when a user's own row holds something valuable. If `profiles`
+has `is_pro`, `plan`, `credits`, `role` or `is_admin` and users may update their own profile,
+anyone can make themselves Pro or admin with one request from the browser.
+
+Fix: keep those values in a separate table that users can read but not write, and change it only
+from server code (a verified payment webhook or an admin action):
+
+```sql
+create table public.entitlements (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  plan text not null default 'free',
+  updated_at timestamptz not null default now()
+);
+alter table public.entitlements enable row level security;
+
+create policy "Users can read their own plan"
+  on public.entitlements for select
+  to authenticated
+  using ((select auth.uid()) = user_id);
+-- No insert, update or delete policies: only server code using the service role can change it.
+```
 
 ### Firebase
 
@@ -125,6 +152,8 @@ someone else's order. Test this.
   Google Cloud, AWS, Vercel, Supabase and so on) before launch. Some providers only alert rather
   than stop spending, so say that plainly.
 - Use CAPTCHA or email verification on public sign-up forms if bots might abuse them.
+- Put a hard limit in the app itself too (for example 50 AI messages per user per day, a
+  maximum response length), because some providers' budgets only alert and do not stop spending.
 
 ## 7. Checking what people type (input checks)
 
@@ -141,6 +170,10 @@ someone else's order. Test this.
 - Decide prices on the server, not from what the browser sends.
 - Verify webhook signatures (webhooks are messages services send your app, like "payment
   succeeded"). Unverified webhooks can be faked.
+- Grant access or mark orders paid **only in the verified webhook**, never on the success or
+  "thank you" page, which anyone can visit without paying.
+- Pass the user's ID to Stripe from the server (`client_reference_id` or `metadata`), not from
+  the page.
 - Use test mode until everything works.
 
 ## 9. Files and uploads

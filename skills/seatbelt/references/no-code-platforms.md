@@ -39,8 +39,11 @@ Before each prompt, remind them to note or bookmark the current working version.
 - **Secrets:** with Supabase or Lovable Cloud connected, put secret keys in the Supabase Edge
   Function secrets or the platform's secrets settings, never in the code. Ask Lovable to "move
   this API call into an edge function that reads the key from secrets".
-- **Security scan:** use Lovable's built-in security review or scan before publishing, if shown,
-  and fix what it reports.
+- **Security scans:** Lovable runs a **Quick scan** on every publish (database rules, permissive
+  policies, leaked-password protection, known vulnerable packages) and offers a **Deep scan** of
+  the app's code (access control, open endpoints, injection, leaked secrets, payments, logins,
+  personal data in logs). Run the Deep scan before sharing with customers and fix Critical
+  findings first. Policies can be reviewed under **More > Database > Manage > Policies**.
 - **Versions:** use the version history to restore an earlier version.
 
 ## 3. Bolt
@@ -60,6 +63,8 @@ Before each prompt, remind them to note or bookmark the current working version.
 - **Secrets:** use the **Secrets** tool (padlock icon) and read them as environment variables.
 - **Checkpoints:** use **Rollback to here** on an Agent checkpoint to go back.
 - Check whether the deployed app is public or private, and set it deliberately.
+- **Security Center:** Level 1 basic checks (packages) are free; the Level 2 deep scan needs a
+  paid plan and uses Agent credits, so mention the cost before suggesting it.
 
 ## 5. v0
 
