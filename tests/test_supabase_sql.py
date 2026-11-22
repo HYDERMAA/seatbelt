@@ -29,7 +29,7 @@ def blocks():
     return dict(re.findall(r"<!-- test: (\w+) -->\n```sql\n(.*?)```", text, re.S))
 
 
-@unittest.skipUnless(PG and shutil.which("psql"), "set SEATBELT_PG to run the SQL tests")
+@unittest.skipUnless(PG and shutil.which("psql") and os.path.exists(PLAYBOOK), "set SEATBELT_PG (and include the Pro playbooks) to run the SQL tests")
 class SupabasePlaybookSQL(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

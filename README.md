@@ -24,8 +24,32 @@ When you ask the AI to build, fix or launch an app, Seatbelt makes it:
    table, so people only see their own information.
 7. **Stop the fix loop.** If a fix fails twice, it stops, explains the problem, goes back to the
    last save point and tries a different way, instead of making things worse.
-8. **Run a ship check before you go live,** including a no-install scanner for leaked keys and
-   open databases, and tell you honestly when a real developer should take a look.
+8. **Run a ship check before you go live,** including a no-install scanner that writes a
+   plain-English report, and tell you honestly when a real developer should take a look.
+9. **Lock payments to the payment.** Paid features unlock only from a verified Stripe webhook, and
+   nobody can give themselves "Pro" by editing their own profile.
+10. **Remember the project.** A short `PROJECT.md` lets a new chat (or a developer you hire) pick
+   up where you left off.
+11. **Be honest, not agreeable.** It will not say "that should work" without checking, and it
+   will not agree something is safe just because you hope it is.
+
+It also matches the care to the risk: a bakery page gets one or two questions, a booking app with
+payments gets the full plan.
+
+## What is new in version 2
+
+- **Risk levels** (Green, Amber, Red) so simple sites stay quick and risky apps get the full care.
+- **Rescue mode:** get the app working first, two strikes, "it was working yesterday" checks
+  (expired keys, billing, paused projects) and finding the change that broke it.
+- **Scope guard:** it only changes what you asked, and asks before touching anything else.
+- **Payments and paid features done safely,** including the trap where users can give themselves
+  "Pro" by editing their own row.
+- **AI features done safely:** keys on the server, per-person caps, and protection against people
+  tricking the AI into showing other users' data.
+- **Project memory and a developer handoff brief.**
+- **A much stronger scanner** (see below) with a report you can keep.
+- **Uses your builder's own scans** too (Lovable, Replit, Supabase Security Advisor).
+- **Request templates** for asking the AI for features and fixes clearly.
 
 ## Why this matters
 
@@ -141,22 +165,40 @@ And when something breaks:
 ## The ship check scanner
 
 The skill includes [`scripts/check_secrets.py`](skills/seatbelt/scripts/check_secrets.py), a
-single Python file with no installs needed. It looks for leaked keys (OpenAI, Anthropic, Google
-and Gemini, Stripe, AWS, GitHub, Supabase and more), `.env` files that could be uploaded, secrets
-behind public prefixes like `NEXT_PUBLIC_` or `VITE_`, Supabase tables without Row Level Security,
-and open Firebase rules. It only reads files and never changes anything.
+single Python file with no installs needed. It only reads files and never changes anything. It
+looks for:
+
+- leaked keys (OpenAI, Anthropic, Google and Gemini, Stripe, AWS, GitHub, Supabase `service_role`,
+  Twilio, Shopify and more), including secrets behind public prefixes like `NEXT_PUBLIC_` or
+  `VITE_`, and keys in code that runs in the browser
+- `.env` files that could be uploaded, or that were committed to git in the past
+- `.env` files or source maps inside the public website folder
+- Supabase tables without Row Level Security, security turned on before the table exists, rules
+  that let everyone in, public storage buckets, and database functions missing a safety setting
+- users who can edit their own plan, credits or role
+- Stripe webhooks that do not check Stripe's signature, and success pages that grant paid features
+- AI libraries set to run in the browser
+- open Firebase rules, CORS open to every website, debug mode, and passwords written into code
+- optionally, known-vulnerable packages (`--audit` runs `npm audit`)
 
 Your AI runs it for you, but you can too:
 
 ```bash
-python3 skills/seatbelt/scripts/check_secrets.py /path/to/your/project
+python3 skills/seatbelt/scripts/check_secrets.py /path/to/your/project --report ship-report.md
 ```
 
-It is a safety net, not a full security audit.
+The report lists problems worst first, in plain English, with what to do about each one, plus the
+checks only a person can do. Use `--report ship-report.html` for a page you can open in a browser.
+
+It is a safety net, not a full security audit. It was tuned against ten public open-source
+projects to cut false alarms.
 
 ## FAQ
 
 **Is it free?** Yes. MIT licence. Use it, share it, change it.
+
+**Does it work in the Claude.ai chat, without a terminal?** Yes. Upload your project as a zip
+and ask Claude to check it; with code execution on, it can run the scanner on the zip.
 
 **Will it slow me down?** A little at the start (a few questions and a plan). It saves far more
 time than it costs, because you spend less time stuck in broken versions.
@@ -186,17 +228,21 @@ skills/seatbelt/            the skill itself (this is what gets zipped for Claud
   SKILL.md                  the main instructions
   references/               extra detail the AI reads only when needed
   scripts/check_secrets.py  the ship check scanner
+  playbooks/                tested patterns for Supabase, Stripe, logins and more
 AGENTS.md                   drop-in rules for Codex, Cursor, Bolt and others
 .cursor/rules/seatbelt.mdc  drop-in Cursor rule
 paste-into-app-builders.md  short text for Lovable, Bolt, Replit, v0
 .claude-plugin/             lets Claude Code install it as a plugin
-tests/                      tests for the scanner
+tests/                      tests for the scanner, skill text, SQL and Stripe patterns
+evals/                      the rubric and scenarios used to grade the skill
 tools/                      build and check scripts for maintainers
 ```
 
-Maintainers: `python3 tools/build.py` rebuilds the Cursor rule and `dist/seatbelt.zip`;
+Maintainers: `python3 tools/build.py` rebuilds the Cursor rule and the zips in `dist/`;
 `python3 tools/check.py` validates everything; `python3 -m unittest discover -s tests` runs the
-scanner tests.
+tests. The SQL tests need a local Postgres (`SEATBELT_PG="host=... port=... user=..."`) and the
+Stripe tests need the `stripe` npm package (`SEATBELT_STRIPE=/path/to/node_modules/stripe`);
+both are skipped otherwise.
 
 ## Credits
 

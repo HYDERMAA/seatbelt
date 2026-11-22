@@ -14,7 +14,8 @@ to do. Explain the "why" to the user in one line when you apply it.
 7. Checking what people type (input checks)
 8. Payments
 9. Files and uploads
-10. Privacy and the law
+10. Privacy and the law (and emails and texts)
+11. If private data or a key leaked
 
 ## 1. Secret keys
 
@@ -188,3 +189,29 @@ someone else's order. Test this.
 - In the UK and EU, personal data is covered by UK GDPR / GDPR. Sensitive data (health,
   children, finances) raises the stakes: recommend a professional review.
 - Error messages shown to users should be friendly and vague; detailed errors go to logs.
+
+### Emails and texts to users
+
+- Use a sending service (for example Resend, Postmark or SendGrid for email, Twilio for texts),
+  never your personal email account, and keep its key on the server.
+- Set up the domain checks the service asks for (SPF, DKIM, DMARC) so emails do not land in spam.
+- Service messages (receipts, booking reminders, password resets) are fine to send. **Marketing**
+  (newsletters, offers) in the UK and EU generally needs people's consent, given by ticking an
+  unticked box, with a limited exception for existing customers (the "soft opt-in"). Every
+  marketing message needs an easy unsubscribe, and you must honour it. Check the ICO's guidance on
+  electronic marketing if unsure.
+- Texts cost money per message: rate-limit any form that sends one, and cap sends per day.
+
+## 11. If private data or a key leaked
+
+1. **Stop the leak first:** fix the database rule, take the page down or unpublish, or replace the
+   key in the provider's dashboard. Make a save point, but do not wait for a perfect fix.
+2. **Find out what and how long:** which data, whose, since when. Check logs if the provider has
+   them.
+3. **Write it down** (what happened, when you found it, what you did). You will need this.
+4. **Legal duties:** under UK GDPR, a personal data breach likely to put people's rights at risk
+   must be reported to the ICO within 72 hours of becoming aware of it, and people must be told if
+   the risk to them is high. EU rules are similar. If unsure, read the ICO's breach guidance and get
+   advice.
+5. **Tell the user plainly** what happened and what is fixed, without blame, and recommend a
+   developer review before reopening if it was more than a simple rule fix.

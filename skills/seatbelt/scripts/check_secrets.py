@@ -362,6 +362,11 @@ class Scanner:
                              "A password or secret seems to be written directly into the code (" + mask(m.group(1)) + ").",
                              "Anyone who can read this file can use it" + (", and this file is sent to visitors' browsers." if frontend else "."),
                              "Move it to .env or the platform's Secrets and read it on the server. If it is a real password, change it.")
+            if re.search(r"dangerouslyAllowBrowser\s*:\s*true", line):
+                self.add("high", "ai-key-in-browser", rel, n,
+                         "An AI library is set to run in the browser (dangerouslyAllowBrowser: true).",
+                         "Your AI key is sent to every visitor, who can copy it and run up your bill.",
+                         "Call the AI from a server function instead, keep the key in Secrets, and cap use per person.")
         if "webhook" in lower_rel and re.search(r"stripe", text, re.I) and not re.search(
                 r"constructEvent|constructEventAsync|construct_event|verifyHeader|verify_header|Webhook::constructEvent", text):
             self.add("high", "webhook-not-verified", rel, None,
@@ -607,6 +612,7 @@ MANUAL_CHECKS = [
     "Payments are only confirmed by a verified webhook",
     "Spending caps and alerts are set on every paid service",
     "Rate limits on AI calls, sign-up and messages",
+    "AI features only reach data the current user may see, and AI answers are shown as text",
     "Environment variables are set on the host, and the site was redeployed",
     "Privacy notice, and terms if taking money",
     "Stranger test: private window, private pages, other users' data, page source",

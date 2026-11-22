@@ -4,7 +4,7 @@
 
 1. Explain it to the user
 2. Pick a login service
-3. Supabase Auth checklist
+3. Supabase Auth checklist (and Google sign-in)
 4. Protect pages and actions on the server
 5. Admin areas
 6. Mistakes to watch for
@@ -39,6 +39,19 @@ Never write your own password storage or "remember me" tokens.
 - [ ] Every table has RLS with policies `to authenticated` (`supabase.md` patterns 2 to 5).
 - [ ] Custom email sending (SMTP) set up before launch if you expect many sign-ups, because the
       built-in sender is limited and meant for testing.
+
+### Google sign-in with Supabase
+
+1. In Google Cloud console, **APIs & Services > OAuth consent screen**: set the app name, support
+   email and your domain.
+2. **APIs & Services > Credentials > Create credentials > OAuth client ID**, type **Web
+   application**. Under **Authorised redirect URIs**, add the callback address that Supabase shows
+   on its Google provider page (it looks like `https://<your-project>.supabase.co/auth/v1/callback`).
+3. Copy the **client ID** and **client secret** into Supabase **Authentication > Sign In /
+   Providers > Google**. The client secret (starts `GOCSPX-`) lives only there, never in your
+   code or a public variable.
+4. Add your real domain and `http://localhost:3000` to Supabase's redirect URLs, then test both.
+5. Publish the consent screen when ready, otherwise only test users can sign in.
 
 ## 4. Protect pages and actions on the server
 

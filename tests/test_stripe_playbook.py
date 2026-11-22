@@ -19,7 +19,7 @@ HARNESS = os.path.join(HERE, "stripe_harness")
 STRIPE = os.environ.get("SEATBELT_STRIPE")
 
 
-@unittest.skipUnless(STRIPE and shutil.which("node"), "set SEATBELT_STRIPE to run the Stripe tests")
+@unittest.skipUnless(STRIPE and shutil.which("node") and os.path.exists(PLAYBOOK), "set SEATBELT_STRIPE (and include the Pro playbooks) to run the Stripe tests")
 class StripePlaybook(unittest.TestCase):
     def test_routes(self):
         with open(PLAYBOOK, encoding="utf-8") as fh:

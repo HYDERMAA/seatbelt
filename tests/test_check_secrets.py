@@ -231,6 +231,8 @@ class ScannerTests(unittest.TestCase):
     def test_playbook_code_scans_clean(self):
         import re as _re
         book = os.path.join(HERE, "..", "skills", "seatbelt", "playbooks")
+        if not os.path.exists(os.path.join(book, "supabase.md")):
+            self.skipTest("Pro playbooks not included")
         with open(os.path.join(book, "supabase.md")) as fh:
             sql = _re.findall(r"```sql\n(.*?)```", fh.read(), _re.S)
         self.write("supabase/migrations/001_all.sql", "\n".join(sql))
@@ -278,6 +280,11 @@ class ScannerTests(unittest.TestCase):
         found = self.checks(data)
         self.assertIn(("cors-open", "high"), found)
         self.assertIn(("debug-mode", "high"), found)
+
+    def test_ai_in_browser(self):
+        self.write("src/chat.ts", "const ai = new OpenAI({ apiKey: k, dangerouslyAllowBrowser: true })\n")
+        code, data = self.run_scan()
+        self.assertIn(("ai-key-in-browser", "high"), self.checks(data))
 
     def test_hardcoded_password(self):
         self.write("server/db.js", 'const dbPassword = "Tr0ub4dor-horse";\nconst p = process.env.DB_PASSWORD;\n')
@@ -330,7 +337,8 @@ class ScannerTests(unittest.TestCase):
             md, html = os.path.join(out, "r.md"), os.path.join(out, "r.html")
             subprocess.run([sys.executable, SCRIPT, self.dir, "--report", md], capture_output=True)
             subprocess.run([sys.executable, SCRIPT, self.dir, f"--report={html}", "--json"], capture_output=True)
-            md_text, html_text = open(md).read(), open(html).read()
+            with open(md) as a, open(html) as b:
+                md_text, html_text = a.read(), b.read()
             self.assertIn("NOT READY", md_text)
             self.assertIn("Still to check by hand", md_text)
             self.assertNotIn(FAKE_OPENAI, md_text + html_text)

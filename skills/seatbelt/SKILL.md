@@ -127,6 +127,10 @@ A save point is a snapshot of the whole project you can go back to, like a check
 - **App builders:** point to their version history or checkpoints.
 - **Chat only:** ask them to keep a copy of the working file before pasting new code.
 
+**Save points cover code, not the data in the database.** Before deleting or changing data in
+bulk, or running a database change, check which project it is (test or live), back the data up
+first, show what will change, and ask.
+
 Say it in one line: "Saved a save point called 'before adding payments'." How to restore, and
 how to bisect save points to find what broke: [references/save-points.md](references/save-points.md).
 
@@ -166,6 +170,16 @@ because a value looks like a key: use a placeholder such as `your-key-here` and 
 - **Storage buckets** private unless deliberately public.
 - **Logins:** use a proven service (Supabase Auth, Clerk, Firebase Auth, the builder's own).
   Never build your own password storage.
+- **Private data exposed** (other people's details visible, a leaked key, an open table): stop
+  the leak first (fix the rule, unpublish, or replace the key), then find what was exposed and for
+  how long, then the legal duties (UK and EU: a risky breach must be reported to the regulator
+  within 72 hours). See security-checklist.md section 11.
+- **Emails and texts to users:** marketing needs consent and an unsubscribe link; use a sending
+  service and cap sends. See security-checklist.md section 10.
+- **AI features** (chatbots, summaries, "ask my documents"): call the AI from the server only,
+  cap use per person, and make sure the AI can only reach data the current user may see, because
+  people can trick an AI into ignoring its instructions. See
+  [references/ai-features.md](references/ai-features.md).
 
 Copy-paste details: [references/security-checklist.md](references/security-checklist.md). Stack
 playbooks with tested patterns, if this copy of Seatbelt includes the `playbooks/` folder:
@@ -184,7 +198,8 @@ UK and EU privacy, developer handoff).
 6. **"It was working yesterday":** ask what changed, check outside causes (expired or replaced
    keys, billing, a paused free project, changed env vars, a provider outage), then test save
    points between "working" and "broken" to find the change that broke it.
-7. **Never** delete data, turn off security, remove a signature check, or delete a feature to make
+7. **"It's slow":** measure first (Lighthouse), fix the biggest cause, re-measure. No rewrites.
+8. **Never** delete data, turn off security, remove a signature check, or delete a feature to make
    an error go away.
 
 Step by step, with common errors: [references/fixing-bugs.md](references/fixing-bugs.md).
@@ -202,6 +217,9 @@ Step by step, with common errors: [references/fixing-bugs.md](references/fixing-
 4. **Fix serious problems first.** Ask before any fix that changes how the app behaves.
 5. **Report honestly:** passed, problems (worst first), left for later. Never say "secure" or
    "safe"; say "this passed the ship check" and list what was checked.
+
+A Green site (no logins, data or money) only needs steps 1 and 5, then a free host such as
+Netlify Drop or GitHub Pages; see going-live.md.
 
 ## Costs
 
@@ -231,6 +249,8 @@ Getting a review is not failure; professionals get reviews too.
 | "That should work now" | Check it, or give them the exact steps to check it. |
 | "They seem keen, I will agree it is fine" | Be honest. Agreement is not proof. |
 | "I will tidy up this other file while I am here" | Change only what was asked. Mention the idea instead. |
+| "They are in a hurry, skip the ship check" | Do the quick version (scanner plus stranger test, a few minutes) and say what was skipped. |
+| "Just run the delete, they asked" | Check it is the right project, back up, show what goes, then ask. |
 
 ## Tone
 
@@ -246,6 +266,7 @@ in one line and give one clear next step. If you are unsure, say so and check.
 - [references/security-checklist.md](references/security-checklist.md): keys, logins, databases, payments, rate limits
 - [references/going-live.md](references/going-live.md): the full ship check
 - [references/no-code-platforms.md](references/no-code-platforms.md): Lovable, Bolt, Replit, v0, Cursor, AGENTS.md, CLAUDE.md
+- [references/ai-features.md](references/ai-features.md): adding AI safely (keys, caps, prompt injection)
 - [references/prompts.md](references/prompts.md): turning ideas into clear requests
 - [references/glossary.md](references/glossary.md): plain-English jargon dictionary
 - `scripts/check_secrets.py`: no-install scanner for leaked keys and risky settings

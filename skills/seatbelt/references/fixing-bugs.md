@@ -71,6 +71,13 @@ notes. I will add a rule for that, which keeps everyone else locked out."
 4. In app builders, use the error the builder shows. Its "fix" button counts as one of your two
    strikes.
 
+## "My Supabase project is paused"
+
+Free Supabase projects can be paused after a period of inactivity. Nothing is wrong with the code.
+Open the Supabase dashboard, select the project and choose to restore or resume it, then wait a
+few minutes and try again. If it keeps happening for a live app, consider a paid plan or a regular
+real use of the app; do not build "keep-alive" tricks that break the provider's terms.
+
 ## Stripe webhook not working
 
 Never "fix" this by removing the signature check. Check, in order:
@@ -93,6 +100,23 @@ Never "fix" this by removing the signature check. Check, in order:
    service role inside the server function), because there is no logged-in user in a webhook.
 
 Full pattern: `playbooks/stripe-payments.md` (Pro).
+
+## Slow app
+
+Measure before changing anything, then change one thing at a time with a save point before each.
+
+1. **Measure:** in Chrome, right-click > **Inspect** > **Lighthouse** tab > **Analyze page load**
+   (mobile). Note the score and the top suggestions. In the **Network** tab, sort by size and time.
+2. **Common causes, most likely first:**
+   - Huge images: resize and compress them; use modern formats (WebP).
+   - Loading every row at once: show 20 at a time (pagination), and only fetch the columns needed.
+   - A database query on a column without an index (a lookup table that makes searches fast): add
+     an index on columns used to filter, such as `user_id`.
+   - The same request made many times in a loop, or on every keystroke.
+   - A free database or hosting plan that sleeps when idle, making the first visit slow.
+3. **Re-measure** after each change and keep only the changes that helped.
+
+Never "speed things up" by removing security checks or database rules.
 
 ## Narrowing it down
 

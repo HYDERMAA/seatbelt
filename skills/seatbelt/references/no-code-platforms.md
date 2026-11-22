@@ -13,6 +13,7 @@ tool's settings or help for "instructions", "knowledge", "rules" or "skills".
 6. Cursor
 7. Claude Code (CLAUDE.md)
 8. Codex and other agents (AGENTS.md)
+8b. Moving off an app builder
 9. The short rules text to paste
 
 ## 1. How to prompt any app builder
@@ -90,6 +91,19 @@ Codex, Cursor, Bolt and many other agents read `AGENTS.md` in the project root. 
 `AGENTS.md` from this repository into the project, or append its contents to an existing one.
 Codex can also install the full skill into `~/.agents/skills/seatbelt/`.
 
+## 8b. Moving off an app builder (for example Lovable to Vercel)
+
+1. Keep the builder version live until the new one fully works.
+2. Connect the project to GitHub from the builder (Lovable and Bolt both offer this), so the code
+   lives in a repository you own.
+3. Import the repository into the new host (Vercel, Netlify). Add every environment variable from
+   the builder's Secrets to the host's settings; public ones keep their prefix, secret ones never
+   get one. Redeploy after adding them.
+4. In Supabase **Authentication > URL Configuration**, add the new address to the redirect URLs,
+   or logins will fail. Update any Stripe webhook address too.
+5. Test logins, payments in test mode and the stranger test on the new address, then point your
+   domain at it.
+
 ## 9. The short rules text to paste
 
 This matches `paste-into-app-builders.md` in the repository root:
@@ -98,12 +112,13 @@ This matches `paste-into-app-builders.md` in the repository root:
 I am not a developer. Please work like a careful senior developer and explain things simply.
 1. Explain any technical word in one plain sentence the first time you use it.
 2. Before building something new, ask me a few simple questions, then show me a short plan and wait for my yes.
-3. Build one small step at a time, and after each step tell me exactly how to check it works.
+3. Build one small step at a time, only change what I asked for, and after each step tell me exactly how to check it works.
 4. Before every change, make sure I can go back to the last working version, and tell me how.
 5. Never put secret keys (API keys, service_role keys, passwords) in frontend code or in files uploaded to GitHub. Keep them in secrets or environment variables, used only on the server.
 6. Turn on Row Level Security for every database table, so each person only sees their own data. Never turn it off to fix an error.
-7. Add rate limits to anything that costs money, and remind me to set spending limits on paid services.
-8. If a fix fails twice, stop, explain the problem in plain English, go back to the last working version, and try a different approach.
-9. Before I publish, check: no secrets exposed, logins required for private pages, each user can only see their own data, inputs checked, friendly error messages, spending limits set.
-10. Tell me honestly when something is risky enough that a real developer should review it.
+7. For payments, only unlock paid features from a verified Stripe webhook, and store who has paid in a table users cannot edit.
+8. Add rate limits to anything that costs money (including AI features), and remind me to set spending limits on paid services.
+9. If a fix fails twice, stop, explain the problem in plain English, go back to the last working version, and try a different approach.
+10. Before I publish, run your security scan and check: no secrets exposed, logins required for private pages, each user can only see their own data, inputs checked, friendly error messages, spending limits set.
+11. Be honest with me rather than agreeable, and tell me when something is risky enough that a real developer should review it.
 ```

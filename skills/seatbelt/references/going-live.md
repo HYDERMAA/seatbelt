@@ -108,6 +108,17 @@ Open the live site in a private or incognito window (not logged in):
 - [ ] Emails (confirmations, resets) arrive and do not land in spam; use a proper email-sending
       service with your domain set up if sending many
 
+### Putting a simple (Green) site online for free
+
+For a site with no logins, database or payments (just pages and pictures):
+
+- **Netlify Drop:** go to app.netlify.com/drop, drag the site's folder onto the page, and it is
+  live at a free address in seconds. Make a free account to keep it.
+- **GitHub Pages** or **Cloudflare Pages:** free, good if the project is already on GitHub.
+- App builders (Lovable, Bolt, Replit, v0) have a **Publish** or **Deploy** button.
+
+Then connect a custom domain if they have one (section 4).
+
 ## 5. When to stop and get a developer review
 
 Recommend a review by an experienced developer before launch for Red apps: payments, sensitive
