@@ -15,6 +15,7 @@ import uuid
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PLAYBOOK = os.path.join(HERE, "..", "skills", "seatbelt", "playbooks", "supabase.md")
+CHECKLIST = os.path.join(HERE, "..", "skills", "seatbelt", "references", "security-checklist.md")
 SHIM = os.path.join(HERE, "supabase_shim.sql")
 PG = os.environ.get("SEATBELT_PG")
 
@@ -23,19 +24,24 @@ B = "00000000-0000-0000-0000-0000000000b2"
 S = "00000000-0000-0000-0000-0000000000c3"
 
 
-def blocks():
-    with open(PLAYBOOK, encoding="utf-8") as fh:
+def blocks(path=PLAYBOOK):
+    with open(path, encoding="utf-8") as fh:
         text = fh.read()
     return dict(re.findall(r"<!-- test: (\w+) -->\n```sql\n(.*?)```", text, re.S))
 
 
-@unittest.skipUnless(PG and shutil.which("psql") and os.path.exists(PLAYBOOK), "set SEATBELT_PG (and include the Pro playbooks) to run the SQL tests")
+@unittest.skipUnless(PG and shutil.which("psql") and os.path.exists(PLAYBOOK), "set SEATBELT_PG to run the SQL tests")
 class SupabasePlaybookSQL(unittest.TestCase):
+    """New-default projects (since 30 Oct 2026): new public tables get no grants."""
+    LEGACY = False
+
     @classmethod
     def setUpClass(cls):
         cls.blocks = blocks()
         with open(SHIM, encoding="utf-8") as fh:
             cls.shim = fh.read()
+        if not cls.LEGACY:
+            cls.shim = re.sub(r"-- LEGACY_GRANTS_START.*?-- LEGACY_GRANTS_END\n", "", cls.shim, flags=re.S)
 
     def setUp(self):
         self.db = "seatbelt_" + uuid.uuid4().hex[:10]
@@ -78,6 +84,17 @@ class SupabasePlaybookSQL(unittest.TestCase):
         if msg:
             self.assertIn(msg, r.stderr)
 
+    def blocked(self, sql, role=None, user=None):
+        """The database refuses the action: either an error (no grant, or RLS) or zero rows."""
+        r = self.run_sql(sql, role, user)
+        if r.returncode:
+            self.assertTrue("permission denied" in r.stderr or "row-level security" in r.stderr, r.stderr)
+            return
+        lines = [l for l in r.stdout.splitlines() if l.strip()]
+        if user:
+            lines = lines[1:]
+        self.assertEqual(lines, ["0"], f"expected the database to refuse: {sql}")
+
     def as_user(self, user, sql):
         return self.sql(sql, role="authenticated", user=user)
 
@@ -96,7 +113,7 @@ class SupabasePlaybookSQL(unittest.TestCase):
         self.as_user(A, "insert into public.notes (body) values ('hello')")
         self.assertEqual(self.as_user(A, "select count(*) from public.notes"), ["1"])
         self.assertEqual(self.as_user(B, "select count(*) from public.notes"), ["0"])
-        self.assertEqual(self.sql("select count(*) from public.notes", role="anon"), ["0"])
+        self.blocked("select count(*) from public.notes", role="anon")
         self.assertEqual(self.as_user(B, "with u as (update public.notes set body='x' returning 1) select count(*) from u"), ["0"])
         self.fails(f"insert into public.notes (user_id, body) values ('{A}', 'sneaky')", role="authenticated", user=B,
                    msg="row-level security")
@@ -105,8 +122,8 @@ class SupabasePlaybookSQL(unittest.TestCase):
         self.load("public_read")
         self.sql("insert into public.services (name, price_pence, active) values ('Cut', 3000, true), ('Old', 1, false)")
         self.assertEqual(self.sql("select name from public.services", role="anon"), ["Cut"])
-        self.fails("insert into public.services (name, price_pence) values ('Free', 0)", role="anon", msg="row-level security")
-        self.assertEqual(self.as_user(A, "with u as (update public.services set price_pence=0 returning 1) select count(*) from u"), ["0"])
+        self.blocked("with i as (insert into public.services (name, price_pence) values ('Free', 0) returning 1) select count(*) from i", role="anon")
+        self.blocked("with u as (update public.services set price_pence=0 returning 1) select count(*) from u", role="authenticated", user=A)
 
     def test_staff_bookings(self):
         self.load("public_read", "staff_bookings")
@@ -127,9 +144,9 @@ class SupabasePlaybookSQL(unittest.TestCase):
         self.load("entitlements")
         self.sql(f"insert into public.entitlements (user_id) values ('{A}')")
         self.assertEqual(self.as_user(A, "select plan from public.entitlements"), ["free"])
-        self.assertEqual(self.as_user(A, "with u as (update public.entitlements set plan='pro' returning 1) select count(*) from u"), ["0"])
-        self.fails(f"insert into public.entitlements (user_id, plan) values ('{B}', 'pro')", role="authenticated", user=B,
-                   msg="row-level security")
+        self.blocked("with u as (update public.entitlements set plan='pro' returning 1) select count(*) from u", role="authenticated", user=A)
+        self.blocked(f"with i as (insert into public.entitlements (user_id, plan) values ('{B}', 'pro') returning 1) select count(*) from i",
+                     role="authenticated", user=B)
         self.assertEqual(self.as_user(B, "select count(*) from public.entitlements"), ["0"])
         self.sql(f"update public.entitlements set plan='pro' where user_id='{A}'", role="service_role")
         self.assertEqual(self.as_user(A, "select plan from public.entitlements"), ["pro"])
@@ -182,6 +199,7 @@ class SupabasePlaybookSQL(unittest.TestCase):
     def test_audit_on_bad_schema(self):
         self.sql("""
             create table public.open_table (id int);
+            grant select on public.open_table to anon;
             create table public.no_policies (id int);
             alter table public.no_policies enable row level security;
             create table public.leaky (id int, user_id uuid);
@@ -190,12 +208,13 @@ class SupabasePlaybookSQL(unittest.TestCase):
             create table public.profiles_bad (id uuid primary key, is_pro boolean default false);
             alter table public.profiles_bad enable row level security;
             create policy "own" on public.profiles_bad for update to authenticated using (auth.uid() = id);
+            grant select, update on public.profiles_bad to authenticated;
             create view public.all_profiles as select * from public.profiles_bad;
             create function public.dangerous() returns int language sql security definer as $$ select 1 $$;
             insert into storage.buckets (id, name, public) values ('uploads', 'uploads', true);
         """)
         res = self.audit()
-        self.assertEqual(res["A"], ["open_table"])
+        self.assertEqual(res["A"], ["open_table|t"])
         self.assertEqual(res["B"], ["no_policies"])
         self.assertEqual(res["C"], ["leaky|everyone|SELECT|{public}"])
         self.assertIn("leaky|everyone|SELECT", res["D"])
@@ -203,6 +222,38 @@ class SupabasePlaybookSQL(unittest.TestCase):
         self.assertEqual(res["F"], ["all_profiles"])
         self.assertEqual(res["G"], ["dangerous"])
         self.assertEqual(res["H"], ["uploads"])
+
+    def test_checklist_snippets(self):
+        cb = blocks(CHECKLIST)
+        self.assertEqual(set(cb), {"checklist_notes", "checklist_entitlements"})
+        self.sql("create table public.notes (id bigint generated always as identity primary key, user_id uuid not null default auth.uid(), body text)")
+        self.sql(cb["checklist_notes"])
+        self.as_user(A, "insert into public.notes (body) values ('hi')")
+        self.assertEqual(self.as_user(A, "select count(*) from public.notes"), ["1"])
+        self.assertEqual(self.as_user(B, "select count(*) from public.notes"), ["0"])
+        self.blocked("select count(*) from public.notes", role="anon")
+        self.sql(cb["checklist_entitlements"])
+        self.sql(f"insert into public.entitlements (user_id) values ('{A}')")
+        self.assertEqual(self.as_user(A, "select plan from public.entitlements"), ["free"])
+        self.blocked("with u as (update public.entitlements set plan='pro' returning 1) select count(*) from u", role="authenticated", user=A)
+        self.sql(f"update public.entitlements set plan='pro' where user_id='{A}'", role="service_role")
+        # the serial-id note in the checklist
+        self.sql("create table public.counter (id serial primary key, n int); grant insert on public.counter to authenticated;")
+        r = self.run_sql("insert into public.counter (n) values (1)", role="authenticated", user=A)
+        if not self.LEGACY:
+            self.assertIn("permission denied for sequence", r.stderr)
+        self.sql("grant usage on sequence public.counter_id_seq to authenticated")
+        self.as_user(A, "insert into public.counter (n) values (1)")
+
+    def test_new_tables_need_grants(self):
+        # Documents why every pattern carries its own grant lines.
+        self.sql("create table public.no_grant (id int); alter table public.no_grant enable row level security;"
+                 "create policy p on public.no_grant for select to authenticated using (true);")
+        r = self.run_sql("select count(*) from public.no_grant", role="authenticated", user=A)
+        if self.LEGACY:
+            self.assertEqual(r.returncode, 0, r.stderr)
+        else:
+            self.assertIn("permission denied for table no_grant", r.stderr)
 
     def test_rls_before_create_trap(self):
         # The bug from a public test of AI-written SQL: enabling RLS before the table exists.
@@ -212,3 +263,8 @@ class SupabasePlaybookSQL(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SupabasePlaybookSQLLegacyGrants(SupabasePlaybookSQL):
+    """Older projects: every new public table is granted to anon and authenticated by default."""
+    LEGACY = True

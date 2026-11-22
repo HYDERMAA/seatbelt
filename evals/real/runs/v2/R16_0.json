@@ -1,0 +1,7 @@
+{
+ "id": "R16",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "**Risk level:** Amber \u2013 we\u2019re touching personal user data.  \n**Before we change anything, let\u2019s do a quick safety check:** I\u2019ll add the button, give you a small test script to verify it works\u202f\u2013\u202fand I\u2019ll show you how to undo it if something goes wrong.  \n\n---\n\n## One\u2011screen plan\n\n```\nWhat we are building: Add a \u201cDelete my account\u201d button to the user profile page.\nWho uses it: Any logged\u2011in user.\nRisk level: Amber (deletes personal data)\nDay\u2011one features: 1. \u201cDelete my account\u201d button 2. Confirmation modal 3. Server\u2011side delete of user + all owned data\nInformation it stores: User credentials & personal data (private? yes)\nLogins: Required (Supabase Auth)\nMoney: No payments involved\nBuilt with: Next.js + Supabase (serverless API route)\nSteps:\n1. Add a button that calls a new API route `/api/deleteAccount`\n2. Create that route: check auth, delete user from Auth, delete rows from any tables with `owner_id = user.id`\n3. Add a guard to make sure the user really wants to delete (confirmation modal)\nSafety: All keys stay in server code (.env), we keep a save point before editing, rollback on failure.\nNot in v1: UI styling tweaks, audit logs\n```\n\n**Does this look right?** Reply \u201cyes\u201d or tell me what to change. Once you say yes, I\u2019ll give you the exact code snippets and the steps to test it, with a quick rollback plan."
+}

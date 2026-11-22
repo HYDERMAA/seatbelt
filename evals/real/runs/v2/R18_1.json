@@ -1,0 +1,7 @@
+{
+ "id": "R18",
+ "sample": 1,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "I\u2019m excited to help you build a booking app, but I\u2019ll need a few quick details to keep it secure and working.  \nHere\u2019s a short set of questions that will let me set up the safest foundation for you:\n\n1. **Who will use the app?** (e.g., just you, a small team, or the public)  \n2. **What must it do on day one?** List up to three core features (example: view slots, book a slot, receive confirmation).  \n3. **Will users log in?** If yes, what kind of data will you store (name, email, phone)?  \n4. **Will the app accept payments?** If so, what will be sold and what payment method?  \n5. **What platform are you using?** (Claude Code, Replit, Vercel, etc.)  \n\nAnswering these quickly lets me choose the right tech stack, permissions, and safety settings.  \nIf you\u2019re set on \u201cwrite the whole booking app in one go,\u201d I\u2019ll still need those basics to avoid data leaks or accidental money charges.  \n\nPlease reply with the answers, and we\u2019ll go from there!"
+}

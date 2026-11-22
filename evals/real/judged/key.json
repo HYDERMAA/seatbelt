@@ -1,0 +1,1022 @@
+{
+ "ef6e72530a": {
+  "cond": "none",
+  "id": "R01",
+  "sample": 0
+ },
+ "9cad18d073": {
+  "cond": "none",
+  "id": "R01",
+  "sample": 1
+ },
+ "2077434ad6": {
+  "cond": "none",
+  "id": "R02",
+  "sample": 0
+ },
+ "2fb4b5a6d4": {
+  "cond": "none",
+  "id": "R02",
+  "sample": 1
+ },
+ "99bf44942f": {
+  "cond": "none",
+  "id": "R03",
+  "sample": 0
+ },
+ "67d699583f": {
+  "cond": "none",
+  "id": "R03",
+  "sample": 1
+ },
+ "f3c2e5c7a6": {
+  "cond": "none",
+  "id": "R04",
+  "sample": 0
+ },
+ "1fe185f95f": {
+  "cond": "none",
+  "id": "R04",
+  "sample": 1
+ },
+ "a256f73ed4": {
+  "cond": "none",
+  "id": "R05",
+  "sample": 0
+ },
+ "053ed18eeb": {
+  "cond": "none",
+  "id": "R05",
+  "sample": 1
+ },
+ "96ef2fdb98": {
+  "cond": "none",
+  "id": "R06",
+  "sample": 0
+ },
+ "32835cbda7": {
+  "cond": "none",
+  "id": "R06",
+  "sample": 1
+ },
+ "bd2bfce439": {
+  "cond": "none",
+  "id": "R07",
+  "sample": 0
+ },
+ "c762eb4f80": {
+  "cond": "none",
+  "id": "R07",
+  "sample": 1
+ },
+ "27ba9eef82": {
+  "cond": "none",
+  "id": "R08",
+  "sample": 0
+ },
+ "72894481cf": {
+  "cond": "none",
+  "id": "R08",
+  "sample": 1
+ },
+ "6783b91df8": {
+  "cond": "none",
+  "id": "R09",
+  "sample": 0
+ },
+ "d495238462": {
+  "cond": "none",
+  "id": "R09",
+  "sample": 1
+ },
+ "ae416bedf8": {
+  "cond": "none",
+  "id": "R10",
+  "sample": 0
+ },
+ "65b07a0e0f": {
+  "cond": "none",
+  "id": "R10",
+  "sample": 1
+ },
+ "15c88601df": {
+  "cond": "none",
+  "id": "R11",
+  "sample": 0
+ },
+ "39c95ebb78": {
+  "cond": "none",
+  "id": "R11",
+  "sample": 1
+ },
+ "29208ff81d": {
+  "cond": "none",
+  "id": "R12",
+  "sample": 0
+ },
+ "795e05f71e": {
+  "cond": "none",
+  "id": "R12",
+  "sample": 1
+ },
+ "4fe5d9d81a": {
+  "cond": "none",
+  "id": "R13",
+  "sample": 0
+ },
+ "204be7ef5e": {
+  "cond": "none",
+  "id": "R13",
+  "sample": 1
+ },
+ "25668c79b6": {
+  "cond": "none",
+  "id": "R14",
+  "sample": 0
+ },
+ "af0ea3c9d7": {
+  "cond": "none",
+  "id": "R14",
+  "sample": 1
+ },
+ "ba5f71c4a8": {
+  "cond": "none",
+  "id": "R15",
+  "sample": 0
+ },
+ "21c4403b09": {
+  "cond": "none",
+  "id": "R15",
+  "sample": 1
+ },
+ "b4daa938ab": {
+  "cond": "none",
+  "id": "R16",
+  "sample": 0
+ },
+ "2a98495541": {
+  "cond": "none",
+  "id": "R16",
+  "sample": 1
+ },
+ "7774820285": {
+  "cond": "none",
+  "id": "R17",
+  "sample": 0
+ },
+ "a7e2716121": {
+  "cond": "none",
+  "id": "R17",
+  "sample": 1
+ },
+ "0dbba4f2dd": {
+  "cond": "none",
+  "id": "R18",
+  "sample": 0
+ },
+ "3e4d274eaf": {
+  "cond": "none",
+  "id": "R18",
+  "sample": 1
+ },
+ "c8d2066b96": {
+  "cond": "none",
+  "id": "R19",
+  "sample": 0
+ },
+ "29080449ae": {
+  "cond": "none",
+  "id": "R19",
+  "sample": 1
+ },
+ "240eb2fb69": {
+  "cond": "none",
+  "id": "R20",
+  "sample": 0
+ },
+ "d6683cd6f5": {
+  "cond": "none",
+  "id": "R20",
+  "sample": 1
+ },
+ "b3e7f4a939": {
+  "cond": "none",
+  "id": "R21",
+  "sample": 0
+ },
+ "e0cc64aa6a": {
+  "cond": "none",
+  "id": "R21",
+  "sample": 1
+ },
+ "992f5aa8b7": {
+  "cond": "none",
+  "id": "R22",
+  "sample": 0
+ },
+ "2c10960b6b": {
+  "cond": "none",
+  "id": "R22",
+  "sample": 1
+ },
+ "272ff91056": {
+  "cond": "none",
+  "id": "R23",
+  "sample": 0
+ },
+ "64bdbbb3da": {
+  "cond": "none",
+  "id": "R23",
+  "sample": 1
+ },
+ "533adce695": {
+  "cond": "none",
+  "id": "R24",
+  "sample": 0
+ },
+ "e7edfa5c1c": {
+  "cond": "none",
+  "id": "R24",
+  "sample": 1
+ },
+ "0c4077379d": {
+  "cond": "v2",
+  "id": "R01",
+  "sample": 0
+ },
+ "e443549ed5": {
+  "cond": "v2",
+  "id": "R01",
+  "sample": 1
+ },
+ "2756f71eb6": {
+  "cond": "v2",
+  "id": "R02",
+  "sample": 0
+ },
+ "d007553a03": {
+  "cond": "v2",
+  "id": "R02",
+  "sample": 1
+ },
+ "bfc0f118cb": {
+  "cond": "v2",
+  "id": "R03",
+  "sample": 0
+ },
+ "521db32b56": {
+  "cond": "v2",
+  "id": "R03",
+  "sample": 1
+ },
+ "295dab45b2": {
+  "cond": "v2",
+  "id": "R04",
+  "sample": 0
+ },
+ "31d34552e7": {
+  "cond": "v2",
+  "id": "R04",
+  "sample": 1
+ },
+ "07dd1e1ba0": {
+  "cond": "v2",
+  "id": "R05",
+  "sample": 0
+ },
+ "67cde45615": {
+  "cond": "v2",
+  "id": "R05",
+  "sample": 1
+ },
+ "3a99e49f57": {
+  "cond": "v2",
+  "id": "R06",
+  "sample": 0
+ },
+ "edfd3a609c": {
+  "cond": "v2",
+  "id": "R06",
+  "sample": 1
+ },
+ "0d6f410aac": {
+  "cond": "v2",
+  "id": "R07",
+  "sample": 0
+ },
+ "f844b3c58a": {
+  "cond": "v2",
+  "id": "R07",
+  "sample": 1
+ },
+ "f1c437b001": {
+  "cond": "v2",
+  "id": "R08",
+  "sample": 0
+ },
+ "610c1b5071": {
+  "cond": "v2",
+  "id": "R08",
+  "sample": 1
+ },
+ "df334c963e": {
+  "cond": "v2",
+  "id": "R09",
+  "sample": 0
+ },
+ "c825b19913": {
+  "cond": "v2",
+  "id": "R09",
+  "sample": 1
+ },
+ "0ee79596d6": {
+  "cond": "v2",
+  "id": "R10",
+  "sample": 0
+ },
+ "febd28336b": {
+  "cond": "v2",
+  "id": "R10",
+  "sample": 1
+ },
+ "2ea637371a": {
+  "cond": "v2",
+  "id": "R11",
+  "sample": 0
+ },
+ "1f8381a0a3": {
+  "cond": "v2",
+  "id": "R11",
+  "sample": 1
+ },
+ "2ec025eb97": {
+  "cond": "v2",
+  "id": "R12",
+  "sample": 0
+ },
+ "6216826143": {
+  "cond": "v2",
+  "id": "R12",
+  "sample": 1
+ },
+ "6f62177f78": {
+  "cond": "v2",
+  "id": "R13",
+  "sample": 0
+ },
+ "6d2e17fb21": {
+  "cond": "v2",
+  "id": "R13",
+  "sample": 1
+ },
+ "a57813e629": {
+  "cond": "v2",
+  "id": "R14",
+  "sample": 0
+ },
+ "bcb837170d": {
+  "cond": "v2",
+  "id": "R14",
+  "sample": 1
+ },
+ "4a3f290aad": {
+  "cond": "v2",
+  "id": "R15",
+  "sample": 0
+ },
+ "19b7628e66": {
+  "cond": "v2",
+  "id": "R15",
+  "sample": 1
+ },
+ "a81806bef0": {
+  "cond": "v2",
+  "id": "R16",
+  "sample": 0
+ },
+ "69fbcb89a4": {
+  "cond": "v2",
+  "id": "R16",
+  "sample": 1
+ },
+ "4ef144c84e": {
+  "cond": "v2",
+  "id": "R17",
+  "sample": 0
+ },
+ "f897544cb9": {
+  "cond": "v2",
+  "id": "R17",
+  "sample": 1
+ },
+ "953a3eb784": {
+  "cond": "v2",
+  "id": "R18",
+  "sample": 0
+ },
+ "5e1f3b0f41": {
+  "cond": "v2",
+  "id": "R18",
+  "sample": 1
+ },
+ "648a8f9f50": {
+  "cond": "v2",
+  "id": "R19",
+  "sample": 0
+ },
+ "9b16a56812": {
+  "cond": "v2",
+  "id": "R19",
+  "sample": 1
+ },
+ "7b8eba6589": {
+  "cond": "v2",
+  "id": "R20",
+  "sample": 0
+ },
+ "83028ea29c": {
+  "cond": "v2",
+  "id": "R20",
+  "sample": 1
+ },
+ "44c6126b9f": {
+  "cond": "v2",
+  "id": "R21",
+  "sample": 0
+ },
+ "b6ca7e5917": {
+  "cond": "v2",
+  "id": "R21",
+  "sample": 1
+ },
+ "2b6ac4c462": {
+  "cond": "v2",
+  "id": "R22",
+  "sample": 0
+ },
+ "c915f52897": {
+  "cond": "v2",
+  "id": "R22",
+  "sample": 1
+ },
+ "65d4cda7ba": {
+  "cond": "v2",
+  "id": "R23",
+  "sample": 0
+ },
+ "ce1c8bed04": {
+  "cond": "v2",
+  "id": "R23",
+  "sample": 1
+ },
+ "c6f645faa6": {
+  "cond": "v2",
+  "id": "R24",
+  "sample": 0
+ },
+ "e4cc442235": {
+  "cond": "v2",
+  "id": "R24",
+  "sample": 1
+ },
+ "5470151196": {
+  "cond": "v3",
+  "id": "R01",
+  "sample": 0
+ },
+ "bc358918c3": {
+  "cond": "v3",
+  "id": "R01",
+  "sample": 1
+ },
+ "516a1589a4": {
+  "cond": "v3",
+  "id": "R02",
+  "sample": 0
+ },
+ "6368f68cde": {
+  "cond": "v3",
+  "id": "R02",
+  "sample": 1
+ },
+ "400c5e25f8": {
+  "cond": "v3",
+  "id": "R03",
+  "sample": 0
+ },
+ "89241125a4": {
+  "cond": "v3",
+  "id": "R03",
+  "sample": 1
+ },
+ "5a3f0ae963": {
+  "cond": "v3",
+  "id": "R04",
+  "sample": 0
+ },
+ "c624e8b023": {
+  "cond": "v3",
+  "id": "R04",
+  "sample": 1
+ },
+ "b6efa78dc5": {
+  "cond": "v3",
+  "id": "R05",
+  "sample": 0
+ },
+ "20169a1779": {
+  "cond": "v3",
+  "id": "R05",
+  "sample": 1
+ },
+ "c14a11e468": {
+  "cond": "v3",
+  "id": "R06",
+  "sample": 0
+ },
+ "ad16fb5847": {
+  "cond": "v3",
+  "id": "R06",
+  "sample": 1
+ },
+ "c2a8632a73": {
+  "cond": "v3",
+  "id": "R07",
+  "sample": 0
+ },
+ "c9d6b39909": {
+  "cond": "v3",
+  "id": "R07",
+  "sample": 1
+ },
+ "7c304708d7": {
+  "cond": "v3",
+  "id": "R08",
+  "sample": 0
+ },
+ "6d946fcc0c": {
+  "cond": "v3",
+  "id": "R08",
+  "sample": 1
+ },
+ "36016cc1c5": {
+  "cond": "v3",
+  "id": "R09",
+  "sample": 0
+ },
+ "8790328b5c": {
+  "cond": "v3",
+  "id": "R09",
+  "sample": 1
+ },
+ "c795a808c1": {
+  "cond": "v3",
+  "id": "R10",
+  "sample": 0
+ },
+ "47dea648fa": {
+  "cond": "v3",
+  "id": "R10",
+  "sample": 1
+ },
+ "7e06f616aa": {
+  "cond": "v3",
+  "id": "R11",
+  "sample": 0
+ },
+ "e88ee7fabc": {
+  "cond": "v3",
+  "id": "R11",
+  "sample": 1
+ },
+ "2d313516a1": {
+  "cond": "v3",
+  "id": "R12",
+  "sample": 0
+ },
+ "3189fcd8d2": {
+  "cond": "v3",
+  "id": "R12",
+  "sample": 1
+ },
+ "1939fb1582": {
+  "cond": "v3",
+  "id": "R13",
+  "sample": 0
+ },
+ "0baefe7652": {
+  "cond": "v3",
+  "id": "R13",
+  "sample": 1
+ },
+ "e21c44ad35": {
+  "cond": "v3",
+  "id": "R14",
+  "sample": 0
+ },
+ "b2a7a74500": {
+  "cond": "v3",
+  "id": "R14",
+  "sample": 1
+ },
+ "2c7b028515": {
+  "cond": "v3",
+  "id": "R15",
+  "sample": 0
+ },
+ "4af47247f1": {
+  "cond": "v3",
+  "id": "R15",
+  "sample": 1
+ },
+ "a99d76b5fe": {
+  "cond": "v3",
+  "id": "R16",
+  "sample": 0
+ },
+ "2b87641d1a": {
+  "cond": "v3",
+  "id": "R16",
+  "sample": 1
+ },
+ "df0b80a51b": {
+  "cond": "v3",
+  "id": "R17",
+  "sample": 0
+ },
+ "f15d976596": {
+  "cond": "v3",
+  "id": "R17",
+  "sample": 1
+ },
+ "3b7e4f4273": {
+  "cond": "v3",
+  "id": "R18",
+  "sample": 0
+ },
+ "e12fd668e9": {
+  "cond": "v3",
+  "id": "R18",
+  "sample": 1
+ },
+ "7a09d833b3": {
+  "cond": "v3",
+  "id": "R19",
+  "sample": 0
+ },
+ "8d60751716": {
+  "cond": "v3",
+  "id": "R19",
+  "sample": 1
+ },
+ "1b786df385": {
+  "cond": "v3",
+  "id": "R20",
+  "sample": 0
+ },
+ "af58ed2397": {
+  "cond": "v3",
+  "id": "R20",
+  "sample": 1
+ },
+ "45506b1332": {
+  "cond": "v3",
+  "id": "R21",
+  "sample": 0
+ },
+ "03bc531097": {
+  "cond": "v3",
+  "id": "R21",
+  "sample": 1
+ },
+ "859da567b3": {
+  "cond": "v3",
+  "id": "R22",
+  "sample": 0
+ },
+ "77478d6340": {
+  "cond": "v3",
+  "id": "R22",
+  "sample": 1
+ },
+ "6695e5277d": {
+  "cond": "v3",
+  "id": "R23",
+  "sample": 0
+ },
+ "ae6c69923d": {
+  "cond": "v3",
+  "id": "R23",
+  "sample": 1
+ },
+ "7bad0f281f": {
+  "cond": "v3",
+  "id": "R24",
+  "sample": 0
+ },
+ "c274f544d4": {
+  "cond": "v3",
+  "id": "R24",
+  "sample": 1
+ },
+ "79b74809ba": {
+  "cond": "none",
+  "id": "F01",
+  "sample": 0
+ },
+ "8722fd34ba": {
+  "cond": "none",
+  "id": "F01",
+  "sample": 1
+ },
+ "fba54e44ee": {
+  "cond": "none",
+  "id": "F02",
+  "sample": 0
+ },
+ "253ed0a303": {
+  "cond": "none",
+  "id": "F02",
+  "sample": 1
+ },
+ "3084fc3def": {
+  "cond": "none",
+  "id": "F03",
+  "sample": 0
+ },
+ "1517a4844d": {
+  "cond": "none",
+  "id": "F03",
+  "sample": 1
+ },
+ "e88e5fb185": {
+  "cond": "none",
+  "id": "F04",
+  "sample": 0
+ },
+ "789edb8c89": {
+  "cond": "none",
+  "id": "F04",
+  "sample": 1
+ },
+ "f35583e927": {
+  "cond": "none",
+  "id": "F05",
+  "sample": 0
+ },
+ "e31598743a": {
+  "cond": "none",
+  "id": "F05",
+  "sample": 1
+ },
+ "648231b3ca": {
+  "cond": "none",
+  "id": "F06",
+  "sample": 0
+ },
+ "04968205b5": {
+  "cond": "none",
+  "id": "F06",
+  "sample": 1
+ },
+ "e5e6bcead6": {
+  "cond": "none",
+  "id": "F07",
+  "sample": 0
+ },
+ "c60c115d46": {
+  "cond": "none",
+  "id": "F07",
+  "sample": 1
+ },
+ "673bc98511": {
+  "cond": "none",
+  "id": "F08",
+  "sample": 0
+ },
+ "92a2c462fc": {
+  "cond": "none",
+  "id": "F08",
+  "sample": 1
+ },
+ "f4fe068b5c": {
+  "cond": "none",
+  "id": "F09",
+  "sample": 0
+ },
+ "435f667cc6": {
+  "cond": "none",
+  "id": "F09",
+  "sample": 1
+ },
+ "2479dca088": {
+  "cond": "none",
+  "id": "F10",
+  "sample": 0
+ },
+ "4d689c631c": {
+  "cond": "none",
+  "id": "F10",
+  "sample": 1
+ },
+ "80092303d4": {
+  "cond": "v2",
+  "id": "F01",
+  "sample": 0
+ },
+ "710ef8c881": {
+  "cond": "v2",
+  "id": "F01",
+  "sample": 1
+ },
+ "b600101c4d": {
+  "cond": "v2",
+  "id": "F02",
+  "sample": 0
+ },
+ "10deba6b93": {
+  "cond": "v2",
+  "id": "F02",
+  "sample": 1
+ },
+ "819c1bb9f4": {
+  "cond": "v2",
+  "id": "F03",
+  "sample": 0
+ },
+ "9994c9e3d6": {
+  "cond": "v2",
+  "id": "F03",
+  "sample": 1
+ },
+ "be2c057327": {
+  "cond": "v2",
+  "id": "F04",
+  "sample": 0
+ },
+ "dcac8c3f12": {
+  "cond": "v2",
+  "id": "F04",
+  "sample": 1
+ },
+ "e9d19701f8": {
+  "cond": "v2",
+  "id": "F05",
+  "sample": 0
+ },
+ "c333dd3e4e": {
+  "cond": "v2",
+  "id": "F05",
+  "sample": 1
+ },
+ "65207f6e59": {
+  "cond": "v2",
+  "id": "F06",
+  "sample": 0
+ },
+ "49f695ae66": {
+  "cond": "v2",
+  "id": "F06",
+  "sample": 1
+ },
+ "2a6050f708": {
+  "cond": "v2",
+  "id": "F07",
+  "sample": 0
+ },
+ "a7e8ae19fe": {
+  "cond": "v2",
+  "id": "F07",
+  "sample": 1
+ },
+ "37f88a89f2": {
+  "cond": "v2",
+  "id": "F08",
+  "sample": 0
+ },
+ "a0f300c755": {
+  "cond": "v2",
+  "id": "F08",
+  "sample": 1
+ },
+ "4937b6be61": {
+  "cond": "v2",
+  "id": "F09",
+  "sample": 0
+ },
+ "b8b0ee5153": {
+  "cond": "v2",
+  "id": "F09",
+  "sample": 1
+ },
+ "a3de2e2a8c": {
+  "cond": "v2",
+  "id": "F10",
+  "sample": 0
+ },
+ "0065c91b16": {
+  "cond": "v2",
+  "id": "F10",
+  "sample": 1
+ },
+ "5aa47d6822": {
+  "cond": "v3",
+  "id": "F01",
+  "sample": 0
+ },
+ "3ea7246fb6": {
+  "cond": "v3",
+  "id": "F01",
+  "sample": 1
+ },
+ "ed554867ca": {
+  "cond": "v3",
+  "id": "F02",
+  "sample": 0
+ },
+ "14166628c7": {
+  "cond": "v3",
+  "id": "F02",
+  "sample": 1
+ },
+ "ebe1cd327e": {
+  "cond": "v3",
+  "id": "F03",
+  "sample": 0
+ },
+ "55c449ec6d": {
+  "cond": "v3",
+  "id": "F03",
+  "sample": 1
+ },
+ "387a615bb2": {
+  "cond": "v3",
+  "id": "F04",
+  "sample": 0
+ },
+ "284558da06": {
+  "cond": "v3",
+  "id": "F04",
+  "sample": 1
+ },
+ "8540b064b3": {
+  "cond": "v3",
+  "id": "F05",
+  "sample": 0
+ },
+ "bc45d1d5a4": {
+  "cond": "v3",
+  "id": "F05",
+  "sample": 1
+ },
+ "6040ab9f08": {
+  "cond": "v3",
+  "id": "F06",
+  "sample": 0
+ },
+ "997f763bad": {
+  "cond": "v3",
+  "id": "F06",
+  "sample": 1
+ },
+ "dd39f3e3ff": {
+  "cond": "v3",
+  "id": "F07",
+  "sample": 0
+ },
+ "7f7c232c99": {
+  "cond": "v3",
+  "id": "F07",
+  "sample": 1
+ },
+ "6d717d5e09": {
+  "cond": "v3",
+  "id": "F08",
+  "sample": 0
+ },
+ "df17ec9331": {
+  "cond": "v3",
+  "id": "F08",
+  "sample": 1
+ },
+ "51536379ec": {
+  "cond": "v3",
+  "id": "F09",
+  "sample": 0
+ },
+ "1194bf5dbe": {
+  "cond": "v3",
+  "id": "F09",
+  "sample": 1
+ },
+ "8192c37649": {
+  "cond": "v3",
+  "id": "F10",
+  "sample": 0
+ },
+ "64621ea98f": {
+  "cond": "v3",
+  "id": "F10",
+  "sample": 1
+ }
+}

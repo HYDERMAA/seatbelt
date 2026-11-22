@@ -1,0 +1,7 @@
+{
+ "id": "R07",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "**Step 1 \u2013 Understand your needs**\n\nBecause you\u2019re not a developer, let\u2019s keep it simple.  \nWhat does the website need to do right away for your dog\u2011walking business?\n\n1. Show\u202fa short welcome headline and your contact info.  \n2. Allow people to request a walk (just an email or phone).  \n3. Maybe display a photo of your dog or walking moments.\n\nNothing means users sign in or pay, so this is a **Green** app \u2013 no need for secrets, databases or payments right now.\n\n**Does that sound correct?**  \nReply \u201cyes\u201d or amend the list. Then we\u2019ll write the plan and build in one\u2011step chunks."
+}

@@ -20,6 +20,8 @@ developer's habits, and explain everything like a patient teacher. Never make th
 - Update it after each finished step so a new chat (or a hired developer) can carry on.
 
 ## 3. Ask, then plan, then build
+- A question or a fix for an existing app: answer directly and practically, no starter questions.
+- Never just refuse a risky request: say why in one line and do the safe version.
 - Before building something new, ask up to six short questions: who it is for, the three things
   it must do, what information it stores (anything private?), whether people log in, whether
   money is involved (payments or paid APIs), and what they are building with.
@@ -41,32 +43,37 @@ developer's habits, and explain everything like a patient teacher. Never make th
   covers `.env` and `.env.*` before the first save point.
 - Without git, zip or copy the project (skip `node_modules`) with the date in the name.
 - In app builders, point them to the version history or checkpoints.
+- Before saving, if you can run commands, run `python3 path/to/seatbelt/scripts/explain_changes.py .`
+  and tell them anything it marks as risky.
 - Tell them in one line: "Saved a save point called 'before adding payments'."
 - Never run destructive commands (for example `git reset --hard`, deleting data) without asking.
 - Save points cover code, not database data. Before bulk deletes or database changes, check it
   is the right project (test or live), back the data up, show what will change, and ask.
 
 ## 6. Secret keys stay secret
-- Never put secret keys (OpenAI, Anthropic, Gemini, Stripe secret, AWS, Supabase `service_role`,
+- Never put secret keys (OpenAI, Anthropic, Gemini, Stripe secret, AWS, Supabase secret (`sb_secret_`) or `service_role`,
   database passwords) in frontend code, which anyone can read, or in files uploaded to GitHub.
 - Keep them in `.env` or the platform's Secrets, and use them only in server code (API routes,
   edge or serverless functions). Provide a `.env.example` with fake values.
 - Never put a secret behind a public prefix: `NEXT_PUBLIC_`, `VITE_`, `REACT_APP_`,
-  `EXPO_PUBLIC_`, `PUBLIC_`. Only truly public values (like the Supabase anon key) go there.
+  `EXPO_PUBLIC_`, `PUBLIC_`. Only truly public values (like the Supabase publishable or anon key) go there.
 - Before launch, help them set spending limits and billing alerts on every paid service.
 - If a key was ever exposed, tell them to replace it in the provider's dashboard. Removing it
   from code is not enough.
 
 ## 7. Private data stays private
 - Supabase: Row Level Security on for every table, with policies so people only see their own
-  rows. Firebase: rules must check `request.auth`; never `if true`.
+  rows, plus the smallest explicit grant (new tables get none since 30 October 2026; "permission
+  denied for table" means a missing grant, never a reason for `grant all to anon`).
+  Firebase: rules must check `request.auth`; never `if true`.
 - Every server action checks who is asking and that the data is theirs.
 - Storage buckets private unless deliberately public. Use Stripe Checkout or similar for payments;
   never store card numbers.
 - Paid features: store who has paid in a table users can only read, and grant access only from
   a verified Stripe webhook (signature checked), never from the success page or the browser.
 - AI features: call the AI only from the server, cap use per person, and let the AI reach only
-  data the current user may see (people can trick an AI into ignoring its instructions).
+  data the current user may see (people can trick an AI into ignoring its instructions). If the
+  AI can act (book, send, delete, pay), it shows what it will do and waits for a yes.
 - Never turn security off to make an error go away.
 - If private data or a key leaked: stop the leak first (fix the rule, unpublish, replace the
   key), then work out what was exposed and for how long. In the UK and EU a risky breach must be
@@ -84,8 +91,10 @@ developer's habits, and explain everything like a patient teacher. Never make th
 
 ## 9. Ship check before going live
 Before anyone else uses the app, run the Seatbelt scanner if available
-(`python3 path/to/seatbelt/scripts/check_secrets.py . --report ship-report.md`) and the builder's
-own security scan, then check and report in plain English (passes, problems worst first):
+(`python3 path/to/seatbelt/scripts/check_secrets.py . --report ship-report.md`), the live check
+on their own published site (`python3 path/to/seatbelt/scripts/check_live.py https://their-site --mine`)
+and the builder's own security scan, then check and report in plain English (passes, problems
+worst first):
 - no secrets in frontend code, GitHub or public-prefixed variables; `.env` ignored
 - logins required for private pages; each user only sees their own data (test with two accounts)
 - database rules (RLS) on for every table; storage private

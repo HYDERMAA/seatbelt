@@ -191,7 +191,7 @@ class ScannerTests(unittest.TestCase):
     def test_ai_client_in_browser(self):
         self.write("src/ai.js", "const c = new OpenAI({ apiKey: k, dangerouslyAllowBrowser: true })\n")
         code, data = self.run_scan()
-        self.assertIn(("ai-client-in-browser", "high"), self.checks(data))
+        self.assertIn(("ai-key-in-browser", "high"), self.checks(data))
 
     def test_rls_before_create(self):
         self.write("supabase/migrations/001.sql",
@@ -232,7 +232,7 @@ class ScannerTests(unittest.TestCase):
         import re as _re
         book = os.path.join(HERE, "..", "skills", "seatbelt", "playbooks")
         if not os.path.exists(os.path.join(book, "supabase.md")):
-            self.skipTest("Pro playbooks not included")
+            self.skipTest("playbooks folder not found")
         with open(os.path.join(book, "supabase.md")) as fh:
             sql = _re.findall(r"```sql\n(.*?)```", fh.read(), _re.S)
         self.write("supabase/migrations/001_all.sql", "\n".join(sql))
@@ -285,6 +285,29 @@ class ScannerTests(unittest.TestCase):
         self.write("src/chat.ts", "const ai = new OpenAI({ apiKey: k, dangerouslyAllowBrowser: true })\n")
         code, data = self.run_scan()
         self.assertIn(("ai-key-in-browser", "high"), self.checks(data))
+
+    def test_cost_guard(self):
+        self.write("supabase/functions/ask/index.ts",
+                   'import OpenAI from "openai";\nconst ai = new OpenAI({ apiKey: Deno.env.get("OPENAI_API_KEY") });\n'
+                   'Deno.serve(async (req) => {\n  const { q } = await req.json();\n'
+                   '  const r = await ai.chat.completions.create({ model: "gpt-4o-mini", messages: [{ role: "user", content: q }] });\n'
+                   '  return new Response(r.choices[0].message.content);\n});\n')
+        self.write("app/api/summarise/route.ts",
+                   'import Anthropic from "@anthropic-ai/sdk";\nimport { ratelimit } from "@/lib/limit";\n'
+                   'export async function POST(req) {\n  const user = await auth.getUser();\n  await ratelimit.limit(user.id);\n'
+                   '  for (const doc of docs) {\n    await client.messages.create({ model: "claude", max_tokens: 300, messages: [] });\n  }\n}\n')
+        self.write("vercel.json", '{"crons": [{"path": "/api/summarise", "schedule": "* * * * *"}]}')
+        code, data = self.run_scan()
+        found = self.checks(data)
+        self.assertIn(("cost-ai-no-limit", "medium"), found)
+        self.assertIn(("cost-no-max-tokens", "low"), found)
+        self.assertIn(("cost-ai-in-loop", "low"), found)
+        self.assertIn(("cost-frequent-cron", "medium"), found)
+        limited = [f for f in data["findings"] if f["check"] == "cost-ai-no-limit" and f["file"].startswith("app/")]
+        self.assertEqual(limited, [])
+        edge = [f for f in data["findings"] if f["check"] == "cost-ai-no-limit"][0]
+        self.assertIn("public key", edge["why"])
+        self.assertEqual(sorted(data["paid_services"]), ["Anthropic", "OpenAI"])
 
     def test_hardcoded_password(self):
         self.write("server/db.js", 'const dbPassword = "Tr0ub4dor-horse";\nconst p = process.env.DB_PASSWORD;\n')

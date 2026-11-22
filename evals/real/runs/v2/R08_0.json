@@ -1,0 +1,7 @@
+{
+ "id": "R08",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "Great idea!  \nBefore we start, I need a couple quick clarifications so I can keep everything safe and simple.\n\n1. **Who will use the app?**  \n   * Do you want a simple public page where anyone can upload and like photos, or will users need to sign in to do so?  \n   \n2. **What do you want the first version to do?**  \n   * Upload a photo, display it, and let people click a \u201clike\u201d button. Anything else you\u2019d like on day\u2011one?  \n\nAnswer these in one sentence each and I\u2019ll draft a one\u2011screen plan (green if no logins, amber if we need logins). Then we\u2019ll move step\u2011by\u2011step, always saving a snapshot before each change."
+}

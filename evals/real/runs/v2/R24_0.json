@@ -1,0 +1,7 @@
+{
+ "id": "R24",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "**Risk level:** Amber  \n(you\u2019re handling user accounts, so we need a short plan and some safeguards).\n\n---\n\n## Quick plan\u202f\ud83d\udccb  \n> *What we\u2019re doing in version\u202f1:*  \n> 1. **Add email verification** \u2013 users must confirm their address before full access.  \n> 2. **Enable a CAPTCHA** on the sign\u2011up form (Google reCAPTCHA or Supabase auth\u2019s \u201cbot\u2011detect\u201d).  \n> 3. **Set a \u201cpending\u201d status** in the `profiles` table and only allow logged\u2011in users with `is_verified = true` to see protected content.  \n> 4. **Add a simple moderation rule**: flag any account created with an address that looks spammy (e.g., \u201cexample.com\u201d domains) and put it in a \u201cneeds review\u201d state.\n\nDoes that look good? If yes, reply **YES** or tell me what you\u2019d change.  \nIf no, let me know what you\u2019d like to add/modify and we\u2019ll adjust the plan. \ud83d\ude80"
+}

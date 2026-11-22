@@ -1,0 +1,7 @@
+{
+ "id": "R12",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "Okay, we\u2019re moving into a **Red**\u2011level feature because we\u2019re adding payments.  \nLet\u2019s pause for a moment to make sure we\u2019re on the same page:\n\n---\n\n### Quick 5\u2011question starter\n\n1. **Who will use the payment page?** (Just you, a small team, or the public?)\n2. **What do you want to sell?** (e.g., a single product, subscriptions, or per\u2011use credits?)\n3. **Will customers need to log in?** (Do you already have an auth system or will we add one?)\n4. **Do you have a Stripe account?** What keys have you got? (Test/live)\n5. **What platform will host the app?** (e.g., Vercel, Netlify, Replit, etc.)\n\nReply with as brief answers as you can. Once we have that, I\u2019ll draft a one\u2011screen plan that shows the next small steps, keeps your secrets safe, and gives you an instant save point before we touch anything.\n\n---\n\n**Why this matters**  \nPayments are money and a lot of trust. If we slip a key to Stripe into the public code or give everyone access to their own \u201cpaid\u201d data, we can lose money or break privacy laws. We\u2019ll:\n- keep Stripe keys in a `.env` file you never commit,\n- set up a simple payments table with row\u2011level security (RLS),\n- only give access after a verified Stripe webhook,\n- and create a quick \u201cship check\u201d to catch leaks before launch.\n\nLet me know the answers, and we\u2019ll jump into the plan."
+}

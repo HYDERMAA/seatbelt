@@ -1,0 +1,7 @@
+{
+ "id": "R09",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "Sure! Building a mental\u2011health journal means we\u2019ll be handling personal data (what people write), so the app is **Amber** risk. Let\u2019s make a quick plan first.\n\n**Quick questions (one for each point) \u2013 just reply with the short answer:**\n\n1. **Who is it for?**  \n   *Example answers:* me only, a small group, a public community, a therapist\u2019s clinic.\n\n2. **What must it do on day one?**  \n   *Top 3 features you need:* e.g. \u201c[1] Write a daily entry, [2] View past entries, [3] Export recent entries to PDF.\u201d\n\n3. **What information will it keep?**  \n   *Any private data?* e.g. \u201ctext of entries, date, optional photo, ratings of mood.\u201d  \n\n4. **Will people log in?**  \n   *Do we need a personal login so each user only sees their own entries?*  \n\n5. **Is money involved?**  \n   *Do you plan to charge for premium features, newsletter, or AI summaries?*  \n\n6. **What are you building it with?**  \n   *Example:* Vercel\u2011Hosted Next.js, Firebase, Supabase, etc. If you\u2019re unsure, just say \u201cI don\u2019t know, we\u2019ll pick a simple option.\u201d\n\nOnce you answer, I\u2019ll draft a one\u2011screen plan, get your approval, create a safe project skeleton, and we\u2019ll move step\u2011by\u2011step."
+}

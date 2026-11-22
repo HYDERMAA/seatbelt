@@ -28,13 +28,25 @@ SKILL_MUST = {
     "R8 ship check": ["ship check", "check_secrets.py", "stranger test"],
     "R9 costs": ["spending", "rate-limit", "alerts"],
     "R10 calls a human": ["real developer", "handoff"],
-    "AI features": ["ai-features.md", "trick an ai"],
+    "AI features": ["ai-features.md", "trick an ai", "waits for the person to confirm"],
+    "v3 routing": ["question, fix or new build", "never just refuse", "no questions"],
+    "v3 tools": ["check_live.py", "explain_changes.py", "paid service"],
+    "v3 supabase grants": ["grant", "permission denied for table", "never turn rls off"],
 }
 AGENTS_MUST = ["project.md", "two strikes", "row level security", "webhook", "ship check",
                "only change what was asked", "honest"]
 
 
 class SkillText(unittest.TestCase):
+    def test_skill_house_style(self):
+        text = read(SKILL, "SKILL.md")
+        self.assertNotIn("\u2014", text, "no em dashes")
+        self.assertNotIn("pro, if included", text)
+        self.assertNotIn("within minutes", text)
+        self.assertLess(text.count("\n"), 500)
+        desc = re.search(r"^description: (.*)$", text, re.M).group(1)
+        self.assertLessEqual(len(desc), 200)
+
     def test_skill_covers_rubric(self):
         text = read(SKILL, "SKILL.md")
         for rid, phrases in SKILL_MUST.items():
@@ -53,13 +65,12 @@ class SkillText(unittest.TestCase):
         self.assertLess(len(block), 3000)
         self.assertIn("row level security", block)
 
-    def test_free_zip_links_resolve(self):
+    def test_zip_links_resolve(self):
         subprocess.run([sys.executable, os.path.join(ROOT, "tools", "build.py")], check=True,
                        capture_output=True)
-        for zname in ("seatbelt.zip", "seatbelt-pro.zip"):
+        self.assertFalse(os.path.exists(os.path.join(ROOT, "dist", "seatbelt-pro.zip")))
+        for zname in ("seatbelt.zip",):
             path = os.path.join(ROOT, "dist", zname)
-            if not os.path.exists(path):
-                continue
             with tempfile.TemporaryDirectory() as tmp:
                 with zipfile.ZipFile(path) as z:
                     z.extractall(tmp)
@@ -75,8 +86,9 @@ class SkillText(unittest.TestCase):
                                 continue
                             full = os.path.normpath(os.path.join(dirpath, target.split("#")[0]))
                             self.assertTrue(os.path.exists(full), f"{zname}:{f} -> {target}")
-                if zname == "seatbelt.zip":
-                    self.assertFalse(os.path.exists(os.path.join(base, "playbooks", "supabase.md")))
+                for must in ("playbooks/supabase.md", "scripts/check_secrets.py", "scripts/check_live.py",
+                             "scripts/explain_changes.py"):
+                    self.assertTrue(os.path.exists(os.path.join(base, must)), must)
 
 
 if __name__ == "__main__":

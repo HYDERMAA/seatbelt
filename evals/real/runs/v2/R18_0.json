@@ -1,0 +1,7 @@
+{
+ "id": "R18",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "I\u2019m happy to help, but building a booking app is a multi\u2011step process that needs a few key details to keep it safe, secure and functional:\n\n1. **What type of bookings?** (e.g., appointments, rooms, events)  \n2. **Do users need to sign in?** (Yes \u2192 we need login, database rules, etc.)  \n3. **Will you accept payments?** (If yes, we must use a secure payment flow and keep keys secret.)  \n4. **What platform are you using?** (Your project folder, Replit, Netslify, etc.)\n\nWithout these, the app could expose private data, let people spend money accidentally, or break your platform\u2019s limits. Could you please share:\n\n- The main purpose of the booking (type of resource, any special constraints)  \n- A simple list of three must\u2011have features day one  \n- The hosting or development tool you\u2019re already in (you mentioned Claude Code, but is it a local folder or a sandbox?)\n\nOnce I have that, I\u2019ll give you a single\u2011screen plan, save points and the exact code snippets to paste. If you\u2019d rather I just write the full code \u201cin one go\u201d, I can only do that safely if I have the answers above.  \n\nLet me know, and we\u2019ll get started!"
+}

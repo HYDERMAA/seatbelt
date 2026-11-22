@@ -32,27 +32,27 @@ Before each prompt, remind them to note or bookmark the current working version.
 
 ## 2. Lovable
 
-- **Instructions (previously called Knowledge):** open the project's **Settings > Instructions**
-  (or press Cmd+. / Ctrl+.). Paste the rules text from section 9. Workspace owners can also set
-  **Workspace settings > Instructions** to apply them to every project.
-- **Skills:** Lovable also lists **Workspace settings > Skills** for on-demand instruction sets.
-  If available, the Seatbelt skill content can go there too.
+- **Instructions (previously called Knowledge):** open **Project settings > Instructions** and
+  paste the rules text from section 9 (there is room for about 10,000 characters). Workspace
+  owners can also set workspace-wide instructions that apply to every project.
 - **Secrets:** with Supabase or Lovable Cloud connected, put secret keys in the Supabase Edge
   Function secrets or the platform's secrets settings, never in the code. Ask Lovable to "move
   this API call into an edge function that reads the key from secrets".
-- **Security scans:** Lovable runs a **Quick scan** on every publish (database rules, permissive
-  policies, leaked-password protection, known vulnerable packages) and offers a **Deep scan** of
-  the app's code (access control, open endpoints, injection, leaked secrets, payments, logins,
-  personal data in logs). Run the Deep scan before sharing with customers and fix Critical
-  findings first. Policies can be reviewed under **More > Database > Manage > Policies**.
+- **Security scans:** Lovable offers a **Quick scan** (database rules, packages and connected
+  tools) and a deeper scan of the app's code. Run the deeper scan before sharing with customers
+  and fix the most serious findings first. Seatbelt's `check_live.py --mine` is a useful second
+  opinion once the app is published: it asks each table, as a stranger, whether it will answer.
 - **Versions:** use the version history to restore an earlier version.
 
 ## 3. Bolt
 
-- **Knowledge:** open **Project settings > Knowledge**, paste the rules text into **Project
-  instructions**, then click **Save prompt**.
-- Bolt also reads an `agents.md` file in the project automatically. You can add the `AGENTS.md`
-  from this repository.
+- **Project Knowledge:** open the project's settings, find **Knowledge**, paste the rules text
+  into the project instructions and save. Account-wide (global) instructions apply to every
+  project.
+- **Skills:** Bolt can import skills in the project settings (**Skills**). Importing this
+  repository's `skills/seatbelt` folder gives Bolt the full skill.
+- **agents.md:** Bolt reads an `agents.md` file in the project. You can add the `AGENTS.md` from
+  this repository, or attach it with the **+** button in the prompt box.
 - **Secrets:** use environment variables or the connected backend's secrets, not frontend code.
 - **Versions:** use the project's version history to go back.
 
@@ -64,8 +64,9 @@ Before each prompt, remind them to note or bookmark the current working version.
 - **Secrets:** use the **Secrets** tool (padlock icon) and read them as environment variables.
 - **Checkpoints:** use **Rollback to here** on an Agent checkpoint to go back.
 - Check whether the deployed app is public or private, and set it deliberately.
-- **Security Center:** Level 1 basic checks (packages) are free; the Level 2 deep scan needs a
-  paid plan and uses Agent credits, so mention the cost before suggesting it.
+- **Security Center** (in the Tools pane): Level 1 basic checks are free; the deeper levels
+  (a code scan, and an AI test of the running preview) need a paid plan and use Agent credits,
+  so mention the cost before suggesting them.
 
 ## 5. v0
 
@@ -77,8 +78,10 @@ Before each prompt, remind them to note or bookmark the current working version.
 
 ## 6. Cursor
 
-Copy `.cursor/rules/seatbelt.mdc` from this repository into the project's `.cursor/rules/`
-folder. It is set to always apply. Cursor also reads `AGENTS.md`, so that works too.
+Best: Cursor supports Agent Skills, so install the full skill into `~/.agents/skills/seatbelt/`
+(all projects) or the project's `.agents/skills/seatbelt/` (`npx skills add HYDERMAA/seatbelt`
+does this). Lighter option: copy `.cursor/rules/seatbelt.mdc` from this repository into the
+project's `.cursor/rules/` folder; it is set to always apply. Cursor also reads `AGENTS.md`.
 
 ## 7. Claude Code (CLAUDE.md)
 
@@ -114,8 +117,8 @@ I am not a developer. Please work like a careful senior developer and explain th
 2. Before building something new, ask me a few simple questions, then show me a short plan and wait for my yes.
 3. Build one small step at a time, only change what I asked for, and after each step tell me exactly how to check it works.
 4. Before every change, make sure I can go back to the last working version, and tell me how.
-5. Never put secret keys (API keys, service_role keys, passwords) in frontend code or in files uploaded to GitHub. Keep them in secrets or environment variables, used only on the server.
-6. Turn on Row Level Security for every database table, so each person only sees their own data. Never turn it off to fix an error.
+5. Never put secret keys (API keys, Supabase secret or service_role keys, passwords) in frontend code or in files uploaded to GitHub. Keep them in secrets or environment variables, used only on the server.
+6. Turn on Row Level Security for every database table, so each person only sees their own data, and grant only the access each table needs. Never turn it off or grant everything to fix an error.
 7. For payments, only unlock paid features from a verified Stripe webhook, and store who has paid in a table users cannot edit.
 8. Add rate limits to anything that costs money (including AI features), and remind me to set spending limits on paid services.
 9. If a fix fails twice, stop, explain the problem in plain English, go back to the last working version, and try a different approach.

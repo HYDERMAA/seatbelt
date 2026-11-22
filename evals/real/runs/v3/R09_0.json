@@ -1,0 +1,7 @@
+{
+ "id": "R09",
+ "sample": 0,
+ "cond": "v3",
+ "model": "gpt-oss-20b",
+ "response": "Great! I\u2019ll help you build a safe, private mental\u2011health journal app.  \nSince the app will collect personal feelings and likely needs each person to keep their own entries, it falls into **Amber** risk (logins & personal data).  \n\n---\n\n### \ud83d\udd0d First, let\u2019s gather a few quick details (only 5 questions):\n\n1. **Who is this for?**  \n   - Just you, a small group, a team, or the public?  \n\n2. **What must the app do on day one?**  \n   - List the three core features you want immediately (e.g., \u201cwrite entry\u201d, \u201cview past entries\u201d, \u201cset reminders\u201d).  \n\n3. **What information will it keep?**  \n   - List key fields: date, text of entry, any tags, mood score, etc.  \n\n4. **Will people log in?**  \n   - If\u202fyes, who will log in? Email/phone magic link, Google, etc.  \n\n5. **Is money involved?**  \n   - No payments now? If you plan to add paid features later, just let me know.  \n\nFeel free to skip any that are obvious (e.g., if you\u2019re the only user, I\u2019ll assume \u201cjust you\u201d for now). Once I have those answers, I\u2019ll draft a one\u2011screen plan that includes safe defaults, then we\u2019ll build the first step together."
+}

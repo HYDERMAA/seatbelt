@@ -7,7 +7,7 @@ import { db } from "@supabase/supabase-js";
 process.env.STRIPE_SECRET_KEY = "sk_test_" + "harness";
 process.env.STRIPE_WEBHOOK_SECRET = "whsec_" + "harnesssecret";
 process.env.SUPABASE_URL = "http://localhost";
-process.env.SUPABASE_SERVICE_ROLE_KEY = "service-role-for-tests";
+process.env.SUPABASE_SECRET_KEY = "secret-key-for-tests";
 process.env.SITE_URL = "https://salon.test";
 
 const { POST: checkout } = await import("./checkout.ts");

@@ -1,4 +1,4 @@
-# Seatbelt playbooks (Pro)
+# Seatbelt playbooks
 
 Stack-specific, copy-paste patterns. Read only the one that matches the task. Each starts with a
 plain-English explanation to give the user, then the steps, then the mistakes to watch for.

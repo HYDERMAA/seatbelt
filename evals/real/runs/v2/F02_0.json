@@ -1,0 +1,7 @@
+{
+ "id": "F02",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "**Risk level:** Amber \u2013 we\u2019re handling personal customer data, so we must guard the data with Row\u2011Level Security (RLS) and keep a clear admin role.\n\n---\n\n### 1. Quick check of what we already have  \n- **PROJECT.md**  \n  - If it already exists, we\u2019ll read what was last done and add a new section.  \n  - If not, we\u2019ll create one now and keep it updated after every step.\n\n> **Next:** Let me know if you already have a `PROJECT.md`, and also the name of the Supabase table that stores orders (e.g. `orders`).  \n> Please reply with:  \n> 1. `yes / no` \u2013 do you have a `PROJECT.md`?  \n> 2. Table name (or confirm `orders`).\n\nOnce I have that, we\u2019ll move to the plan."
+}

@@ -49,7 +49,9 @@ notes. I will add a rule for that, which keeps everyone else locked out."
 | What they see | Usually means | First thing to try |
 | --- | --- | --- |
 | `401` / `Unauthorized` | Not logged in, or the key is missing | Check the user is signed in and the key is set in env vars |
-| `403` / `permission denied` / `new row violates row-level security policy` | Logged in but the rules say no | Add the right RLS or Firebase rule for this action; do not turn RLS off |
+| `permission denied for table ...` (Supabase, code 42501) | The table has no **grant** for this role. New Supabase tables (since 30 October 2026) get none by default | Add the smallest grant, for example `grant select, insert on public.notes to authenticated;`, keeping RLS on. Never `grant all to anon` |
+| `permission denied for sequence ...` | The table uses a `serial` id and the role cannot use its counter | `grant usage on sequence public.notes_id_seq to authenticated;`, or use `uuid` or identity ids |
+| `403` / `new row violates row-level security policy` | Logged in but the rules say no | Add the right RLS or Firebase rule for this action; do not turn RLS off |
 | `404` / `Not Found` | Wrong address or file name | Check the URL, route name and spelling |
 | `500` / `Internal Server Error` | The server code crashed | Read the server or hosting logs for the real message |
 | `CORS` error | The browser blocked a call to another site | Call it from your server function, or allow your own site's address only |
@@ -99,7 +101,7 @@ Never "fix" this by removing the signature check. Check, in order:
 7. Updating the database from the webhook needs server permissions (for example the Supabase
    service role inside the server function), because there is no logged-in user in a webhook.
 
-Full pattern: `playbooks/stripe-payments.md` (Pro).
+Full pattern: [playbooks/stripe-payments.md](../playbooks/stripe-payments.md).
 
 ## Slow app
 

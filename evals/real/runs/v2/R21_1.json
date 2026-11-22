@@ -1,0 +1,7 @@
+{
+ "id": "R21",
+ "sample": 1,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "**Risk level: Amber** \u2013 because login and personal data are involved.\n\nLet\u2019s get a quick plan so we can set up a secure \u201cemail\u2011only\u201d login with Supabase.\n\n### Starter questions (one line each)\n\n1. **Who is the app for?**  \n   *Example:* \u201cJust me, a few friends, or the public?\u201d\n\n2. **What must the app do on day one?**  \n   *Example:* \u201cShow a dashboard, save notes, let users upload pictures.\u201d\n\n3. **What private information will you store?**  \n   *Example:* \u201cUser names, email addresses, notes text, photos.\u201d\n\n4. **Will users need to log in?**  \n   *Answer:* \u201cYes, via email only (magic link).\u201d\n\n5. **Will you collect payments or use paid APIs?**  \n   *Answer:* \u201cNo money at launch.\u201d\n\n6. **What platform are you using?**  \n   *Answer:* \u201cSupabase for auth, database, and storage. Frontend in Next.js (or similar).\u201d\n\nOnce you answer, we\u2019ll draft a one\u2011screen plan, create a `PROJECT.md` save point, and then walk through setting up **magic\u2011link (no\u2011password) login** with Supabase.\n\nWhen ready, reply with your answers."
+}

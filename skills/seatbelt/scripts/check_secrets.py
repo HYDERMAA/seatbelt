@@ -83,6 +83,11 @@ RISKY_NAME_RE = re.compile(
 )
 PLACEHOLDER_RE = re.compile(r"your|xxxx|example|placeholder|changeme|dummy|fake|<|\.\.\.", re.I)
 
+
+def looks_placeholder(value):
+    """Documentation-style keys such as sk_live_XXXXXXXX or sk-proj-************."""
+    return bool(re.search(r"[Xx*]{8,}|0{12,}|your[_-]?|placeholder|redacted", value, re.I))
+
 FRONTEND_EXTS = {".html", ".htm", ".jsx", ".tsx", ".vue", ".svelte", ".astro"}
 FRONTEND_DIR_HINTS = {
     "src", "public", "static", "app", "pages", "components", "client", "frontend", "web",
@@ -121,6 +126,35 @@ def in_public_build(rel):
     if len(parts) > 2 and parts[0] == ".next" and parts[1] == "static":
         return True
     return bool(set(parts[:-1]) & PUBLIC_BUILD_DIRS) and "server" not in parts[:-1]
+
+
+PUBLIC_ENV_NAME = re.compile(r"^(?:(?:VITE|NEXT_PUBLIC|EXPO_PUBLIC|PUBLIC|REACT_APP|NUXT_PUBLIC)_)?"
+                             r"(?:SUPABASE_(?:URL|PROJECT_ID|PUBLISHABLE_KEY|ANON_KEY|PROJECT_REF)|"
+                             r"FIREBASE_(?:AUTH_DOMAIN|PROJECT_ID|STORAGE_BUCKET|MESSAGING_SENDER_ID|APP_ID|MEASUREMENT_ID)|"
+                             r"STRIPE_PUBLISHABLE_KEY|SITE_URL|APP_URL|BASE_URL|APP_NAME)$")
+
+
+def env_only_public(path):
+    """True when every value in a .env file is something meant to be public."""
+    try:
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            text = fh.read()
+    except OSError:
+        return False
+    names = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        name, value = line.split("=", 1)
+        name = name.replace("export ", "").strip()
+        value = value.strip().strip("'\"")
+        if any(rx.search(value) for _, _, rx in COMPILED) or jwt_role(value) == "service_role":
+            return False
+        if not PUBLIC_ENV_NAME.match(name):
+            return False
+        names.append(name)
+    return bool(names)
 
 
 def looks_frontend(rel, head=""):
@@ -170,6 +204,7 @@ class Scanner:
         self.sql_files = []
         self.sql_supabase = {}
         self.source_maps = []
+        self.paid_services = {}
         self.npm_audit = None
 
     # ---------- git helpers ----------
@@ -238,6 +273,7 @@ class Scanner:
         env_file = is_env_file(name)
         example = is_example_env(name)
         frontend = looks_frontend(rel, text[:400])
+        self._firebase_config = "authDomain" in text and "projectId" in text
         lines = text.splitlines()
         if (env_file or example) and in_public_build(rel) and not example:
             self.add("critical", "env-file-public", rel, None,
@@ -254,15 +290,11 @@ class Scanner:
                 self.add("critical" if strong else "medium", "service-role-in-frontend", rel, n,
                          "The Supabase service_role (master) key is referenced in browser code.",
                          "That key ignores all database safety rules. Anyone could read or delete every row.",
-                         "Use only the anon or publishable key in the browser. Move admin work into a server or edge function.")
-            if frontend and "dangerouslyAllowBrowser" in line and re.search(r"dangerouslyAllowBrowser\s*:\s*true", line):
-                self.add("high", "ai-client-in-browser", rel, n,
-                         "An AI library is set to run in the browser (dangerouslyAllowBrowser: true).",
-                         "That only works by sending your AI key to every visitor, who can then use it on your bill.",
-                         "Call the AI from a server or edge function instead, and keep the key there.")
+                         "Use only the publishable (or anon) key in the browser. Move admin work into a server or edge function.")
         ext = os.path.splitext(name)[1].lower()
         if ext in CODE_EXTS:
             self.scan_code(rel, lines, text, frontend)
+            self.scan_costs(rel, lines, text, frontend)
         lower = name.lower()
         if lower.endswith(".sql"):
             self.sql_files.append((rel, text))
@@ -274,7 +306,10 @@ class Scanner:
         hits = []
         for cid, label, rx in COMPILED:
             for m in rx.finditer(line):
-                if cid == "db-url-password" and PLACEHOLDER_RE.search(m.group(0).split("@")[0]):
+                if cid == "db-url-password" and (PLACEHOLDER_RE.search(m.group(0).split("@")[0]) or re.search(
+                        r":(?:password|pass|pwd|secret|\*+)@", m.group(0), re.I)):
+                    continue
+                if looks_placeholder(m.group(0)):
                     continue
                 if cid == "openai-key" and m.group(0).startswith("sk-ant-"):
                     continue
@@ -284,6 +319,12 @@ class Scanner:
                 hits.append(("supabase-service-role-jwt", "Supabase service_role key", m.group(0)))
         for cid, label, value in hits:
             shown = mask(value)
+            if cid == "google-api-key" and ("FIREBASE" in line.upper() or getattr(self, "_firebase_config", False)):
+                self.add("low", "firebase-web-key", rel, n,
+                         f"A Firebase web key ({shown}) is in the project.",
+                         "Firebase web keys are designed to be public, so this is not a leak by itself. But an unrestricted key can be reused for other Google services on your bill.",
+                         "In Google Cloud > APIs & Services > Credentials, restrict the key to your website address and the Firebase APIs it needs. Your Firebase security rules are what protect the data.")
+                continue
             if env_file:
                 tracked = rel in self.tracked
                 ignored = self._git_ignored(rel) if self.git else self._gitignore_covers_env()
@@ -364,10 +405,21 @@ class Scanner:
                              "Move it to .env or the platform's Secrets and read it on the server. If it is a real password, change it.")
             if re.search(r"dangerouslyAllowBrowser\s*:\s*true", line):
                 self.add("high", "ai-key-in-browser", rel, n,
-                         "An AI library is set to run in the browser (dangerouslyAllowBrowser: true).",
+                         "An AI library is set to run in the browser (dangerouslyAllowBrowser: true).",  # seatbelt-ignore
                          "Your AI key is sent to every visitor, who can copy it and run up your bill.",
                          "Call the AI from a server function instead, keep the key in Secrets, and cap use per person.")
-        if "webhook" in lower_rel and re.search(r"stripe", text, re.I) and not re.search(
+        body_names = set()
+        for m in re.finditer(r"(?:const|let|var)\s*\{([^}]*)\}\s*=\s*(?:await\s+)?(?:req|request)\.(?:json\(\)|body)", text):
+            body_names |= {x.split(":")[-1].split("=")[0].strip() for x in m.group(1).split(",") if x.strip()}
+        for n, line in enumerate(lines, 1):
+            m = re.search(r"\b(?:unit_amount|amount)\s*:\s*(?:Number\()?\s*((?:req\.body|body|request\.body)\.\w+|\w+)", line)
+            if m and not frontend and "seatbelt-ignore" not in line and not TEST_PATH_RE.search(rel) and re.search(r"stripe|checkout|paymentIntents", text, re.I) and (
+                    m.group(1) in body_names or "." in m.group(1)):
+                self.add("high", "price-from-browser", rel, n,
+                         "The amount charged seems to come from what the browser sent.",
+                         "Anyone can edit that request and pay 1p for anything.",
+                         "Look the price up on the server (a Stripe Price ID or your own price list) from the item's ID, never from the request.")
+        if "webhook" in lower_rel and re.search(r"stripe|checkout\.session\.|payment_intent\.|invoice\.paid|customer\.subscription\.", text, re.I) and not re.search(
                 r"constructEvent|constructEventAsync|construct_event|verifyHeader|verify_header|Webhook::constructEvent", text):
             self.add("high", "webhook-not-verified", rel, None,
                      "This Stripe webhook does not seem to check Stripe's signature.",
@@ -379,6 +431,48 @@ class Scanner:
                      "This success or thank-you page seems to change a plan, credits or payment status.",
                      "Anyone can visit a success page without paying, so they could get paid features for free.",
                      "Only change plans or payment status in a verified payment webhook on the server. The success page should just show the result.")
+
+    def scan_costs(self, rel, lines, text, frontend):
+        """Cost-runaway guard: paid services, AI calls anyone can trigger, timers and loops."""
+        if TEST_PATH_RE.search(rel):
+            return
+        for name, rx, _ in PAID_SERVICES:
+            if re.search(rx, text, re.M):
+                self.paid_services.setdefault(name, []).append(rel)
+        calls = [n for n, line in enumerate(lines, 1) if AI_CALL_RE.search(line)]
+        if not calls:
+            return
+        first = calls[0]
+        if not LIMIT_HINT_RE.search(text):
+            open_to_all = not AUTH_HINT_RE.search(text)
+            edge = rel.startswith("supabase/functions/")
+            self.add("medium", "cost-ai-no-limit", rel, first,
+                     "This code calls a paid AI service, and there is no sign of a per-person limit"
+                     + (" or a login check." if open_to_all else "."),
+                     ("Anyone who finds it could call it in a loop and run up your bill"
+                      + (" (Supabase functions accept your public key, which is in your website)." if edge and open_to_all else ".")),
+                     "Require a logged-in user, count requests per user per day in the database, and refuse politely over the limit (for example 30 a day). If a limit already lives elsewhere (for example in middleware), you can ignore this.")
+        if not MAX_TOKENS_RE.search(text):
+            self.add("low", "cost-no-max-tokens", rel, first,
+                     "AI calls here do not set a maximum answer length.",
+                     "Long answers cost more, and a bug or a trick prompt can make every answer very long.",
+                     "Set max_tokens (or the provider's equivalent) to a sensible number for this feature.")
+        indent = lambda l: len(l) - len(l.lstrip())
+        loop_re = re.compile(r"\bfor\s*\(|\bwhile\s*\(|\.map\(\s*(?:async\s*)?\(?[\w,\s{}]*\)?\s*=>\s*\{?\s*$|\.forEach\(|^\s*for\s+\w+\s+in\b")
+        for n in calls:
+            call_indent = indent(lines[n - 1])
+            near = [l for l in lines[max(0, n - 5):n - 1] if loop_re.search(l) and indent(l) < call_indent]
+            if near:
+                self.add("low", "cost-ai-in-loop", rel, n,
+                         "An AI call sits inside a loop.",
+                         "If the loop can run over a long list, one click could trigger many paid calls. A short, fixed list (such as trying two or three models) is fine.",
+                         "Cap how many items are processed per request, or batch them into one call.")
+                break
+        if frontend and re.search(r"setInterval\s*\(", text):
+            self.add("medium", "cost-timer", rel, first,
+                     "This page code has a timer (setInterval) in a file that calls a paid AI service.",
+                     "Every open browser tab could keep calling it and spending money.",
+                     "Only call the AI when the person asks, or slow the timer right down and stop it when the tab is hidden.")
 
     def analyse_sql(self):
         """Read every .sql file in path order (migration order) and check database rules."""
@@ -420,10 +514,31 @@ class Scanner:
                          "That opens the whole table to anyone with the public key.",
                          "Turn it back on and write a policy for what is needed, instead of disabling it.")
             for m in re.finditer(r"using\s*\(\s*true\s*\)|with\s+check\s*\(\s*true\s*\)", clean, re.I):
-                self.add("medium", "policy-allows-everyone", rel, line_of(m.start()),
-                         "A database policy says '(true)', which means everyone.",
-                         "Fine for truly public data like a list of products, dangerous for anything personal.",
-                         "If this table holds personal data, change it to something like using ((select auth.uid()) = user_id).")
+                start = clean.rfind(";", 0, m.start()) + 1
+                stmt = clean[start:m.start()]
+                pol = re.search(r"create\s+policy\s+(?:\"[^\"]*\"|\w+)\s+on\s+([\w\".]+)", stmt, re.I)
+                if pol and re.search(r"\bto\s+service_role\b", stmt, re.I):
+                    continue
+                cmd = re.search(r"\bfor\s+(all|select|insert|update|delete)\b", stmt, re.I)
+                cmd = cmd.group(1).lower() if cmd else "all"
+                table = pol.group(1).replace('"', "") if pol else "a table"
+                personal = re.search(r"profile|user|member|account|customer|message|chat|order|payment|invoice|booking|"
+                                     r"journal|note|diary|patient|health|address|contact|document|upload|private", table, re.I)
+                if cmd == "select":
+                    self.add("medium" if personal else "low", "policy-allows-everyone", rel, line_of(m.start()),
+                             f"Everyone can read '{table}' (a policy says '(true)').",
+                             "Fine for truly public data like a list of products or a leaderboard, dangerous for anything personal.",
+                             "If this table holds personal data, change it to something like using ((select auth.uid()) = user_id).")
+                elif cmd == "insert":
+                    self.add("medium", "policy-allows-everyone", rel, line_of(m.start()),
+                             f"Anyone can add rows to '{table}' (a policy says '(true)').",
+                             "Fine for a public contact form or waiting list, but bots can fill it with junk, and it is wrong for anything tied to a user.",
+                             "If rows belong to a user, use with check ((select auth.uid()) = user_id). For public forms, add a rate limit or captcha.")
+                else:
+                    self.add("high", "policy-allows-everyone", rel, line_of(m.start()),
+                             f"Anyone can {'change or delete' if cmd != 'delete' else 'delete'} rows in '{table}' (a '{cmd}' policy says '(true)').",
+                             "Any visitor holding the public key could change or wipe this data.",
+                             "Limit it to the owner, for example using ((select auth.uid()) = user_id), or to staff only.")
             for m in re.finditer(r"insert\s+into\s+storage\.buckets[^;]*\btrue\b[^;]*;", clean, re.I | re.S):
                 self.add("medium", "public-bucket", rel, line_of(m.start()),
                          "A storage bucket is created as public.",
@@ -458,7 +573,7 @@ class Scanner:
             if cols and key in risky_policies and key not in guarded:
                 prel, pline, cmd = risky_policies[key]
                 self.add("high" if cmd in {"update", "all"} else "medium", "user-can-edit-entitlement", prel, pline,
-                         f"Users have a {cmd} policy on '{shown}', which has the column(s) {', '.join(sorted(cols))}.",
+                         f"Users can {'change' if cmd != 'insert' else 'create'} their own row in '{shown}' (a '{cmd}' policy), and it has the column(s) {', '.join(sorted(cols))}.",
                          "If people can update their own row, they may be able to give themselves a paid plan, credits or admin rights from the browser.",
                          "Move plans, credits and roles into a separate table with only a read policy, changed by server code after a verified payment, or limit updates to safe columns (revoke update, then grant update on named columns).")
 
@@ -466,7 +581,14 @@ class Scanner:
         for n, line in enumerate(lines, 1):
             if "seatbelt-ignore" in line:
                 continue
-            if re.search(r"if\s+true\s*;", line) or re.search(r"\"\.(?:read|write)\"\s*:\s*(?:true|\"true\")", line):
+            read_only = re.search(r"allow\s+(?:read|get|list)(?:\s*,\s*(?:read|get|list))*\s*:\s*if\s+true\s*;", line) \
+                or re.search(r"\"\.read\"\s*:\s*(?:true|\"true\")", line)
+            if read_only:
+                self.add("low", "firebase-public-read", rel, n,
+                         "A Firebase rule lets anyone read this data (but not change it).",
+                         "Fine for public content like recipes or a blog, wrong for anything personal.",
+                         "If this holds personal data, require sign-in and ownership: allow read: if request.auth != null && request.auth.uid == resource.data.owner;")
+            elif re.search(r"if\s+true\s*;", line) or re.search(r"\"\.(?:read|write)\"\s*:\s*(?:true|\"true\")", line):
                 self.add("high", "firebase-open-rules", rel, n,
                          "A Firebase security rule lets anyone read or write.",
                          "Anyone on the internet could read, change or delete this data.",
@@ -532,11 +654,31 @@ class Scanner:
                     env_files.append(os.path.relpath(os.path.join(dirpath, name), self.root).replace("\\", "/"))
         for rel in env_files:
             if rel in self.tracked:
+                if env_only_public(os.path.join(self.root, rel)):
+                    self.add("low", "env-file-saved-public-only", rel, None,
+                             "A .env file is saved in git, but it only holds public values (like the Supabase address and publishable key).",
+                             "That is fine today (app builders such as Lovable do this). The risk is adding a real secret to this file later.",
+                             "Never put a secret key in this file. Keep secrets in the platform's Secrets instead, or add .env to .gitignore.")
+                    continue
                 if not any(f["file"] == rel and f["check"] == "env-file-saved-in-git" for f in self.findings):
                     self.add("critical", "env-file-saved-in-git", rel, None,
                              "A .env file is being saved by git.",
                              "Secret files saved in git get uploaded with the project and stay in its history.",
                              "Run: git rm --cached " + rel + " , add .env to .gitignore, and replace any keys that were in it.")
+        vercel = os.path.join(self.root, "vercel.json")
+        if os.path.isfile(vercel):
+            try:
+                with open(vercel, encoding="utf-8") as fh:
+                    crons = (json.load(fh) or {}).get("crons") or []
+            except (ValueError, OSError, AttributeError):
+                crons = []
+            for c in crons if isinstance(crons, list) else []:
+                sched = str((c or {}).get("schedule", "")).split()
+                if sched and sched[0] in ("*", "*/1", "*/2", "*/5"):
+                    self.add("medium", "cost-frequent-cron", "vercel.json", None,
+                             f"A scheduled job runs very often ({' '.join(sched)} calls {c.get('path', 'a route')}).",
+                             "Jobs that run every few minutes add up, especially if they call paid services.",
+                             "Run it as rarely as the feature allows (for example hourly or daily) and check what it calls.")
         has_ignore_rule = self._gitignore_covers_env()
         if self.git and not os.path.isfile(os.path.join(self.root, ".gitignore")):
             self.add("medium", "no-gitignore", ".gitignore", None,
@@ -572,13 +714,24 @@ class Scanner:
         return out
 
 
-def print_report(scanner, findings):
+KEYISH = re.compile(r"key|secret|token|env|jwt|password|service-role", re.I)
+
+
+def print_report(scanner, findings, title="Seatbelt ship check", subject=None, counted=None, sections=()):
     counts = {s: sum(1 for f in findings if f["severity"] == s) for s in SEVERITY_ORDER}
-    print("Seatbelt ship check")
-    print(f"Folder: {scanner.root}")
-    print(f"Files checked: {scanner.files_scanned}  |  git: {'yes' if scanner.git else 'no'}")
+    print(title)
+    print(subject or f"Folder: {scanner.root}")
+    print(counted or f"Files checked: {scanner.files_scanned}  |  git: {'yes' if scanner.git else 'no'}")
     print("")
+    def show_sections():
+        for heading, lines in sections:
+            if lines:
+                print(f"== {heading} ==")
+                for line in lines:
+                    print(f"- {line}")
+                print("")
     if not findings:
+        show_sections()
         print("PASSED: no leaked keys or risky settings found in these files.")
         print("This is a quick check, not a full audit. Still do the manual ship check (logins, database")
         print("rules in the dashboard, rate limits, spending limits).")
@@ -596,12 +749,46 @@ def print_report(scanner, findings):
             print(f"  Why it matters: {f['why']}")
             print(f"  Fix: {f['fix']}")
         print("")
+    paid = getattr(scanner, "paid_services", None)
+    if paid:
+        print("== PAID SERVICES FOUND: check each has a spending cap ==")
+        for name, cap in paid_caps(paid):
+            print(f"- {name}: {cap}")
+        print("")
+    show_sections()
     blocking = counts["critical"] + counts["high"]
     if blocking:
         print(f"NOT READY: {blocking} serious problem(s) to fix before going live.")
-        print("If any key was exposed, replace it in the provider's dashboard. Deleting it from the code is not enough.")
+        if any(KEYISH.search(f["check"]) for f in findings if f["severity"] in ("critical", "high")):
+            print("If any key was exposed, replace it in the provider's dashboard. Deleting it from the code is not enough.")
     else:
         print("No serious problems found. Review the items above, then do the manual ship check.")
+
+
+PAID_SERVICES = [
+    # name, pattern in code, where the cap lives (plain English)
+    ("OpenAI", r"from ['\"]openai['\"]|require\(['\"]openai['\"]\)|api\.openai\.com|^\s*(?:from|import) openai",
+     "platform.openai.com: set a project budget and usage alerts; keep prepaid credit low with auto-recharge off"),
+    ("Anthropic", r"@anthropic-ai/sdk|api\.anthropic\.com|^\s*(?:from|import) anthropic",
+     "console.anthropic.com: set spend limits and keep prepaid credit low"),
+    ("Google Gemini or Google Cloud", r"@google/genai|@google/generative-ai|generativelanguage\.googleapis|google\.generativeai|vertexai",
+     "Google Cloud Billing: create a budget with alerts (alerts only, they do not stop spending) and restrict the key"),
+    ("Replicate", r"replicate\.com/v1|from ['\"]replicate['\"]|^\s*import replicate", "replicate.com account billing: set a spend limit if offered and watch usage"),
+    ("ElevenLabs", r"elevenlabs", "elevenlabs.io subscription: check the character quota and overage setting"),
+    ("Twilio (texts and calls)", r"from ['\"]twilio['\"]|require\(['\"]twilio['\"]\)|api\.twilio\.com|^\s*from twilio",
+     "Twilio console: usage triggers (alerts) and rate limits on any form that sends a text"),
+    ("Email sending (Resend, SendGrid, Postmark, Mailgun)", r"from ['\"](?:resend|@sendgrid/mail|postmark|mailgun\.js)['\"]|api\.resend\.com|api\.sendgrid\.com",
+     "the provider's usage page: set alerts, and rate-limit sign-up and contact forms"),
+    ("Google Maps", r"maps\.googleapis\.com|@googlemaps|@vis\.gl/react-google-maps", "Google Cloud: budget alerts, per-API quotas and a key restricted to your website"),
+    ("Mapbox", r"mapbox-gl|api\.mapbox\.com", "mapbox.com account: check the free tier and billing alerts"),
+]
+AI_CALL_RE = re.compile(r"chat\.completions\.create\(|\bresponses\.create\(|messages\.create\(|generateContent(?:Stream)?\(|"
+                        r"generate_content\(|embeddings\.create\(|images\.generate\(|replicate\.run\(|predictions\.create\(|"
+                        r"(?:fetch|axios(?:\.post)?|requests\.post|httpx\.post)\(\s*[\"'`]https://(?:api\.openai\.com|api\.anthropic\.com|generativelanguage\.googleapis\.com)")
+LIMIT_HINT_RE = re.compile(r"rate.?limit|ratelimit|limiter|quota|daily.?limit|usage.?limit|max_?requests|throttle|upstash", re.I)
+AUTH_HINT_RE = re.compile(r"getUser\(|auth\.getUser|getSession|currentUser|requireAuth|verifyIdToken|auth\(\)|"
+                          r"getServerSession|clerk|withAuth|req\.user|request\.auth|Authorization", re.I)
+MAX_TOKENS_RE = re.compile(r"max_tokens|max_output_tokens|maxOutputTokens|maxTokens|max_completion_tokens")
 
 
 MANUAL_CHECKS = [
@@ -619,7 +806,16 @@ MANUAL_CHECKS = [
 ]
 
 
-def write_report(scanner, findings, path):
+def paid_caps(paid):
+    caps = {n: c for n, _, c in PAID_SERVICES}
+    return [(n, caps.get(n, "check its billing settings")) for n in sorted(paid)]
+
+
+def write_report(scanner, findings, path, title="Seatbelt ship check", manual=None, extra=None):
+    manual_checks = manual or MANUAL_CHECKS
+    extra = extra or []
+    intro = ("The scanner reads files only. It cannot see your live database settings or hosting dashboard."
+             if manual is None else "These need a person to check.")
     import datetime
     import html as html_lib
     when = datetime.datetime.now().strftime("%d %b %Y, %H:%M")
@@ -633,28 +829,57 @@ def write_report(scanner, findings, path):
         rows = []
         for f in findings:
             loc = f["file"] + (f":{f['line']}" if f["line"] else "")
-            rows.append(f"<div class='f {f['severity']}'><p class='sev'>{e(labels[f['severity']])}</p>"
-                        f"<p class='loc'>{e(loc)}</p><p><b>What:</b> {e(f['what'])}</p>"
-                        f"<p><b>Why it matters:</b> {e(f['why'])}</p><p><b>Fix:</b> {e(f['fix'])}</p></div>")
-        manual = "".join(f"<li><input type='checkbox'> {e(m)}</li>" for m in MANUAL_CHECKS)
+            rows.append(f"<section class='f {f['severity']}'><div class='top'><span class='tag'>{e(labels[f['severity']])}</span>"
+                        f"<code>{e(loc)}</code><label class='done'><input type='checkbox'> fixed</label></div>"
+                        f"<p class='what'>{e(f['what'])}</p>"
+                        f"<p><b>Why it matters:</b> {e(f['why'])}</p><p class='fix'><b>Fix:</b> {e(f['fix'])}</p></section>")
+        manual = "".join(f"<li><label><input type='checkbox'> {e(m)}</label></li>" for m in manual_checks)
+        extra_html = ("<h2>Results</h2><ul class='plain'>" + "".join(f"<li>{e(x)}</li>" for x in extra) + "</ul>") if extra else ""
+        paid = getattr(scanner, "paid_services", None)
+        if paid:
+            extra_html += "<h2>Paid services found</h2><p>Check each one has a spending cap or alerts:</p><ul class='plain'>" + "".join(
+                f"<li><label><input type='checkbox'> <b>{e(n)}</b>: {e(c)}</label></li>" for n, c in paid_caps(paid)) + "</ul>"
+        pills = "".join(f"<span class='pill {sv}'>{counts[sv]} {e(labels[sv].lower())}</span>" for sv in SEVERITY_ORDER)
         doc = f"""<!doctype html><html lang="en-GB"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1"><title>Seatbelt ship check</title>
-<style>body{{font-family:system-ui,sans-serif;max-width:760px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#1a1a1a}}
-.verdict{{padding:1rem;border-radius:8px;font-weight:600;background:{'#fde8e8' if blocking else '#e6f6ea'}}}
-.f{{border-left:6px solid #999;padding:.5rem 1rem;margin:1rem 0;background:#fafafa}}
-.critical{{border-color:#b00020}}.high{{border-color:#e65100}}.medium{{border-color:#f9a825}}.low{{border-color:#1565c0}}
-.sev{{font-weight:700;margin:0}}.loc{{font-family:monospace;margin:0 0 .5rem}}li{{margin:.3rem 0;list-style:none}}</style></head><body>
-<h1>Seatbelt ship check</h1><p>{e(when)} | {e(scanner.root)} | {scanner.files_scanned} files checked</p>
-<p class="verdict">{e(verdict)}</p>
-<p>Critical {counts['critical']} | High {counts['high']} | Medium {counts['medium']} | Low {counts['low']}</p>
-{''.join(rows) or '<p>No findings in the files.</p>'}
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>{e(title)}</title>
+<style>
+*{{box-sizing:border-box}}
+body{{font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;margin:0;background:#f4f6fb;color:#1b1f2a;line-height:1.55}}
+header{{background:linear-gradient(120deg,#0b1026,#1a1554 55%,#0d3b4f);color:#fff;padding:2.2rem 1rem 3.6rem}}
+.wrap{{max-width:820px;margin:0 auto;padding:0 1rem}}
+header h1{{margin:0 0 .3rem;font-size:1.9rem;letter-spacing:-.5px}}
+header p{{margin:0;color:#b8c4ec;font-size:.95rem}}
+main{{margin-top:-2.4rem}}
+.card{{background:#fff;border-radius:14px;box-shadow:0 6px 24px rgba(20,30,70,.08);padding:1.2rem 1.4rem;margin-bottom:1rem}}
+.verdict{{font-weight:700;font-size:1.1rem;color:{'#b00020' if blocking else '#1b7f3b'}}}
+.pills{{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}}
+.pill{{border-radius:999px;padding:.2rem .75rem;font-size:.85rem;font-weight:600}}
+.pill.critical,.critical .tag{{background:#fde2e4;color:#a1001c}}.pill.high,.high .tag{{background:#ffe8d6;color:#b34700}}
+.pill.medium,.medium .tag{{background:#fff4c2;color:#7a5b00}}.pill.low,.low .tag{{background:#e3efff;color:#1450a3}}
+.f{{background:#fff;border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0;border-left:6px solid #ccc;box-shadow:0 2px 10px rgba(20,30,70,.05)}}
+.f.critical{{border-color:#d0021b}}.f.high{{border-color:#f76707}}.f.medium{{border-color:#f2c200}}.f.low{{border-color:#3b82f6}}
+.top{{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}}
+.tag{{border-radius:6px;padding:.1rem .5rem;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.3px}}
+code{{font-family:Menlo,Consolas,monospace;font-size:.85rem;color:#4a5068}}
+.done{{margin-left:auto;font-size:.85rem;color:#6b7280}}
+.what{{font-weight:600;margin:.6rem 0 .3rem}}.f p{{margin:.3rem 0}}.fix{{color:#14532d}}
+h2{{font-size:1.15rem;margin:1.6rem 0 .6rem}}ul.plain,ul.manual{{padding:0}}li{{list-style:none;margin:.35rem 0}}
+footer{{color:#6b7280;font-size:.85rem;padding:1rem 0 2.5rem}}
+@media print{{header{{background:#1a1554;-webkit-print-color-adjust:exact;print-color-adjust:exact}}}}
+</style></head><body>
+<header><div class="wrap"><h1>{e(title)}</h1><p>{e(when)} &middot; {e(scanner.root)} &middot; {scanner.files_scanned} files checked</p></div></header>
+<main class="wrap">
+<div class="card"><div class="verdict">{e(verdict)}</div><div class="pills">{pills}</div></div>
+{''.join(rows) or '<div class="card">No findings in the files.</div>'}
 {f'<p><b>npm audit:</b> {e(scanner.npm_audit)}</p>' if scanner.npm_audit else ''}
-<h2>Still to check by hand</h2><p>The scanner reads files only. It cannot see your live database settings or hosting dashboard.</p>
-<ul>{manual}</ul>
+{extra_html}
+<h2>Still to check by hand</h2><p>{e(intro)}</p>
+<ul class="manual">{manual}</ul>
 <p>If any key was ever exposed, replace it in the provider's dashboard. Deleting it from the code is not enough.</p>
-<p><small>Made with Seatbelt. A quick check, not a full security audit.</small></p></body></html>"""
+<footer>Made with Seatbelt (github.com/HYDERMAA/seatbelt). A quick check, not a full security audit.</footer>
+</main></body></html>"""
     else:
-        out = [f"# Seatbelt ship check", "", f"{when} | `{scanner.root}` | {scanner.files_scanned} files checked", "",
+        out = [f"# {title}", "", f"{when} | `{scanner.root}` | {scanner.files_scanned} files checked", "",
                f"**{verdict}**", "",
                f"Critical {counts['critical']} | High {counts['high']} | Medium {counts['medium']} | Low {counts['low']}", ""]
         for sev in SEVERITY_ORDER:
@@ -668,9 +893,15 @@ def write_report(scanner, findings, path):
             out.append("")
         if scanner.npm_audit:
             out += [f"npm audit: {scanner.npm_audit}", ""]
+        if extra:
+            out += [f"- {x}" for x in extra] + [""]
+        paid = getattr(scanner, "paid_services", None)
+        if paid:
+            out += ["## Paid services found", "", "Check each one has a spending cap or alerts:", ""]
+            out += [f"- [ ] **{n}**: {c}" for n, c in paid_caps(paid)] + [""]
         out += ["## Still to check by hand", "",
-                "The scanner reads files only. It cannot see your live database settings or hosting dashboard.", ""]
-        out += [f"- [ ] {m}" for m in MANUAL_CHECKS]
+                intro, ""]
+        out += [f"- [ ] {m}" for m in manual_checks]
         out += ["", "If any key was ever exposed, replace it in the provider's dashboard. Deleting it from the code is not enough.",
                 "", "_Made with Seatbelt. A quick check, not a full security audit._", ""]
         doc = "\n".join(out)
@@ -714,7 +945,7 @@ def main(argv):
     if "--json" in flags:
         print(json.dumps({
             "root": scanner.root, "files_scanned": scanner.files_scanned, "git": scanner.git,
-            "ready": not blocking, "findings": findings,
+            "ready": not blocking, "findings": findings, "paid_services": scanner.paid_services,
         }, indent=2))
     else:
         print_report(scanner, findings)

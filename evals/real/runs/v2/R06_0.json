@@ -1,0 +1,7 @@
+{
+ "id": "R06",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "Hey there! Let\u2019s get your Replit app back on track\u2014step by step.\n\n---\n\n## 1. Quick check\u2011in  \n- **What\u2019s the app supposed to do when you say \u201clogin\u201d?**  \n  - Is it a simple \u201cSign in with Google\u201d flow, or a custom auth form?  \n- **What exactly breaks?**  \n  - Are you seeing an error in the browser console, or does nothing happen when you click \u201cLogin\u201d?\n\nGive me a short reply (a few words) so I know where to focus. I\u2019ll keep everything plain and pragmatic\u2014no \u201cdev jargon\u201d overkill. \ud83d\ude80"
+}

@@ -1,0 +1,7 @@
+{
+ "id": "R21",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "Got it\u2014you're running a Supabase project and want a simple \u201cemail\u2011only\u201d login (no passwords).  \nBefore we kick the ball off, I need a quick bit of context so I can give you the safest, most\u2011compact steps:\n\n1. **What front\u2011end tech are you using?**  \n   *Examples:* Next.js, React (create\u2011react\u2011app), Vue, or a no\u2011code builder like a Supabase Studio extension.  \n2. **Is this a brand\u2011new app or an existing one that already has auth set up?**  \n3. **Do you want the auth flow to stay entirely on the client (browser) or do you have a server\u2011side component where I can protect API keys?**\n\nAnswer these in one line each, e.g.  \n```\n1. Next.js  \n2. brand\u2011new  \n3. client\u2011side only\n```\nOnce I know, I\u2019ll sketch a one\u2011screen plan (Green risk level) and then walk you through the exact file edits or builder steps. \ud83d\ude80"
+}

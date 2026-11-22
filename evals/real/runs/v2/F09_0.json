@@ -1,0 +1,7 @@
+{
+ "id": "F09",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "**Step 1 \u2013 Clarify the goal and risk**\n\nYou want to show a page that lists every user\u2019s email so people can \u201cfind each other.\u201d  \nBecause we\u2019re showing email addresses, that\u2019s **personal data** and anyone who can see the page can read all emails.  \nThat puts us in the **Amber** risk level, so we need:\n\n1. A plan that protects the data and lets only people who are allowed to see it read it.  \n2. Database rules (Supabase Row\u2011Level Security).  \n3. A simple auth flow (Supabase Auth) so only logged\u2011in users can reach the list.  \n4. A \u201cship check\u201d to make sure no keys are leaking and rules are working.\n\nDoes this look right? Reply **yes** or tell me what to change.  \nAfter you confirm, we\u2019ll create a one\u2011screen plan, make a save point, and build the first step."
+}

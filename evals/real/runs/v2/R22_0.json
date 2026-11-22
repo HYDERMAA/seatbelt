@@ -1,0 +1,7 @@
+{
+ "id": "R22",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "Got it \u2013 we\u2019ll be adding a **chatbot** that can also **book appointments** for users.  \nBecause it handles log\u2011ins, personal data, and possibly payment\u2011related booking, I\u2019m calling this **Amber** risk.\n\nTo keep things safe, I\u2019ll need a few quick details:\n\n1. **Who will use it?** (Just you? A small team? The public?)  \n2. **What key functions must it do on day one?** (e.g., chat, schedule a slot, cancel an appointment)  \n3. **What personal information will it store?** (e.g., name, email, phone, appointment time)  \n4. **Will users log in?** If yes, is it Supabase Auth, Google, etc.?  \n5. **Any money involved?** Do appointments require a fee or use a paid AI API?  \n6. **What tech stack are you already using?** (Supabase, Lovable, etc.)  \n\nOnce you answer, I\u2019ll draft a one\u2011screen plan, create a `PROJECT.md` entry, and then we\u2019ll take it step\u2011by\u2011step, always saving before we change anything.  \n\nReply \u201cyes\u201d to the above questions (or just give the details) and we\u2019ll start."
+}

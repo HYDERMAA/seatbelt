@@ -29,7 +29,7 @@
 
 Public values are **baked in when the site is built**. After changing one on the host, redeploy.
 
-Safe to be public: the Supabase URL and anon or publishable key, a Stripe **publishable** key
+Safe to be public: the Supabase URL and publishable (or legacy anon) key, a Stripe **publishable** key
 (`pk_`), a Firebase web config, a Google Maps key restricted to your domain.
 Never public: `sk_` keys, `service_role` or `sb_secret_` keys, OpenAI, Anthropic, Gemini or other
 AI keys, database passwords, webhook secrets.

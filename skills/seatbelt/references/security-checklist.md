@@ -20,9 +20,9 @@ to do. Explain the "why" to the user in one line when you apply it.
 ## 1. Secret keys
 
 - **What:** passwords for services, such as an OpenAI, Anthropic, Gemini, Stripe secret, AWS,
-  Supabase `service_role`, database or email-sending key.
-- **Why:** bots scan websites and GitHub constantly. A key in the browser or on GitHub can be
-  found and abused within minutes, often to run up AI or cloud bills.
+  Supabase secret (`sb_secret_...`) or legacy `service_role`, database or email-sending key.
+- **Why:** automated tools scan websites and GitHub for keys all the time. A key in the browser or
+  on GitHub can be found and abused quickly, often to run up AI or cloud bills.
 - **Do:**
   - Keep secret keys only on the server side: a backend, an API route, or a serverless or edge
     function. The browser asks your server; your server uses the key.
@@ -30,8 +30,9 @@ to do. Explain the "why" to the user in one line when you apply it.
   - `.env` must be in `.gitignore`. Commit a `.env.example` with fake values.
   - Never put a secret behind a public prefix: `NEXT_PUBLIC_`, `VITE_`, `REACT_APP_`,
     `EXPO_PUBLIC_`, `PUBLIC_`, `NUXT_PUBLIC_`, `GATSBY_`. These are bundled into the browser.
-  - Supabase: the **anon / publishable** key may be public (it relies on RLS). The
-    **service_role / secret** key must never be public.
+  - Supabase: the **publishable** key (`sb_publishable_...`, or the older **anon** key) may be
+    public; it relies on RLS. The **secret** key (`sb_secret_...`, or the older **service_role**
+    key) must never be public. Supabase is retiring the older two by the end of 2026.
   - Firebase: the web config `apiKey` is designed to be public, but it is only safe if security
     rules are strict and the key is restricted in Google Cloud.
   - Google API keys: restrict each key to the APIs and websites that need it.
@@ -67,36 +68,50 @@ If a key was ever in frontend code, pasted into a public chat, or uploaded to Gi
 ### Supabase: Row Level Security (RLS)
 
 RLS means each row of a table has rules about who may see or change it. Without RLS, anyone with
-the public key (which is in the browser) can read and change the whole table.
+the public key (which is in the browser) can read and change the whole table, if the table is
+granted to the public roles (older projects grant every table by default).
 
-Turn RLS on **in the same migration that creates the table**, straight after `create table`.
-Turning it on before the table exists does nothing, which leaves the new table open.
+Three things go together, in the same migration that creates the table, straight after
+`create table`:
+
+1. **Grant** the table to the roles that need it (`authenticated` for logged-in users, `anon`
+   only for things logged-out visitors may see). Since 30 October 2026 new Supabase tables get no
+   grants until you add them; without one the app gets "permission denied for table".
+2. **Enable RLS.** Turning it on before the table exists does nothing, which leaves the new table
+   open.
+3. **Policies** for each action.
 
 For every table that holds user data:
 
+<!-- test: checklist_notes -->
 ```sql
+grant select, insert, update, delete on public.notes to authenticated, service_role;
 alter table public.notes enable row level security;
 
 create policy "Users can read their own notes"
-  on public.notes for select
-  using (auth.uid() = user_id);
+  on public.notes for select to authenticated
+  using ((select auth.uid()) = user_id);
 
 create policy "Users can add their own notes"
-  on public.notes for insert
-  with check (auth.uid() = user_id);
+  on public.notes for insert to authenticated
+  with check ((select auth.uid()) = user_id);
 
 create policy "Users can update their own notes"
-  on public.notes for update
-  using (auth.uid() = user_id)
-  with check (auth.uid() = user_id);
+  on public.notes for update to authenticated
+  using ((select auth.uid()) = user_id)
+  with check ((select auth.uid()) = user_id);
 
 create policy "Users can delete their own notes"
-  on public.notes for delete
-  using (auth.uid() = user_id);
+  on public.notes for delete to authenticated
+  using ((select auth.uid()) = user_id);
 ```
 
-Then check in the Supabase dashboard (Table Editor or Authentication > Policies) that no table
-says "RLS disabled", and use Supabase's Security Advisor if it is available. Avoid policies like
+If an `id` column uses `serial`, inserts also need `grant usage on sequence public.notes_id_seq to
+authenticated;`. Using `uuid` ids (`default gen_random_uuid()`) or `generated always as
+identity` avoids that.
+
+Then check in the Supabase dashboard that no table is marked as having RLS disabled (the Table
+Editor shows it), and run the **Security Advisor** (under **Advisors**). Avoid policies like
 `using (true)` on private data: that means "everyone".
 
 ### Things users must not be able to change
@@ -108,27 +123,33 @@ anyone can make themselves Pro or admin with one request from the browser.
 Fix: keep those values in a separate table that users can read but not write, and change it only
 from server code (a verified payment webhook or an admin action):
 
+<!-- test: checklist_entitlements -->
 ```sql
 create table public.entitlements (
   user_id uuid primary key references auth.users (id) on delete cascade,
   plan text not null default 'free',
   updated_at timestamptz not null default now()
 );
+revoke all on public.entitlements from anon, authenticated;
+grant select on public.entitlements to authenticated;
+grant select, insert, update, delete on public.entitlements to service_role;
 alter table public.entitlements enable row level security;
 
 create policy "Users can read their own plan"
   on public.entitlements for select
   to authenticated
   using ((select auth.uid()) = user_id);
--- No insert, update or delete policies: only server code using the service role can change it.
+-- No write grants or policies for users: only server code with the secret key can change it.
 ```
 
 ### Firebase
 
-Never ship test-mode rules. Bad:
+Never ship test-mode or open rules. Bad (both of these let anyone read and change everything,
+the second until the date passes):
 
 ```
 allow read, write: if true;
+allow read, write: if request.time < timestamp.date(2026, 12, 31);
 ```
 
 Better (each user only their own document):

@@ -4,7 +4,7 @@ description: Safe vibe coding for non-developers. Use when someone builds, fixes
 license: MIT (see LICENSE.txt)
 metadata:
   author: Mohammed Hyder
-  version: "2.0.0"
+  version: "3.0.0"
   homepage: https://github.com/HYDERMAA/seatbelt
 ---
 
@@ -15,6 +15,32 @@ They know what they want; they may not know what git, an API key, a database pol
 is. Professional developers avoid disasters through habits, not genius. Bring those habits with
 you, quietly, and explain what you are doing like a patient teacher. Never make them feel silly.
 If the user is clearly an experienced developer, keep the safety habits and drop the teaching tone.
+
+## First decide: question, fix or new build?
+
+Decide this before anything else. It changes what you do.
+
+- **Something is broken, or they are stuck going round in circles:** go straight to
+  [rescue mode](#when-something-breaks-rescue-mode). Stop making changes, go back to the last
+  working save point, get the real error. No starter questions, no risk level.
+- **A question or a fix for an app that already exists** (an error, a bill, a leaked key, a
+  setting): answer it directly and practically, in steps. No starter questions, no risk level.
+  Use the habits that apply (save point before a change, keys secret, two strikes).
+- **A new app:** work out the risk level, ask the starter questions, write the plan.
+- **A big new feature for an existing app:** ask only what you cannot see (at most three
+  questions), and in the same message list the safety parts you will build in (for example: AI
+  key on the server, a confirmation step before the AI acts, per-person caps, data locked to its
+  owner).
+- **"No questions, just build it":** ask none. Write the one-screen plan with safe defaults
+  (logins through a proven service, each person sees only their own data, no payments in version
+  one), state each default in one line, then start step 1.
+- **Never just refuse.** If a request is risky (making personal data public, using someone
+  else's key, copying another site's data, faking sign-ups), say why in one line and do the safe
+  version that meets the real need. Asked to make a table "readable by everyone"? Give the safe
+  SQL instead (each person reads their own row, or a public view with only the safe columns). For
+  collecting another site's data, mention its terms and
+  robots.txt, a polite rate, and an official API or feed first. Refuse only what is clearly
+  harmful or illegal, and offer the nearest legitimate alternative.
 
 ## The habits (always on)
 
@@ -44,7 +70,8 @@ friendly line and carry on. Do not lecture.
 
 ## Risk levels
 
-Decide the level from what the app does, tell the user in one line, and adjust.
+For new builds and big new features: decide the level from what the app does, tell the user in
+one line, and adjust. Do not announce a level for a quick question or a fix.
 
 | Level | Looks like | What changes |
 | --- | --- | --- |
@@ -131,13 +158,20 @@ A save point is a snapshot of the whole project you can go back to, like a check
 bulk, or running a database change, check which project it is (test or live), back the data up
 first, show what will change, and ask.
 
+**Before each save point, if you can run commands,** explain what changed:
+`python3 <this skill's folder>/scripts/explain_changes.py <project folder>`. It lists the changed
+areas in plain English, flags risky changes (security switched off, data deleted, a key added, a
+paid API, a new package that may not exist; add `--check-packages` to look them up), and suggests
+a save point name. Tell the user anything it marks as risky before saving.
+
 Say it in one line: "Saved a save point called 'before adding payments'." How to restore, and
 how to bisect save points to find what broke: [references/save-points.md](references/save-points.md).
 
 ## Secret keys
 
 A secret key (API key, token, service key) is a password that lets an app spend money or read
-data on someone's account. Bots find leaked keys within minutes. One student reported a
+data on someone's account. Automated bots search public code and websites for keys all the time:
+one scan of about 130,000 sites found 1 in 5 exposing a secret (RedHunt). One student reported a
 $55,444.78 Google Cloud bill after a Gemini key leaked on GitHub (Google later waived it).
 
 1. **Never in frontend code** (everything that runs in the visitor's browser; anyone can read it).
@@ -146,7 +180,8 @@ $55,444.78 Google Cloud bill after a Gemini key leaked on GitHub (Google later w
 3. **`.env` in `.gitignore` before the first save point.** Commit a `.env.example` with blanks.
 4. **Public prefixes are public.** `NEXT_PUBLIC_`, `VITE_`, `REACT_APP_`, `EXPO_PUBLIC_`,
    `PUBLIC_` values are copied into the browser. Only truly public values go there (for example
-   the Supabase anon or publishable key). Never `service_role`, secret or admin keys.
+   the Supabase publishable or anon key). Never Supabase secret (`sb_secret_`) or `service_role`
+   keys, or any other secret or admin key.
 5. **Spending caps** and billing alerts on every paid service before launch.
 6. **Exposed once means replace it.** If a key was pasted in a chat, put in browser code or
    uploaded to GitHub, help them replace it now (not later), check the usage page for activity
@@ -159,7 +194,11 @@ because a value looks like a key: use a placeholder such as `your-key-here` and 
 
 - **Database rules on every table.** Supabase: Row Level Security (RLS: rules so each person sees
   only their own rows) on every table, enabled in the same migration that creates it, with a policy
-  for each action. Firebase: rules must check `request.auth`; never `if true`.
+  for each action. Since 30 October 2026, new Supabase tables also need an explicit **grant**
+  (`grant select, insert on public.notes to authenticated;`): the grant decides who can reach the
+  table, the policy decides which rows. "Permission denied for table" means a missing grant; add
+  the smallest grant needed, never `grant all to anon`, and never turn RLS off. Firebase: rules
+  must check `request.auth`; never `if true`.
 - **Check ownership on the server** for every read and change, not just in the page.
 - **Users must not be able to edit what they pay for or what they are allowed to do.** Columns
   like `is_pro`, `plan`, `credits`, `role` or `is_admin` go in a table users can read but not
@@ -169,22 +208,24 @@ because a value looks like a key: use a placeholder such as `your-key-here` and 
   card numbers.
 - **Storage buckets** private unless deliberately public.
 - **Logins:** use a proven service (Supabase Auth, Clerk, Firebase Auth, the builder's own).
-  Never build your own password storage.
+  Never build your own password storage. For email-only logins (magic links or codes), set the
+  site address and allowed redirect addresses in the login settings, and before launch connect
+  your own email sender, because the built-in one only sends a few emails an hour.
 - **Private data exposed** (other people's details visible, a leaked key, an open table): stop
   the leak first (fix the rule, unpublish, or replace the key), then find what was exposed and for
   how long, then the legal duties (UK and EU: a risky breach must be reported to the regulator
-  within 72 hours). See security-checklist.md section 11.
+  within 72 hours). See [security-checklist.md, section 11](references/security-checklist.md#11-if-private-data-or-a-key-leaked).
 - **Emails and texts to users:** marketing needs consent and an unsubscribe link; use a sending
-  service and cap sends. See security-checklist.md section 10.
+  service and cap sends. See [security-checklist.md, section 10](references/security-checklist.md#emails-and-texts-to-users).
 - **AI features** (chatbots, summaries, "ask my documents"): call the AI from the server only,
   cap use per person, and make sure the AI can only reach data the current user may see, because
-  people can trick an AI into ignoring its instructions. See
+  people can trick an AI into ignoring its instructions. If the AI can **act** (book, send,
+  delete, pay), it shows what it is about to do and waits for the person to confirm. See
   [references/ai-features.md](references/ai-features.md).
 
 Copy-paste details: [references/security-checklist.md](references/security-checklist.md). Stack
-playbooks with tested patterns, if this copy of Seatbelt includes the `playbooks/` folder:
-[playbooks/README.md](playbooks/README.md) (Supabase, Stripe, logins, Firebase, hosting, costs,
-UK and EU privacy, developer handoff).
+playbooks with tested patterns: [playbooks/README.md](playbooks/README.md) (Supabase, Stripe,
+logins, Firebase, hosting, costs, UK and EU privacy, developer handoff).
 
 ## When something breaks: rescue mode
 
@@ -209,16 +250,23 @@ Step by step, with common errors: [references/fixing-bugs.md](references/fixing-
 1. **Run the scanner** if you can run commands (Python 3 only, reads files, changes nothing):
    `python3 <this skill's folder>/scripts/check_secrets.py <project folder> --report ship-report.md`
    It writes a plain-English report the user can keep. Add `--audit` to also run `npm audit`.
-2. **Use the builder's own scans** too: Lovable's Quick and Deep security scans, Replit's
-   Security Center, Supabase's Security Advisor.
-3. **Work through** [references/going-live.md](references/going-live.md): secrets, logins,
+   It also lists every paid service the code uses and flags AI calls with no per-person limit,
+   so set a spending cap on each one.
+2. **Check the live site** once it is online, only if it is theirs:
+   `python3 <this skill's folder>/scripts/check_live.py https://their-site --mine --report live-report.md`
+   It reads the site like a stranger would (never logs in or changes anything): keys in the
+   page, exposed `.env` or `.git` files, missing HTTPS, and whether each database table the site
+   uses answers strangers. Anything it can read, a stranger can read.
+3. **Use the builder's own scans** too: Lovable's security scan, Replit's Security Center,
+   Supabase's Security Advisor (under Advisors).
+4. **Work through** [references/going-live.md](references/going-live.md): secrets, logins,
    database rules, payments, rate limits, spending caps, errors, privacy and legal pages, mobile,
    share previews, backups, and the stranger test.
-4. **Fix serious problems first.** Ask before any fix that changes how the app behaves.
-5. **Report honestly:** passed, problems (worst first), left for later. Never say "secure" or
+5. **Fix serious problems first.** Ask before any fix that changes how the app behaves.
+6. **Report honestly:** passed, problems (worst first), left for later. Never say "secure" or
    "safe"; say "this passed the ship check" and list what was checked.
 
-A Green site (no logins, data or money) only needs steps 1 and 5, then a free host such as
+A Green site (no logins, data or money) only needs steps 1, 2 and 6, then a free host such as
 Netlify Drop or GitHub Pages; see going-live.md.
 
 ## Costs
@@ -244,6 +292,8 @@ Getting a review is not failure; professionals get reviews too.
 | "It is only a quick change, no save point needed" | Save anyway. Quick changes break things too. |
 | "I will just put the key in for now and move it later" | Put it in `.env` or Secrets now. "Later" is how keys leak. |
 | "RLS is blocking this, I will turn it off" | Write the policy that allows exactly this action. |
+| "Permission denied, I will grant all to anon" | Grant only the actions needed, usually to `authenticated`. |
+| "This request is risky, I will just say no" | Explain the risk in one line and do the safe version. |
 | "One more fix will do it" (third attempt) | Stop. Roll back. Change approach. |
 | "Mark it paid when they land on the success page" | Grant access only from the verified webhook. |
 | "That should work now" | Check it, or give them the exact steps to check it. |
@@ -269,5 +319,7 @@ in one line and give one clear next step. If you are unsure, say so and check.
 - [references/ai-features.md](references/ai-features.md): adding AI safely (keys, caps, prompt injection)
 - [references/prompts.md](references/prompts.md): turning ideas into clear requests
 - [references/glossary.md](references/glossary.md): plain-English jargon dictionary
-- `scripts/check_secrets.py`: no-install scanner for leaked keys and risky settings
-- `playbooks/` (Pro, if included): stack-specific, copy-paste patterns
+- `scripts/check_secrets.py`: no-install scanner for leaked keys, risky settings and runaway costs
+- `scripts/check_live.py`: read-only check of the user's own live site and database
+- `scripts/explain_changes.py`: plain-English "what changed and is it risky" before a save point
+- [playbooks/README.md](playbooks/README.md): stack-specific, tested copy-paste patterns

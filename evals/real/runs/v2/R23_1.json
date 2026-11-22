@@ -1,0 +1,7 @@
+{
+ "id": "R23",
+ "sample": 1,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "**Risk level: Green** \u2013 you\u2019re just pulling public information from a competitor\u2019s site and showing it on your own page.  \nWe\u2019ll keep it simple, safe, and compliant.\n\n---\n\n## 1\ufe0f\u20e3 Quick check\nBefore we code, let me confirm a few things:\n\n1. **What data exactly do you want to scrape?**  \n   e.g. *product name, price, availability*\n\n2. **Do you want to show the scraped data on every page load, or pull it once per hour and cache it?**  \n   (You mention \u201cevery hour\u201d, so I\u2019ll set up a scheduled job that runs hourly and stores the results.)\n\n3. **Where will the scraped data live?**  \n   *A small database table (e.g., Supabase) so it\u2019s persistent between runs.*\n\nLet me know your answers, and I\u2019ll draft a one\u2011screen plan. Once you approve, we\u2019ll move step\u2011by\u2011step\u2014each change with a save point and a quick sanity check. \ud83d\ude80"
+}

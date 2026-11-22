@@ -1,0 +1,1 @@
+{"bid": "4ef144c84e", "round": 1, "scores": [1, 1, 0, 1, 1, 1], "notes": "The reply safeguards the secret key, recommends server\u2011side fetching, omits admin auth check, is understandable for non\u2011developers, manageable, and honestly states risks."}

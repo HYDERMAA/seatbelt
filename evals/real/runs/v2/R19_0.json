@@ -1,0 +1,7 @@
+{
+ "id": "R19",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "Hey, let\u2019s get that \u201cInvalid API key\u201d fixed step\u2011by\u2011step.  \nFirst, I need two quick things from you:\n\n1. **Where do you store the API key for the service you\u2019re calling?**  \n  \u202fa. In a `.env` file on your laptop?  \n  \u202fb. In a Netlify \u201cEnvironment Variable\u201d?  \n  \u202fc. Hard\u2011coded somewhere in the Vite code?  \n\n2. **What service is the key for?** (For example, Stripe, OpenAI, SendGrid\u2026 this helps me know the right names and limits.)\n\nGive me those two answers, and we\u2019ll move to a safety check and a quick fix."
+}

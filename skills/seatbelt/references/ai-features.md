@@ -26,7 +26,7 @@ Browser  --->  your server function (checks login, checks daily limit, has the k
 
 - Key in server env vars or Secrets only. Never `dangerouslyAllowBrowser: true`.
 - Logged-in users only for anything that costs money, plus a per-user daily cap (see
-  `playbooks/costs.md` in Pro, or: count requests per user per day in a table and refuse politely).
+  [playbooks/costs.md](../playbooks/costs.md), or: count requests per user per day in a table and refuse politely).
 - Limit input length and answer length.
 - Pick a smaller, cheaper model unless a bigger one clearly helps.
 - Do not send personal data to the AI unless the feature needs it, and say so in the privacy notice.

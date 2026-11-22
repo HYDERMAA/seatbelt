@@ -1,0 +1,7 @@
+{
+ "id": "R09",
+ "sample": 1,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "Great! \ud83d\ude80 Let\u2019s get started on your mental\u2011health journal app.  \nBefore we dive into code, I\u2019ll ask a few quick questions so we design the safest, simplest version possible.\n\n**1. Who will use this app?**  \n&nbsp;&nbsp;\u2022 Just you? A small group (friends, family)? A larger public audience?  \n**2. What must it do on day one?**  \n&nbsp;&nbsp;Give the three most important features you want ready \u201cout of the box\u201d: e.g. write a daily entry, view past entries, secure login.  \n**3. What information will it keep?**  \n&nbsp;&nbsp;Anything personal (names, email, photos, emotions, notes)?  \n**4. Will people log in?**  \n&nbsp;&nbsp;Each user needs their own private space?  \n**5. Is money involved?**  \n&nbsp;&nbsp;Will you charge for a subscription, or use any paid AI/API services?  \n**6. What technology are you comfortable using?**  \n&nbsp;&nbsp;Even if you\u2019re not a developer, choose a platform: Replit, Vercel + Next.js, a no\u2011code builder, etc.  \n**7. Which accounts do you already have?**  \n&nbsp;&nbsp;E.g. a GitHub account, a Supabase or Firebase project, Stripe, etc.\n\nReply to the three most relevant ones, and I\u2019ll draft a one\u2011screen plan that matches the risk level and gives us a clear next step."
+}

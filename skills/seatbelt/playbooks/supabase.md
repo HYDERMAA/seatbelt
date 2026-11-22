@@ -2,7 +2,8 @@
 
 Copy-paste patterns for the most common Supabase setups, plus read-only audit queries. The SQL
 here is tested by Seatbelt's test suite against PostgreSQL with Supabase-style roles (`anon`,
-`authenticated`, `service_role`) and `auth.uid()`.
+`authenticated`, `service_role`) and `auth.uid()`, both with the old default table grants and with
+the new default (since 30 October 2026) where new tables get no grants until you add them.
 
 ## Contents
 
@@ -21,11 +22,25 @@ here is tested by Seatbelt's test suite against PostgreSQL with Supabase-style r
 
 Tell the user, in about these words:
 
-> Your website talks to the database directly using a **public key** (the "anon" or
-> "publishable" key). Anyone can find that key in your site, and that is fine **only because**
-> each table has **Row Level Security** rules saying who may see or change which rows. A table
-> without those rules is open to the world. There is also a **service role** (or secret) key that
-> ignores all rules. It must only ever be used in server code, never in the website.
+> Your website talks to the database directly using a **public key** (the "publishable" key,
+> starting `sb_publishable_`, or the older "anon" key). Anyone can find that key in your site,
+> and that is fine **only because** each table has **Row Level Security** rules saying who may
+> see or change which rows. A table without those rules can be open to the world. There is also
+> a **secret key** (starting `sb_secret_`, or the older "service_role" key) that ignores all
+> rules. It must only ever be used in server code, never in the website.
+
+Three layers decide who can reach a table, and the patterns below set all three together:
+
+1. **Grants:** whether a role (logged-out visitors are `anon`, logged-in users are
+   `authenticated`) may use the table at all. Since 30 October 2026, new Supabase tables in
+   `public` get no grants until you add them, so a table with no `grant` gives the error
+   "permission denied for table". Older projects kept their existing grants.
+2. **Row Level Security** switched on for the table.
+3. **Policies:** which rows each role may see or change.
+
+Supabase is retiring the old `anon` and `service_role` keys by the end of 2026. If the project
+still uses them, the patterns work the same; suggest moving to the new keys from **Settings >
+API Keys** when convenient.
 
 Where to run SQL: Supabase dashboard > **SQL Editor** > New query, paste, **Run**. If the project
 uses migration files (`supabase/migrations/`), add the SQL as a new migration instead, so the
@@ -44,6 +59,7 @@ create table public.notes (
   body text not null check (char_length(body) <= 5000),
   created_at timestamptz not null default now()
 );
+grant select, insert, update, delete on public.notes to authenticated, service_role;
 alter table public.notes enable row level security;
 
 create policy "Read own notes" on public.notes
@@ -58,7 +74,8 @@ create policy "Delete own notes" on public.notes
 ```
 
 Why `(select auth.uid())`: it is checked once per request instead of once per row, which keeps
-big tables fast. `to authenticated` means logged-out visitors get nothing.
+big tables fast. `to authenticated` means logged-out visitors get nothing, and there is no grant
+to `anon` either.
 
 ## 3. Pattern: public to read, only staff can change
 
@@ -72,6 +89,8 @@ create table public.services (
   price_pence integer not null check (price_pence >= 0),
   active boolean not null default true
 );
+grant select on public.services to anon, authenticated;
+grant select, insert, update, delete on public.services to service_role;
 alter table public.services enable row level security;
 
 create policy "Anyone can see active services" on public.services
@@ -90,6 +109,8 @@ table that only the owner edits (in the dashboard).
 create table public.staff (
   user_id uuid primary key references auth.users (id) on delete cascade
 );
+grant select on public.staff to authenticated;
+grant select, insert, update, delete on public.staff to service_role;
 alter table public.staff enable row level security;
 create policy "Staff can see their own staff row" on public.staff
   for select to authenticated using ((select auth.uid()) = user_id);
@@ -114,6 +135,8 @@ create table public.bookings (
   status text not null default 'pending' check (status in ('pending', 'paid', 'cancelled')),
   created_at timestamptz not null default now()
 );
+grant select, insert, update on public.bookings to authenticated;
+grant select, insert, update, delete on public.bookings to service_role;
 alter table public.bookings enable row level security;
 
 create policy "Customers see own bookings, staff see all" on public.bookings
@@ -144,11 +167,14 @@ create table public.entitlements (
   stripe_customer_id text,
   updated_at timestamptz not null default now()
 );
+revoke all on public.entitlements from anon, authenticated;
+grant select on public.entitlements to authenticated;
+grant select, insert, update, delete on public.entitlements to service_role;
 alter table public.entitlements enable row level security;
 
 create policy "Users can read their own plan" on public.entitlements
   for select to authenticated using ((select auth.uid()) = user_id);
--- No insert, update or delete policies on purpose. The Stripe webhook (server code using the
+-- No insert, update or delete grants or policies on purpose. The Stripe webhook (server code using the
 -- service role) is the only thing that changes plans or credits.
 ```
 
@@ -163,16 +189,18 @@ create table public.profiles (
   avatar_url text,
   role text not null default 'member'
 );
+revoke all on public.profiles from anon, authenticated;
+grant select on public.profiles to authenticated;
+grant update (display_name, avatar_url) on public.profiles to authenticated;
+grant select, insert, update, delete on public.profiles to service_role;
 alter table public.profiles enable row level security;
 create policy "Read own profile" on public.profiles
   for select to authenticated using ((select auth.uid()) = id);
 create policy "Edit own profile" on public.profiles
   for update to authenticated using ((select auth.uid()) = id)
   with check ((select auth.uid()) = id);
-
-revoke update on public.profiles from anon, authenticated;
-grant update (display_name, avatar_url) on public.profiles to authenticated;
--- Users can change their name and picture, but not their role.
+-- Users can change their name and picture, but not their role: they only have an update grant
+-- on those two columns.
 ```
 
 ## 6. Pattern: create a profile when someone signs up
@@ -239,11 +267,13 @@ each result in plain words. Empty results are good news.
 
 <!-- test: audit -->
 ```sql
--- A. Tables anyone with your public key could read, because RLS is off
-select c.relname as table_without_rls
+-- A. Tables with RLS off. "reachable_by_public_key" true means anyone with your public key can
+--    read every row right now: fix those first.
+select c.relname as table_without_rls,
+       has_table_privilege('anon', c.oid, 'SELECT') as reachable_by_public_key
 from pg_class c join pg_namespace n on n.oid = c.relnamespace
 where n.nspname = 'public' and c.relkind = 'r' and not c.relrowsecurity
-order by 1;
+order by 2 desc, 1;
 
 -- B. Tables with RLS on but no policies (nobody can use them from the app; often a sign of an
 --    unfinished setup, and a temptation to turn RLS off)
@@ -273,7 +303,8 @@ where col.table_schema = 'public'
   and col.column_name in ('is_pro', 'pro', 'plan', 'tier', 'credits', 'balance', 'role',
                           'is_admin', 'admin', 'subscription_status', 'paid', 'status')
   and p.cmd in ('UPDATE', 'INSERT', 'ALL')
-  and has_column_privilege('authenticated', format('%I.%I', col.table_schema, col.table_name), col.column_name, 'UPDATE')
+  and (has_column_privilege('authenticated', format('%I.%I', col.table_schema, col.table_name), col.column_name, 'UPDATE')
+       or has_column_privilege('authenticated', format('%I.%I', col.table_schema, col.table_name), col.column_name, 'INSERT'))
 order by 1, 2;
 
 -- F. Views that may skip RLS (views run with their owner's rights unless security_invoker is on)
@@ -301,9 +332,13 @@ pattern 4); for `plan`, `credits` or `role` it is a hole. Use pattern 5.
 
 - `alter table x enable row level security` placed **before** `create table x`: does nothing
   on a fresh database. Enable it after creating the table.
+- "permission denied for sequence": a `serial` id needs `grant usage on sequence ... to
+  authenticated`. Prefer `uuid` or `generated always as identity` ids.
 - `using (true)` on private data, or policies `to anon` on private tables.
-- Turning RLS off to make "permission denied" go away. Write the missing policy instead.
-- The service role key in the website, in a `VITE_` or `NEXT_PUBLIC_` variable, or in Lovable's
+- Turning RLS off to make "permission denied" go away. Write the missing policy instead. If the
+  error says "permission denied for table", the grant is missing: add the `grant` for the role
+  that needs it (never `grant all ... to anon` on private data).
+- The secret or service role key in the website, in a `VITE_` or `NEXT_PUBLIC_` variable, or in Lovable's
   frontend code.
 - Server code using the service role without checking who the user is: it skips every rule, so
   it must do the ownership check itself.

@@ -1,0 +1,7 @@
+{
+ "id": "R08",
+ "sample": 0,
+ "cond": "v3",
+ "model": "gpt-oss-20b",
+ "response": "Got it! Your idea is a simple pet\u2011photo gallery where users can upload pictures and others can like them.  \nBecause we\u2019ll be storing personal photos and letting people interact, this falls under **Amber** risk level, so we\u2019ll set up login, a database table for photos, a likes table, and keep everything secure.\n\n---\n\n## Starter questions (just a few)\n\n1. **Who should be able to see the photos?**  \n   *Public? Members only?\u00a0Anyone logged in?*\n\n2. **How many likes should a photo receive?**  \n   *Do you want to limit or count them?*\n\n3. **Any other data you want to collect?**  \n   *E.g., user names, descriptions, or tags?*\n\n4. **Do you want users to register with email/password, Google, or just magic\u2011link email?**\n\nReply with the answers, and we\u2019ll move straight to the one\u2011screen plan."
+}

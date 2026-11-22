@@ -1,0 +1,7 @@
+{
+ "id": "R07",
+ "sample": 1,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "Got it \u2013 you\u2019re starting a website for a dog\u2011walking business.  \nSince it\u2019s probably just a public page with some contact info, the risk level is **Green**.\n\n**Green\u2011level starter questions** \u2013 just two:\n\n1. **What should the page show?** (e.g., \u201cAbout us\u201d, \u201cServices\u201d, \u201cSchedule\u201d, \u201cContact\u201d, photos, pricing)\n2. **Do you have a name, colors, or photos ready to use?** (or would you like suggestions)\n\nOnce you answer, we\u2019ll plan the one\u2011screen layout, save a starting \u201cbefore any change\u201d point, and then build step by step."
+}

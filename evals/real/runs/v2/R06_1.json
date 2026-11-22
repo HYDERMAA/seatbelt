@@ -1,0 +1,7 @@
+{
+ "id": "R06",
+ "sample": 1,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "I\u2019m sorry to hear the login stopped working. Let\u2019s get it back to a stable state.\n\n**First, I need a quick snapshot of what you\u2019re building so I can decide how much detail to dive into.**\n\n1. **What\u2019s the purpose of the app?** (e.g. \u201cA to\u2011do list for my team\u201d, \u201cA photo gallery for my family\u201d, etc.)  \n2. **Who should be able to use it?** (just you, a few friends, the public, etc.)  \n3. **What key features must be working on day\u202f1?** (pick the three most important\u2014for example: \u201cview tasks\u201d, \u201cadd a task\u201d, \u201clog in\u201d).  \n4. **Does it need to store any personal data?** (emails, phone numbers, images, etc.)  \n5. **Will people have to log in?** (Yes/No). If yes, are you using a built\u2011in auth service (Replit OAuth, Supabase Auth, etc.) or something custom?  \n6. **Is money involved?** (pay\u2011per\u2011use, subscriptions, etc.)  \n\nIf you\u2019re short on time, just answering **1\u20133** is fine for now. Once we have that, I\u2019ll craft a tiny three\u2011step plan, make sure we have a fresh save point, and walk you through fixing the login while keeping secrets and data safe. \ud83c\udf1f"
+}

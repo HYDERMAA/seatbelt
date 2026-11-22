@@ -21,9 +21,11 @@ grant usage on schema auth to anon, authenticated, service_role;
 grant execute on function auth.uid() to anon, authenticated, service_role;
 
 grant usage on schema public to anon, authenticated, service_role;
-alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
 alter default privileges in schema public grant all on functions to anon, authenticated, service_role;
+-- LEGACY_GRANTS_START (projects created before the 2026 change: every new table granted to all roles)
+alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
 alter default privileges in schema public grant all on sequences to anon, authenticated, service_role;
+-- LEGACY_GRANTS_END
 
 create schema storage;
 create table storage.buckets (id text primary key, name text, public boolean not null default false);

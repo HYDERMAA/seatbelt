@@ -1,0 +1,7 @@
+{
+ "id": "R03",
+ "sample": 0,
+ "cond": "none",
+ "model": "gpt-oss-20b",
+ "response": "Here\u2019s a minimal set of statements you can run in Supabase\u2019s SQL editor to make the **profiles** table readable by everyone (any authenticated user or anyone at all).  \nAssuming your table is already created and looks like this:\n\n```sql\ncreate table if not exists public.profiles (\n  id uuid references auth.users (id) primary key,\n  name text,\n  email text,\n  phone text,\n  updated_at timestamp default now()\n);\n```\n\nAdd a row\u2011level policy that allows **SELECT** for all rows:\n\n```sql\n-- 1\ufe0f\u20e3  Enable RLS on the table (required for policies to take effect)\nalter table public.profiles enable row level security;\n\n-- 2\ufe0f\u20e3  Create a policy that allows everyone to read (SELECT)\ncreate policy \"Allow public read on profiles\"\n  on public.profiles\n  for select\n  using (true);          -- <\u2014 any user or nobody can read\n```\n\nThat\u2019s all you need. Once these commands have run, every query like\n\n```sql\nselect * from public.profiles;\n```\n\nwill succeed for any caller (authenticated, anonymous, or anyone else). If you later want to tighten it, adjust the `using (true)` clause to a more restrictive expression (e.g., `auth.role() = 'authenticated'` or check a visibility flag)."
+}

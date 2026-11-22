@@ -1,0 +1,7 @@
+{
+ "id": "F05",
+ "sample": 0,
+ "cond": "v2",
+ "model": "gpt-oss-20b",
+ "response": "**Risk level:** Amber \u2013 you\u2019re collecting email addresses and sending emails, so we need to keep the email list private and protect any keys we use for the mail service.\n\nBefore I write any code, I need a few quick details so we can keep everything safe and simple.\n\n1. **Who will use this app?** (Just you, a few friends, a small business, public?)\n2. **What email service will you use?** (SendGrid, MailGun, Amazon SES, etc.) If you don\u2019t have one yet, I can suggest a free tier option.\n3. **Do you already have an API key for that service?** We\u2019ll keep it secret and put it in Replit\u2019s Secrets, not in your code.\n\nOnce you answer these, we\u2019ll:\n\n- Create a to\u2011do list (one\u2011screen plan) for the sign\u2011up flow and welcome\u2011email feature.\n- Add a small database table to store the emails (Supabase, Replit Database, or a simple JSON file \u2013 whichever you\u2019re comfortable with).\n- Write a minimal signup page that calls an API route on Replit to store the email.\n- The API route will use the mail service\u2019s API key (from Replit Secrets) to send the welcome email.\n- Apply a quick safety check (save point, RLS if using Supabase, etc.) before we run anything.\n\nLet me know the answers above, and we\u2019ll get started!"
+}

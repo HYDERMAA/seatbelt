@@ -33,6 +33,7 @@ Use these one-line explanations the first time a word comes up. Adapt them to th
 | Localhost | Your app running only on your own computer, not on the internet yet. |
 | Migration | A saved change to the database's structure. |
 | `node_modules` | A big folder of downloaded packages. Never back it up or upload it; it can be re-downloaded. |
+| Grant (database) | Permission for a kind of user (for example logged-in users) to reach a table at all. Policies then decide which rows. |
 | Policy (database) | One rule saying who may read or change certain rows. |
 | Production | The real, live version people use (as opposed to testing). |
 | Rate limit | A cap on how often someone can do something, to stop abuse and runaway bills. |
@@ -41,10 +42,12 @@ Use these one-line explanations the first time a word comes up. Adapt them to th
 | Row Level Security (RLS) | Database rules that let each person see only their own rows. |
 | Save point | A full snapshot of the project you can return to. |
 | SDK | A toolkit for using a particular service from your code. |
-| `service_role` key | Supabase's master key. It ignores all safety rules, so it must never be in the browser. |
+| Secret key (`sb_secret_`) or `service_role` key | Supabase's master keys (the second is the older name). They ignore all safety rules, so they must never be in the browser. |
+| Publishable key (`sb_publishable_`) or anon key | Supabase's public keys. Safe in the browser only because Row Level Security rules protect each table. |
 | Spending limit / budget cap | A setting with a paid service that stops or warns before charges get too high. |
 | SQL | The language used to talk to many databases. |
 | Supabase / Firebase | Popular services that give your app a database, logins and file storage. |
 | Terminal / command line | A text window where you type commands to the computer. |
 | Test | A small program that checks part of your app still works. |
+| Spending cap | A limit you set with a paid service so the bill cannot grow past it. Some services only send alerts and keep charging. |
 | Webhook | A message another service sends your app, like "payment succeeded". |

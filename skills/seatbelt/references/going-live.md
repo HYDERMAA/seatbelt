@@ -29,20 +29,41 @@ python3 /path/to/seatbelt/scripts/check_secrets.py . --report ship-report.md
 - Run it on the **build output** too if there is one (`dist/`, `build/`, `.next/`), because that
   is exactly what visitors download.
 
+The report ends with **Paid services found**: every paid API the code uses and where to set its
+spending cap. Tick each one off. It also flags AI calls with no per-person limit, AI calls inside
+loops, and timers or scheduled jobs that run very often.
+
 It cannot see the hosting dashboard, the live database settings, or anything outside the folder,
-so the checks below still matter.
+so the live check and the checks below still matter.
+
+**Seatbelt live check** (once the site is online, and only on a site the user owns):
+
+```bash
+python3 /path/to/seatbelt/scripts/check_live.py https://their-site.com --mine --report live-report.md
+```
+
+- It only reads (GET and HEAD requests). It never logs in, never sends data, never changes anything.
+- It looks at what every visitor receives: keys inside the page and its JavaScript files, an
+  exposed `.env` or `.git` folder, source maps, HTTPS and basic security headers.
+- With `--mine` it also asks the database the stranger's question. It finds the Supabase address
+  and **public** key in the site's own code, then asks each table the code uses for one row. It
+  reports how many rows a stranger can read and which columns, never the data itself. It does the
+  same for Firebase Realtime Database and Firestore collections.
+- Anything it can read, anyone can read. Fix those first, then run it again.
+- It cannot test logged-in access (for example whether user A can see user B's rows): do that
+  by hand with two test accounts (section 3).
 
 **Chat only (Claude.ai, ChatGPT) with a code sandbox:** ask the user to zip the project folder
 (without `node_modules`) and upload it; unzip it and run the scanner there. Remind them to
 replace any key the report finds, since it has now been shared.
 
 **Builder and platform scans** (free or included):
-- Lovable: Quick scan runs on publish; run the Deep scan before customers use it.
-- Replit: Security Center, Level 1 is free.
+- Lovable: the Quick scan, and the deeper code scan before customers use it.
+- Replit: Security Center (Tools pane), Level 1 is free.
 - Supabase: **Advisors > Security Advisor** in the dashboard lists tables without RLS and other
   risky settings.
 - Supabase database rules, from the inside: the read-only audit queries in
-  `playbooks/supabase.md` (Pro), pasted into the SQL Editor.
+  [playbooks/supabase.md](../playbooks/supabase.md), pasted into the SQL Editor.
 
 ## 2. Manual checks
 
@@ -94,7 +115,7 @@ Open the live site in a private or incognito window (not logged in):
 2. Sign up as a second person and try to see the first person's data (change IDs in the address
    bar). You should see nothing.
 3. **Right-click > View page source**, and open the browser's developer tools **Sources** tab,
-   then search for `sk-`, `sk_live`, `secret`, `service_role` and `key`. Nothing secret should
+   then search for `sk-`, `sk_live`, `secret`, `sb_secret_`, `service_role` and `key`. Nothing secret should
    appear.
 4. Try the main form with nonsense: empty, very long text, `<script>` tags. It should refuse
    politely, not break.
