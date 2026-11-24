@@ -9,6 +9,7 @@
   <a href="#install"><b>Install</b></a> &nbsp;·&nbsp;
   <a href="#what-you-get">What you get</a> &nbsp;·&nbsp;
   <a href="#how-it-works">How it works</a> &nbsp;·&nbsp;
+  <a href="#blueprints">Blueprints</a> &nbsp;·&nbsp;
   <a href="#what-it-catches">What it catches</a> &nbsp;·&nbsp;
   <a href="#see-it-in-action">See it in action</a> &nbsp;·&nbsp;
   <a href="#faq">FAQ</a>
@@ -159,6 +160,40 @@ Seatbelt asks what your app does, then picks the right amount of care. A portfol
   <source media="(prefers-color-scheme: dark)" srcset="assets/readme/risk-dark.svg">
   <img src="assets/readme/risk-light.svg" alt="Green: no logins, data or money, so one or two questions then build. Amber: logins, personal data or a paid AI, so questions, a plan, database rules, spending caps and a ship check. Red: money, sensitive data or many users, so everything in Amber plus verified payments and a developer review." width="100%">
 </picture>
+
+<br>
+
+## Blueprints
+
+Five engineering drawings of what happens inside Seatbelt, taken straight from `SKILL.md` and the three scripts. Follow the numbered balloons. Click any drawing to open it full size.
+
+**BP-05: where Seatbelt sits.** Seatbelt is a skill your builder AI loads. It adds four gates to the loop you already use: plan first, explain each change, check before deploy, check the live site.
+
+<a href="assets/readme/bp-loop.svg"><img src="assets/readme/bp-loop.svg" alt="Blueprint BP-05, where Seatbelt sits in the vibe-coding loop. You describe an idea, the builder AI writes code, a save point is made, the app is deployed, and people use the live app, which feeds back new ideas. Seatbelt is loaded into the builder AI and adds four gates: G1 plan and risk level before building, G2 the change explainer at each save point, G3 the ship check before deploy, G4 the live check after deploy. If a fix breaks twice, it goes back to the last save point." width="100%"></a>
+
+<br>
+
+**BP-01: the system flow.** What the AI does with each message, from the first "make me an app" to an honest report. Broken apps go straight to rescue mode; new apps get a risk level first.
+
+<a href="assets/readme/bp-system.svg"><img src="assets/readme/bp-system.svg" alt="Blueprint BP-01, system flow. 1 Request. Decide first: broken goes to rescue mode, a question or fix gets a direct answer in steps, a feature gets its safety parts named, a new app goes to risk triage. 2 Risk triage: Green, Amber or Red, more risk means more care. 3 One-screen plan you approve. 4 Build loop: save point, explain_changes.py, one change, proof, update PROJECT.md. 5 Ship check with check_secrets.py, check_live.py and the builder's own scans. If a fix breaks twice, roll back to the last save point. 6 Honest report: passed, problems worst first, left for later." width="100%"></a>
+
+<br>
+
+**BP-02: the ship check scanner.** `check_secrets.py` reads every text file once, on your computer, and sorts what it finds worst first. Nothing is uploaded.
+
+<a href="assets/readme/bp-scanner.svg"><img src="assets/readme/bp-scanner.svg" alt="Blueprint BP-02, the ship check scanner. 1 Project folder. 2 Walk the files, skipping .git, node_modules, images, lock files and files over 2 MB. 3 Scan each file: secret keys, public prefixes, the Supabase service role in browser code, code risks such as prices set in the browser and unverified webhooks, the runaway-cost guard, and collecting SQL and Firebase rules. 4 Project checks: database rules, .env in git history, frequent cron jobs, .gitignore. 5 Optional npm audit. 6 Sort worst first and fold repeats. 7 Output to the terminal, JSON or a Markdown or HTML report, with exit codes." width="100%"></a>
+
+<br>
+
+**BP-03: the live check.** `check_live.py` looks at your live site the way a stranger would. With `--two-users` it logs in as two test accounts and checks whether one can read the other's data, both ways. It only reads.
+
+<a href="assets/readme/bp-live.svg"><img src="assets/readme/bp-live.svg" alt="Blueprint BP-03, the live check. 1 Your site address. 2 Gather the home page and up to 40 same-site JavaScript files. 3 Stranger checks: keys in served code, downloadable .env and .git files, HTTPS and headers, source maps. With --mine: 4 find the Supabase or Firebase address and public key in your own pages, never a secret key. 5 Ask each table for one row as a stranger: open, refused or empty. With --two-users: 6 log in as test accounts A and B, find B's rows, ask for them as A, then the other way round, and list each other's storage folders. Reads only, writes are not tested. 7 Report with database, between customers and notes sections, counts and column names only." width="100%"></a>
+
+<br>
+
+**BP-04: the change explainer.** `explain_changes.py` runs before each save point and tells you, in plain English, what changed and whether any of it is risky.
+
+<a href="assets/readme/bp-changes.svg"><img src="assets/readme/bp-changes.svg" alt="Blueprint BP-04, the change explainer. 1 Project folder. Is it using git? If not, make the first save point. 2 Compare with the last save point, or a branch with --since, including new files not saved yet. 3 Sort changed files into areas such as database, payments, logins, secrets and settings, packages, server code, tests and pages. 4 Risk rules on added lines, removed lines and whole files. 5 New packages, checked against npm and PyPI with --check-packages. 6 Verdict: risk low, medium or high, with a suggested save point name. Exit 1 when high." width="100%"></a>
 
 <br>
 
@@ -433,7 +468,7 @@ paste-into-app-builders.md    short text for Lovable, Bolt, Replit, v0
 assets/                       pictures for this page
 tests/                        tests for the scripts, skill text, SQL and Stripe patterns
 evals/                        rubric, scenarios and real-model evaluation
-tools/                        build and check scripts for maintainers
+tools/                        build, check and README drawing scripts for maintainers
 ```
 
 </details>
