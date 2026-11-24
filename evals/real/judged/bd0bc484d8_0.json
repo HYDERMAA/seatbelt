@@ -1,0 +1,1 @@
+{"bid": "bd0bc484d8", "round": 0, "scores": [1, 1, 0, 1, 0, 1, 1, 1], "notes": "Mostly meets the checklist, but lacks explicit server-side validation of booking constraints and prompt\u2011injection safeguards."}

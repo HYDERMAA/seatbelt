@@ -1,0 +1,7 @@
+{
+ "id": "F06",
+ "sample": 0,
+ "cond": "v31",
+ "model": "gpt-oss-20b",
+ "response": "**1\ufe0f\u20e3 Decide what we\u2019re doing**\n\nYou\u2019ve asked to \u201cupgrade your Next.js app to the latest version.\u201d  \nThat\u2019s a **fix/maintenance** change, not a brand\u2011new build, so we can jump straight into a small, safe plan.\n\n---\n\n## Quick\u2011check questions (only two)\n\n1. What is the current Next.js version you\u2019re running?  \n   *E.g.* `12.3.4` or `13.2.1` \u2013 it will help me know if there are breaking changes.  \n2. Are you using any Next.js\u2011specific features that might break in the next major release?  \n   (Examples: custom server, rewrites via `next.config.js`, `pages/api` routes, `getStaticProps`\u2011only features, etc.)  \n   If you\u2019re unsure, just let me know what \u201clooks different\u201d in your code (like `import App from 'next/app'` vs. the new `App` wrapper).\n\nOnce I have those, I\u2019ll give you a one\u2011screen plan and the exact code changes you need to copy into Cursor. No guesswork, no risk. Let me know!"
+}

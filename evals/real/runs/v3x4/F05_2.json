@@ -1,0 +1,7 @@
+{
+ "id": "F05",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**What we\u2019re building**  \nA tiny \u201cwelcome\u2011email\u201d step that runs automatically whenever a new user signs up on Replit.\n\n**Risk level**: **Amber** \u2013 we\u2019re dealing with personal data (email address) and an external service (email sending).  \nWe\u2019ll add a small server\u2011side route, keep the key secret, and set a per\u2011user limit so nothing can be abused.\n\n---\n\n## Starter questions (just a couple to keep it short)\n\n1. **Do you already have an email\u2011sending service?**  \n   (SendGrid, Postmark, Amazon SES, etc.)  If not, we\u2019ll pick SendGrid for its free tier.  \n2. **What auth system are you using?**  \n   (Supabase Auth, Firebase, your own API, etc.)  We\u2019ll need to know how to get the new user\u2019s email from the sign\u2011up event.\n\nReply with short answers, and we\u2019ll draft the plan."
+}

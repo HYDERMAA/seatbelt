@@ -1,0 +1,7 @@
+{
+ "id": "G01",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "Great! Let's add a **reviews section** so customers can leave star ratings and write reviews for your products.  \nBecause this involves user\u2011generated data and will only be shown to the person who left it (and maybe admins), we\u2019re at **Amber** risk.  \nWe\u2019ll first collect the few details needed, then create a concise plan and a quick \u201csave point\u201d so you can always revert.\n\n---\n\n## Starter questions (only the three most important)\n\n1. **Who will use this feature?**  \n   *Just you? A small team? The public?*  \n\n2. **What must the feature do on day one?**  \n   *At a minimum:*  \n   - Customers can write a short review and give 1\u20135 stars.  \n   - The review shows on the product page.  \n   - Only the reviewer can edit or delete their own review.  \n\n3. **Do you already have a log\u2011in system?**  \n   *If not, we\u2019ll add Supabase Auth (magic link or email/password).*  \n\nPlease answer in one line each.  Once I have that, I\u2019ll draft a one\u2011screen plan, create a save point, and walk you through the first change."
+}

@@ -1,0 +1,7 @@
+{
+ "id": "G01",
+ "sample": 1,
+ "cond": "v3",
+ "model": "gpt-oss-20b",
+ "response": "**We\u2019re adding a review & rating system to your Lovable\u202f+\u202fSupabase app.**  \nSince this involves user\u2011login and personal data, it\u2019s **Amber** risk.  \nI\u2019ll ask a few quick questions, then give you a one\u2011screen plan we can run step\u2011by\u2011step.\n\n---\n\n### Quick clarifications (max 3)\n\n1. **Do users have to be logged\u2011in to leave a review?**  \n   \u2013 If yes, we\u2019ll use Supabase Auth.  \n   \u2013 If not, we\u2019ll create a public \u201cguest\u201d flow (less safe for data integrity).\n\n2. **Do you want to allow only people who actually bought the product to review?**  \n   \u2013 If yes, we\u2019ll add a check against your orders table.  \n   \u2013 If no, any logged\u2011in user can rate any product.\n\n3. **Do you need moderation (e.g., approve or delete reviews) before they\u2019re shown?**  \n   \u2013 If yes, we\u2019ll add a `status` column and an admin review screen.  \n   \u2013 If no, reviews will appear immediately.\n\nReply with the answers (or \u201cI\u2019m not sure\u201d and we\u2019ll pick safe defaults).  \nOnce I get those, I\u2019ll show you a one\u2011screen plan ready for action."
+}

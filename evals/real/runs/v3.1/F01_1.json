@@ -1,0 +1,7 @@
+{
+ "id": "F01",
+ "sample": 1,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "A *paused* Supabase project is not the same as removing it.  \nWhen Supabase pauses a free\u2011tier account (usually because it was idle for a while) it stops the\nPostgres instance and the Postgres\u2011based services, but **it keeps everything** \u2013 your tables, rows,\nfiles, auth users, and the account settings.  \nYou\u2019ll see the \u201cPaused\u201d banner in the Supabase dashboard.  \n\nWhat you can do:\n\n1. **Check the status**  \n   * Go to your Supabase dashboard \u2192 Project \u2192 Settings \u2192 Project \u2192 Status.  \n   It will say \u201cPaused\u201d and show the date it was paused.\n\n2. **Unpause**  \n   * Click **\u201cUnpause\u201d** (or \u201cResume\u201d).  \n   The server will spin back up; it can take a minute or two.  \n   No data is lost during this process \u2013 you\u2019ll be back to exactly where you left off.\n\n3. **If you\u2019re worried about cost**  \n   * The free tier won\u2019t accrue charges while paused.  \n   Once you resume, you\u2019ll be on the free plan again until you hit the limits.\n\n4. **If Unpause doesn't work**  \n   * Check the Supabase status page or contact support \u2013 it\u2019s very rare that a paused project\n     results in data loss.\n\n**Bottom line:** Pausing does **not** delete any of your data. Just unpause and you\u2019ll have\neverything back. If at any point you see data missing, let me know and we can run a quick\ncheck of your database rows or storage bucket."
+}

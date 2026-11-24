@@ -42,7 +42,7 @@ so the live check and the checks below still matter.
 python3 /path/to/seatbelt/scripts/check_live.py https://their-site.com --mine --report live-report.md
 ```
 
-- It only reads (GET and HEAD requests). It never logs in, never sends data, never changes anything.
+- It only reads. It never changes anything, and it never logs in unless you add `--two-users`.
 - It looks at what every visitor receives: keys inside the page and its JavaScript files, an
   exposed `.env` or `.git` folder, source maps, HTTPS and basic security headers.
 - With `--mine` it also asks the database the stranger's question. It finds the Supabase address
@@ -50,8 +50,27 @@ python3 /path/to/seatbelt/scripts/check_live.py https://their-site.com --mine --
   reports how many rows a stranger can read and which columns, never the data itself. It does the
   same for Firebase Realtime Database and Firestore collections.
 - Anything it can read, anyone can read. Fix those first, then run it again.
-- It cannot test logged-in access (for example whether user A can see user B's rows): do that
-  by hand with two test accounts (section 3).
+- **With `--two-users`** it tests the leak a stranger test cannot find: whether one logged-in
+  customer can read another customer's data. Ask the user to make two test accounts on their own
+  site (A and B) and, as B, add something private (a note, a booking, a file). Then:
+
+  ```bash
+  export SEATBELT_A_EMAIL=a@their-test.com SEATBELT_B_EMAIL=b@their-test.com
+  python3 /path/to/seatbelt/scripts/check_live.py https://their-site.com --mine --two-users --report live-report.md
+  ```
+
+  It asks for the two passwords without showing them (or reads `SEATBELT_A_PASSWORD` and
+  `SEATBELT_B_PASSWORD`). For logins without a password (magic links, Google), set
+  `SEATBELT_A_TOKEN` and `SEATBELT_B_TOKEN` to each account's access token instead. It logs in as
+  both, asks as A for B's rows, files and Firebase records (and the other way round), and reports
+  counts and column names only. It flags rules like `using (true)` that let any logged-in person
+  read everything. Shared content (posts, photos, reviews) is flagged gently, because that may be
+  intended.
+- It does not test changes (can A edit or delete B's things?), because that would change data.
+  Check that by hand with the same two accounts (section 3), and run the Supabase playbook's audit
+  queries for paid-feature columns users could edit.
+- Use test accounts only, never a real customer's account, and never pass passwords on the
+  command line.
 
 **Chat only (Claude.ai, ChatGPT) with a code sandbox:** ask the user to zip the project folder
 (without `node_modules`) and upload it; unzip it and run the scanner there. Remind them to
@@ -112,7 +131,7 @@ Explain each in plain words and tick it off.
 Open the live site in a private or incognito window (not logged in):
 
 1. Visit private pages directly by address. You should be sent to log in.
-2. Sign up as a second person and try to see the first person's data (change IDs in the address
+2. Sign up as a second person and try to see, change or delete the first person's data (change IDs in the address
    bar). You should see nothing.
 3. **Right-click > View page source**, and open the browser's developer tools **Sources** tab,
    then search for `sk-`, `sk_live`, `secret`, `sb_secret_`, `service_role` and `key`. Nothing secret should

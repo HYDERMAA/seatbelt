@@ -1,0 +1,7 @@
+{
+ "id": "R21",
+ "sample": 0,
+ "cond": "v31",
+ "model": "gpt-oss-20b",
+ "response": "**Safety parts I\u2019ll build in for you**\n\n| Part | Why it matters |\n|------|----------------|\n| **Email\u2011only login** (magic link) | It keeps logins simple and removes the need to store passwords, but we must lock it to your own domain and use a secure email\u2011sender. |\n| **Allowed\u2011redirects** | Prevents open\u2011redirect attacks. |\n| **Secure email\u2011sender** | The default provider has a low send\u2011limit; you\u2019ll need to connect your own SMTP or SendGrid provider so sign\u2011ups work reliably. |\n| **Supabase Auth rules** | IAM rules that let only authenticated users see their own data. |\n| **Secret keys hidden** | Supabase keys stay on the server, not in the browser. |\n\n---\n\n### Next step (no questions needed)\n\n1. **Add Supabase Auth to your project** \u2013 if you haven\u2019t already.\n2. **Configure email\u2011magic\u2011link sign\u2011in**.\n3. **Set allowed\u2011redirect URLs** for your domain(s).\n4. **Connect a reliable email sender** (e.g. SendGrid, Mailgun, SES).\n\nI\u2019ll give you the exact code and settings; you just copy\u2011paste. Let me know if you need a different email provider or a custom domain for the magic link, otherwise I\u2019ll use the defaults (your existing supabase project email domain). If you\u2019re ready, I\u2019ll send the instructions."
+}

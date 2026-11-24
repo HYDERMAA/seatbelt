@@ -1,0 +1,7 @@
+{
+ "id": "G06",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**This is a new feature request (Green level)**  \n- No logins, no personal data, no money \u2013 just a third\u2011party script that tracks page views.\n\n---\n\n## Quick starter question  \n1. **What is your Google Analytics (GA) Measurement ID?**  \n   (It looks like `G-XXXXXXXXXX`\u2014you can find it in your GA account under *Admin \u2192 Data Streams*.)\n\nOnce you give me the ID, I\u2019ll walk you through adding the minimal, safe code to your Next.js app on Vercel. No other secrets or changes are needed.  \n\nIf you\u2019re not sure where to find it, let me know and I\u2019ll explain."
+}

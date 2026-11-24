@@ -1,0 +1,7 @@
+{
+ "id": "F01",
+ "sample": 1,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "It\u2019s only \u201cpaused\u201d \u2013 no data is deleted.  \nSupabase pauses a project when it reaches the free\u2011plan limits (e.g., too many rows, too much bandwidth, or too many concurrent connections).  \nWhen a project is paused:\n\n1. **Everything in your database stays exactly where it is** \u2013 tables, rows, files in storage, etc.  \n2. It can\u2019t accept new connections or writes until it\u2019s **unpaused**.  \n3. You\u2019ll receive an email (or see a banner in the UI) with a link or button to \u201cunpause.\u201d  \n4. Once you click that, Supabase automatically restores normal operation.\n\n**What to do next**\n\n1. Go to the Supabase dashboard, open your project.  \n2. Look for a banner that says \u201cPaused \u2013 click to unpause.\u201d  \n3. Click it (you may need to confirm your billing plan).  \n4. After it unpauses, log in to the SQL editor or your app and verify you can run queries again.\n\nIf you can\u2019t unpause or you\u2019re unsure why it paused, contact Supabase support; they\u2019ll let you know which limit was hit and how to fix it. But rest assured: your data is still safely stored until you unpause."
+}

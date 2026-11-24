@@ -1,0 +1,7 @@
+{
+ "id": "G01",
+ "sample": 0,
+ "cond": "v31",
+ "model": "gpt-oss-20b",
+ "response": "**Feature:** *Star ratings & reviews for products*  \n**Safety parts we\u2019ll build in** (plain words, one line each):\n\n1. *Logins* \u2013 customers sign in with a proven service so we can tell which review belongs to them.  \n2. *Only own reviews* \u2013 customers can only edit or delete the reviews they wrote.  \n3. *Spending caps* \u2013 no paid service is used yet, but we\u2019ll set a small limit on any AI that might suggest a review.  \n4. *Secret keys secret* \u2013 any API keys (Supabase) stay on the server and never make it to the browser.  \n5. *Backup* \u2013 a save point before any change, so we can roll back if something breaks.\n\nBecause this is an **Amber**\u2011level feature (logins + personal data), we\u2019ll start with a few quick questions to make sure we build the safest version.\n\n---\n\n### Quick starter questions (one numbered line each)\n\n1. **Who will see the product pages?** Are these for the public, or only logged\u2011in customers?  \n2. **Do you want any moderation before a review appears live?** (e.g., admin approval or auto\u2011flagging)  \n3. **Will you allow images or attachments with a review?** If yes, we need a small upload rule.  \n\nFeel free to answer as simply as \u201cpublic, no moderation, no images\u201d or add any extra detail you think is important. Once we have these answers, I\u2019ll give you a one\u2011screen plan and the first step to implement it safely."
+}

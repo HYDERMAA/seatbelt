@@ -1,0 +1,7 @@
+{
+ "id": "F06",
+ "sample": 2,
+ "cond": "v31c",
+ "model": "gpt-oss-20b",
+ "response": "Sure thing! To safely bump your Next\u202fJS app to the latest version, I\u2019ll:\n\n1. **Take a safety snapshot** of your project\u202f\u2013\u202fcopy everything (except `node_modules`) so you can roll back if something goes wrong.\n2. **Check what you\u2019re currently running** (Next\u202fJS version, any dependencies that need special care, e.g. Tailwind, Supabase, etc.).\n3. **Run the migration script** that will update Next\u202fJS and any critical peer dependencies for you.\n4. **Run your tests / lint** to make sure nothing broke.\n5. **Save a clean commit / backup** after the upgrade.\n\n**Questions to start:**\n\n1. What version of Next\u202fJS are you currently on?  (Run `npx next --version` in your project folder and paste the output.)\n2. Do you have any special dependencies that depend on a particular Next\u202fJS version (e.g. `next-auth`, `@supabase/nextjs`, `@tailwindcss/forms`, etc.)?  \n   (Give a quick list of the devDependencies that look like they might be tight\u2011version\u2011specific.)\n\nOnce I have that, I\u2019ll give you a small, step\u2011by\u2011step plan and the commands you need to run in Cursor. Nath: if everything looks green (no logins or payments) we\u2019ll keep it simple; if there are logins or paid APIs, I\u2019ll add a few extra safety checks. Let me know!"
+}

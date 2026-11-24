@@ -1,0 +1,7 @@
+{
+ "id": "F02",
+ "sample": 0,
+ "cond": "v3again",
+ "model": "gpt-oss-20b",
+ "response": "Got it \u2013 you\u2019d like an \u201cadmin\u201d page that lets you view all customers\u2019 orders.  \nBefore building it, I need a couple quick details so we keep the app safe:\n\n1. **Who will be \u201cyou\u201d?**  \n   *A single email address (e.g. admin@example.com)?*  \n2. **What do you want to see on the page?**  \n   *Just a list of orders?  Order ID, customer name, date, status?*  \n3. **Will you need to do anything from that page (e.g., update status, delete a row)?**  \n   *If yes, let me know which actions.*\n\nAnswer those, and I\u2019ll draft a one\u2011screen plan with the safest defaults (Supabase Auth\nfor login, RLS on orders, a small admin\u2011only policy, and a separate \u201cadmin\u201d route). Once\napproved, we\u2019ll add the page, create the policy, and set up a check to make sure only\nyour account can see the data. Let me know!"
+}

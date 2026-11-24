@@ -1,0 +1,7 @@
+{
+ "id": "R24",
+ "sample": 1,
+ "cond": "v31d",
+ "model": "gpt-oss-20b",
+ "response": "**Start by figuring out what\u2019s happening and how to stop the fake accounts**\n\n**Safety parts I\u2019ll add first (in plain text, no code yet)**  \n1. **Add a spam\u2011filtering step** when a user signs up: check the email domain, use a CAPTCHA, or require a double\u2011opt\u2011in magic link.  \n2. **Rate\u2011limit the signup endpoint** per IP/phone so a bot can\u2019t create dozens of accounts in seconds.  \n3. **Create a \u201creview queue\u201d** for new accounts: unseen accounts stay inactive until an admin clicks \u201cApprove\u201d or you auto\u2011approve after a short delay.  \n\nNow, to tailor the fix I need a few quick details:\n\n1. **Which auth provider are you using?** Supabase Auth (magic link, email+password, etc.)  \n2. **Do you already have any server\u2011side logic or a database view that filters new users?**  \n3. **What platform are you hosting on?** (e.g., Vercel, Netlify, Supabase Edge functions, etc.)  \n4. **Do you have any admin panel or dashboard where you can see the raw user list?**  \n5. **How many fake accounts per day are you seeing, and do you notice any pattern (same IP, same email domain, etc.)?**  \n\nAnswer these, and I\u2019ll give you a step\u2011by\u2011step plan to block the fakes while keeping real users happy."
+}

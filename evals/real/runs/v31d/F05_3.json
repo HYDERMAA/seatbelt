@@ -1,0 +1,7 @@
+{
+ "id": "F05",
+ "sample": 3,
+ "cond": "v31d",
+ "model": "gpt-oss-20b",
+ "response": "Sure thing! Let\u2019s add a welcome\u2011email that fires the moment someone signs up on your Replit app.\n\n### Safety checks I\u2019ll add automatically\n\n| Feature | Safety part I\u2019ll build in |\n|---------|---------------------------|\n| **Send email on sign\u2011up** | \u2022 Email key stored on the server (never in the browser). \u2022 Rate\u2011limit to avoid spam / abuse. \u2022 A \u201cfrom\u201d address you verify with Replit\u2019s email service or an external provider (SendGrid, Mailgun, etc.). |\n| **User login** | \u2022 Uses a proven auth service (Supabase Auth / Firebase Auth) \u2013 no custom password logic. |\n| **Data privacy** | \u2022 Each user can only see their own data. |\n| **Secrets protection** | \u2022 All keys live in Replit Secrets, never in the repo. |\n\n---\n\n#### 1\ufe0f\u20e3 Quick starter questions  \n\n1. **Do you already have an authentication system set up?**  \n   - If yes, which provider (Supabase, Firebase, etc.)?  \n   - If no, we\u2019ll add one for you.\n\n2. **Which email service do you want to use?**  \n   - Replit\u2019s built\u2011in SendGrid (free for low volume).  \n   - Or an external provider (SendGrid, Mailgun, SES, etc.).  \n\nGive me \u201cyes/no\u201d for the first question and a short name for the email service (or \u201creplit\u201d for default). Then I\u2019ll give you the exact steps and the code you need to paste into Replit."
+}

@@ -1,0 +1,7 @@
+{
+ "id": "R08",
+ "sample": 0,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "**Safety parts we\u2019ll add for this feature**\n\n| Feature | Safety part(s) |\n| --- | --- |\n| **Photo uploads** | \u2022 Storage bucket set to *private* unless you say it should be public.<br>\u2022 RLS\u2011style rules so each user can only add, replace or delete their **own** files.<br>\u2022 File\u2011type and size limits (image only, max\u202f10\u202fMB).<br>\u2022 Optional \u201creport\u201d button so users can flag content they don\u2019t approve. |\n| **Likes** | \u2022 A small `likes` table with an `INSERT` policy that only the logged\u2011in user can create a like.<br>\u2022 A `DELETE` policy so users can only remove their own likes.<br>\u2022 A view that counts likes for each photo, visible to all. |\n\n---\n\n### Quick questions to shape the implementation\n\n1. **Visibility** \u2013 Do you want uploads to be *public* (anyone can see them) or *private* (only logged\u2011in users can view and like them)?  \n2. **Login style** \u2013 Should we set up email\u2011only magic\u2011link logins or do you prefer another method?  \n3. **Storage** \u2013 We\u2019ll use Supabase Storage for the pictures. Is that okay, or do you have another bucket provider in mind?\n\nOnce you answer, we\u2019ll jump to a one\u2011screen plan: what we\u2019ll build, the risk level, day\u2011one features, data stored, and the exact steps. Then we\u2019ll create a save point, add the code, and give you the proof to check."
+}

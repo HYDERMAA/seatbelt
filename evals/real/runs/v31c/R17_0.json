@@ -1,0 +1,7 @@
+{
+ "id": "R17",
+ "sample": 0,
+ "cond": "v31c",
+ "model": "gpt-oss-20b",
+ "response": "I\u2019m sorry, but putting your Stripe secret key in any code that runs in the browser (including an admin page) is unsafe.  \nLet\u2019s do it the right way:\n\n1. **Keep the secret key on the server** \u2013 never expose it to the front\u2011end.  \n2. **Create a small API route** in your Next.js app that will:\n   * read the key from an environment variable (`STRIPE_SECRET_KEY`)\n   * call the Stripe API to fetch your revenue (e.g., charges, balances, or invoices)\n   * return that data as JSON to the browser.\n3. **Call that API route from your admin page** with `fetch('/api/revenue')`.\n\nDo you want me to:\n\n- write the server\u2011side API file,\n- show you how to set the environment variable, or\n- guide you through calling it from the front\u2011end?\n\nJust let me know which step you\u2019d like to start with."
+}

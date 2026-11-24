@@ -1,0 +1,7 @@
+{
+ "id": "R08",
+ "sample": 0,
+ "cond": "v31c",
+ "model": "gpt-oss-20b",
+ "response": "Great! Let's add a pet\u2011photo gallery with liking.\n\n### Safety parts we\u2019ll add\n\n| Feature | What we\u2019ll do to keep it safe |\n|---------|------------------------------|\n| Photo uploads | \u2022 Store in a private Supabase bucket \u2013 only the uploader can see their own files. <br>\u2022 Limit file type to jpg/png and size (e.g. \u22645\u202fMB). <br>\u2022 Add a \u201creport\u201d button and a way for the uploader to delete their photo. |\n| Likes | \u2022 Create a `likes` table that records user\u202f+\u202fphoto. <br>\u2022 Rules so a user can only like or unlike their own like\u2011records, and can only like a photo once. |\n| Logins | \u2022 We\u2019ll use Supabase Auth with magic\u2011link email login (no passwords). |\n\n---\n\n### Starter questions (two short questions)\n\n1. **Who will use the app?**  \n   *Just you? A small group of friends? The general public?*  \n2. **Do you have a name, logo, colours, or any text you want on the page?**  \n   *If no, we\u2019ll use default \u201cPet Gallery\u201d and a simple style.*  \n\nReply \u201cyes\u201d to the first, or give a quick answer and we\u2019ll draft a one\u2011screen plan. Once you\u2019re happy with the plan, we\u2019ll jump into step\u202f1: setting up Supabase Auth and the storage bucket."
+}

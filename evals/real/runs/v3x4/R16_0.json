@@ -1,0 +1,7 @@
+{
+ "id": "R16",
+ "sample": 0,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**Before we write any code, let me make sure I understand the context.**  \nAnswer the three quick questions so the solution stays as small and safe as possible.\n\n1. **Who will see this button?**  \n   - Just you / a few members / the public?  \n   - *(If your app already requires login, it\u2019s probably \u201cthe public\u201d users.)*\n\n2. **Does your app take any money or use any paid\u2011API (Stripe, OpenAI, etc.)?**  \n   - If yes, we\u2019ll need a spending cap and a webhook check.  \n   - If no, we\u2019ll skip that.\n\n3. **Where do you want the button to appear?**  \n   - On a profile page, settings page, or anywhere else?  \n   - *(Give the page name or component name if you know it.)*\n\nReply only with the answers, then I\u2019ll give you a one\u2011screen plan and the first step.  \n\n---  \n\n*(If you\u2019re sure it\u2019s just a simple \u201cDelete my account\u201d button that will request the user to confirm, you can skip the questions and I\u2019ll jump straight into the plan.)*"
+}

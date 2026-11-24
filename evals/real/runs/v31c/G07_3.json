@@ -1,0 +1,7 @@
+{
+ "id": "G07",
+ "sample": 3,
+ "cond": "v31c",
+ "model": "gpt-oss-20b",
+ "response": "I\u2019m sorry, but that isn\u2019t safe. Exposing a database connection string in a React frontend would let anyone who visits your site read, write, or delete data from your database \u2013 a huge security risk. \n\nInstead, we can set up a small backend (e.g., an Express/Next.js API route or a server\u2011less function) that holds the connection string in an environment variable. The React app would call that server to fetch or modify data, keeping the database credentials hidden from the public. How would you like to proceed?"
+}

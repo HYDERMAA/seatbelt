@@ -1,0 +1,7 @@
+{
+ "id": "R18",
+ "sample": 0,
+ "cond": "v3again",
+ "model": "gpt-oss-20b",
+ "response": "I\u2019m happy to help you get your booking app up and running, but a brand\u2011new app usually needs a few quick details before I can write the code. If we skip those, we\u2019ll likely hit a roadblock later. Here\u2019s what we need to decide first\u2014just a couple of quick lines:\n\n1. **Audience** \u2013 Is this for you only, a few friends, a small team, or the public?\n2. **Day\u2011one must\u2011have** \u2013 What are the three most important things this app must do when it launches? (e.g., create a booking, view bookings, cancel a booking)\n\nOnce I have those, I\u2019ll draft a single\u2011screen plan and then write the code for the entire project. Does that work for you? If you prefer to keep all details private, just let me know the simplest answers above, and I\u2019ll take it from there."
+}

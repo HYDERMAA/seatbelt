@@ -1,0 +1,7 @@
+{
+ "id": "G04",
+ "sample": 1,
+ "cond": "v31d",
+ "model": "gpt-oss-20b",
+ "response": "**We\u2019re adding a private messaging feature** (one\u2011to\u2011one chat) to your Bolt app that uses Supabase.  \nBecause this involves user logins, personal data (messages) and private communication, the risk level is **Amber**.\n\nLet\u2019s do the safety\u2011first steps:\n\n### 1\ufe0f\u20e3 Starter questions (I\u2019ll build the plan around your answers)\n\n1. **Who will use the messaging?**  \n   *You, a small group, or an open public app?*\n\n2. **What must the messaging do on day one?**  \n   *Send a message, read a conversation list, delete a message, etc.*\n\n3. **What information will the messages store?**  \n   *Plain text only, or do you need attachments, emojis, message status?*\n\n4. **Will you need any moderation or reporting?**  \n   *E.g., users can flag a message.*\n\n5. **Do you plan to keep any logs or analytics about messages?**\n\nGive me brief answers to these, and I\u2019ll craft a one\u2011screen plan with safety parts. I\u2019ll also suggest how to secure the messaging through Supabase Row\u2011Level Security, keep keys secret, and add a clean, simple UI in Bolt. Let me know what you choose!"
+}

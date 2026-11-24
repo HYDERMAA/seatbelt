@@ -1,0 +1,7 @@
+{
+ "id": "R21",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**This request is an Amber\u2011level feature because it adds user login.**\n\nLet\u2019s get the details straight before we add the magic\u2011link login.\n\n**1. What do you want the login flow to look like?**  \n- Do you just want a \u201clogin with email\u201d button that sends them a one\u2011time link, or do you also want a \u201cregister\u201d page that creates their account first?  \n- Once logged\u2011in, what do they see? A simple dashboard?  \n- Do you want any \u201cremember\u2011me\u201d behaviour (stay logged in for a week, etc.)?\n\n**2. Where will the user live\u2014on your own domain, or a default Supabase domain (e.g. `example.supabase.co`)?**  \nSupabase Auth can send magic links to any server\u2011side domain you control, but you\u2019ll need to set the \u201cRedirect URLs\u201d correctly.\n\nIf you\u2019re happy to proceed with the default setup (a single \u201cLogin with email\u201d button that sends a magic link and then redirects back to `/dashboard`), let me know and I\u2019ll draft a one\u2011screen plan and the exact code changes for you."
+}

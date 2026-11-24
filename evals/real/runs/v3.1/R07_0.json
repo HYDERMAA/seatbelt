@@ -1,0 +1,7 @@
+{
+ "id": "R07",
+ "sample": 0,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "### \ud83c\udf89 Let\u2019s build a quick, safe website for your dog\u2011walking business\n\n#### 1\ufe0f\u20e3 Starter questions (only two for a Green site)\n\n1. **What\u2019s the name of your business and the tagline or short description you want on the page?**  \n   *(e.g., \u201cBella\u2019s Paws \u2013 Professional Dog Walking in Brookfield\u201d)*\n2. **Do you have a logo or photos of dogs you\u2019d like to use?** If not, we\u2019ll use free placeholder images for now.\n\nOnce you give me those two things, I\u2019ll write a one\u2011screen plan and we can start building.  \nJust reply with the answers, and we\u2019ll go from there!"
+}

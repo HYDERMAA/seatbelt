@@ -1,0 +1,7 @@
+{
+ "id": "F03",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "Got it! Let\u2019s add \u201cSign\u202fin\u202fwith\u202fGoogle\u201d so people can log in with their Google account.  \nBecause we\u2019re adding authentication, this falls into the **Amber** level.  \nI\u2019ll ask just a couple of quick clarifications and then lay out a one\u2011screen plan.\n\n---\n\n### 1\ufe0f\u20e3 Starter Questions (short, answer with \u201cyes/no\u201d or a quick note)\n\n1. **Do you already have Supabase Auth set up in the project?**  \n   (If not, we\u2019ll create a Supabase Auth\u2011enabled project first.)\n\n2. **Do you have a Google Cloud project with an OAuth\u202f2.0 Client ID ready?**  \n   (If not, I\u2019ll guide you through creating one.)\n\n3. **Do you want the login to require email verification?**  \n   (Supabase can enforce that; let me know.)\n\nReply with the answers (or just \u201cyes\u201d if all are ready) and we\u2019ll jump straight to the plan."
+}

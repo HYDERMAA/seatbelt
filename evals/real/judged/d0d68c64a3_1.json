@@ -1,0 +1,1 @@
+{"bid": "d0d68c64a3", "round": 1, "scores": [0, 0, 1, 0, 1, 1, 1], "notes": "The reply handles removal but misses key rotation, misuse logging, and urgency."}

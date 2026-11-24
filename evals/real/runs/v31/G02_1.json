@@ -1,0 +1,7 @@
+{
+ "id": "G02",
+ "sample": 1,
+ "cond": "v31",
+ "model": "gpt-oss-20b",
+ "response": "**Safety parts I\u2019ll build in (to keep your app secure and fair)**  \n1. **Login\u2011only access** \u2013 Only authenticated users can create or redeem a referral.  \n2. **Per\u2011user credit** \u2013 A tiny, non\u2011negative balance that only one person can see or spend.  \n3. **Referral policy** \u2013 A user can only claim a given code once.  \n4. **Stripe credit** \u2013 The credit is stored in Supabase and auto\u2011charged to the buyer\u2019s card via a safe webhook.  \n5. **Backup & audit** \u2013 All moves are logged in the database, and we limit how many credits one person can receive.\n\n---\n\n## Quick sanity check  \nBefore I start writing any code, could you confirm the following?  \n\n1. **Auth** \u2013 Are you already using Supabase Auth (email magic link or similar) for your users?  \n2. **Stripe** \u2013 Do you have a Stripe account linked to your Supabase project, with a customer\u2011payment flow in place?  \n3. **Credit use** \u2013 Do you want the \u00a310 to be shown as a balance in the user profile and automatically apply to the next purchase, or should it trigger a one\u2011time free checkout?  \n\nReply \u201cyes\u201d to each or give a short note. Once I have a green light, I\u2019ll give you a one\u2011screen plan and the first step."
+}

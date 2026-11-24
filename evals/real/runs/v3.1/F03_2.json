@@ -1,0 +1,7 @@
+{
+ "id": "F03",
+ "sample": 2,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "**Safety parts I\u2019m going to build in (this is an Amber\u2011level task \u2013 it adds logins):**\n\n| Feature | Safety part |\n|---------|-------------|\n| Sign\u2011in with Google | \u2022 Use Supabase Auth\u2019s built\u2011in Google provider (never store your own OAuth client ID in the browser). <br>\u2022 Only give the user access to their own data (row\u2011level security). <br>\u2022 No extra secrets exposed on the client side. |\n\n---\n\n## Quick plan\n\n```\nWhat we are building: add a \u201cSign in with Google\u201d button to the Bolt app.\nWho uses it: anyone (public). Risk: Amber \u2013 because it involves personal data and auth.\nDay\u2011one features: 1. Google sign\u2011in button on the login page. 2. Successful login redirects to the app. 3. User data stored securely.\nInformation stored: user profile (email, name). Private, only visible to themselves.\nLogins: Google (OAuth) via Supabase Auth.\nMoney: None.\nBuilt with: Bolt + Supabase Auth (Google provider).\nSteps: 1. Enable Google in Supabase, create OAuth client. 2. Add the Bolt login component. 3. Test a login flow.\nSafety: secrets (OAuth client id/secret) stay on the server, not exposed; RLS on `profiles` table; one change per step; create a save point before each step.\n```\n\nDo you agree with this plan? If so, I\u2019ll walk you through step 1. If you have any preferences (e.g., where the button should appear), let me know."
+}

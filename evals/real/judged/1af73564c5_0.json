@@ -1,0 +1,1 @@
+{"bid": "1af73564c5", "round": 0, "scores": [1, 1, 0, 1, 0, 1, 1, 1], "notes": "The reply covers most safety checks but misses RLS/booking validation and prompt\u2011injection handling."}

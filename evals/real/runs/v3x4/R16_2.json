@@ -1,0 +1,7 @@
+{
+ "id": "R16",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**Step 1 \u2013 Understand the context (Amber)**  \nBecause this is a new feature that touches a user\u2019s personal data, we\u2019ll treat it as an **Amber**\u2011level change.  \nWe need a quick check to make sure we\u2019re on the right track:\n\n1. **Do you already have Supabase Auth set up** (so the user is logged in on each page)?  \n2. **Where do you want the button to appear?** (e.g., a \u201cSettings\u201d page, a sidebar, a modal)\n\nGive me a short \u201cyes/no\u201d for #1, and a sentence for #2.  \nOnce we have that, I\u2019ll give you a one\u2011screen plan, save points, and the exact code changes."
+}

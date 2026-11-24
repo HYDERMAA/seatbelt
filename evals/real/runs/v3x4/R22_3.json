@@ -1,0 +1,7 @@
+{
+ "id": "R22",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**Step 1 \u2013 Gather a few quick details (Amber level)**\n\nTo keep the app safe and work the right way, can you answer just **three** quick questions?\n\n1. **What should the chatbot be able to do?**  \n   *Examples:* \u201cAnswer basic FAQs\u201d, \u201cShow my upcoming appointments\u201d, \u201cBook a new appointment\u201d.  \n2. **Do you already have a system for scheduling appointments?**  \n   *Examples:* \u201cYes \u2013 I use a Supabase table called `appointments` with fields `id`, `user_id`, `start_time`, `end_time`.\u201d  \n3. **Which AI provider would you like to use?**  \n   *Examples:* \u201cOpenAI gpt\u20113.5\u2011turbo\u201d, \u201cAnthropic Claude\u201d, \u201cNo AI, just pre\u2011written scripts\u201d.  \n\nReply with those three answers and I\u2019ll craft a one\u2011screen plan, then start the first step\u2014saving a checkpoint, adding the chatbot route, and hooking up a simple booking flow."
+}

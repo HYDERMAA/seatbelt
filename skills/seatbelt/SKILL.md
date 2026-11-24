@@ -4,7 +4,7 @@ description: Safe vibe coding for non-developers. Use when someone builds, fixes
 license: MIT (see LICENSE.txt)
 metadata:
   author: Mohammed Hyder
-  version: "3.0.0"
+  version: "3.1.0"
   homepage: https://github.com/HYDERMAA/seatbelt
 ---
 
@@ -27,10 +27,19 @@ Decide this before anything else. It changes what you do.
   setting): answer it directly and practically, in steps. No starter questions, no risk level.
   Use the habits that apply (save point before a change, keys secret, two strikes).
 - **A new app:** work out the risk level, ask the starter questions, write the plan.
-- **A big new feature for an existing app:** ask only what you cannot see (at most three
-  questions), and in the same message list the safety parts you will build in (for example: AI
-  key on the server, a confirmation step before the AI acts, per-person caps, data locked to its
-  owner).
+- **They name a package or library to install:** first check it is real and widely used (see
+  the feature list), and suggest the official one if it is not.
+- **A feature for an existing app** (a button, an upload, a login option, a chatbot): your first
+  reply always names the safety parts you will build in, taken from
+  [the feature list](#common-features-the-safety-parts-to-build-in), even when you also ask
+  questions. Small, clear features: state the safe defaults in one line each and build. Bigger
+  ones: at most three questions plus the safety parts in the same message.
+- **Never send questions alone.** Whenever you ask questions, the same message also gives the
+  safety parts you will build in (or, for a new app, the risk level and your safe defaults), so
+  the answer is useful even if they never reply.
+- **A simple website** (a business, a menu, a portfolio, an event) is **Green** unless they ask for
+  logins, bookings or payments: at most two short questions, or assume and build. Do not plan
+  logins, databases or payments for it.
 - **"No questions, just build it":** ask none. Write the one-screen plan with safe defaults
   (logins through a proven service, each person sees only their own data, no payments in version
   one), state each default in one line, then start step 1.
@@ -41,6 +50,25 @@ Decide this before anything else. It changes what you do.
   collecting another site's data, mention its terms and
   robots.txt, a polite rate, and an official API or feed first. Refuse only what is clearly
   harmful or illegal, and offer the nearest legitimate alternative.
+
+## Common features: the safety parts to build in
+
+Use a row only when they ask for that feature (or it is already in their app). Never add a
+feature they did not ask for just because it is in this list: a simple business website still
+gets no logins, uploads or database. When a row applies, name its safety parts in your first
+reply, in plain words, then build them in.
+
+| Feature | Safety parts |
+| --- | --- |
+| Photo or file uploads | Storage rules so people add, change or delete only their own files. Limit file type and size. Private bucket unless meant to be public. If others see the files, a report button and a way to remove them. |
+| Likes, comments, posts others see | Rules so people edit and delete only their own. A report or hide option. Limits against spam. |
+| "Delete my account" | A confirmation step. Delete in server code (the service key stays on the server). Remove or anonymise their rows and files too, keeping only what the law requires (for example invoices). |
+| Logins with email only (magic link or code) | Use the login service's own magic link or code. Set the site address and allowed redirect addresses. Connect your own email sender before launch, because the built-in one sends only a few emails an hour. |
+| AI that can act (book, send, delete, pay) | AI key on the server. The person confirms before it acts. The server checks every action is allowed and never just trusts the AI. Per-person caps and a spending limit. People can trick an AI (prompt injection), so it reaches only this person's data. |
+| Health, money, children or other sensitive data | Red level. Each person sees only their own records. A privacy notice (in the UK and EU, health data needs extra care). A developer review before launch. |
+| A package the user names | Check it exists and is widely used before installing; AI tools invent package names and attackers publish fake ones under them. Prefer the official library (for example Stripe's own). |
+| Collecting data from another website | Help, do not refuse. Check its terms and robots.txt, use an official API or feed if there is one, keep a polite rate with caching, give the running cost, and suggest asking someone qualified if unsure about the law. |
+| A "secret detected" or leaked-key alert | Replace the key now in the provider's dashboard, check its usage for activity they do not recognise, then remove it from the code and history. Deleting it from the code alone is not enough. |
 
 ## The habits (always on)
 
@@ -254,9 +282,11 @@ Step by step, with common errors: [references/fixing-bugs.md](references/fixing-
    so set a spending cap on each one.
 2. **Check the live site** once it is online, only if it is theirs:
    `python3 <this skill's folder>/scripts/check_live.py https://their-site --mine --report live-report.md`
-   It reads the site like a stranger would (never logs in or changes anything): keys in the
-   page, exposed `.env` or `.git` files, missing HTTPS, and whether each database table the site
-   uses answers strangers. Anything it can read, a stranger can read.
+   It reads the site like a stranger would (changes nothing): keys in the page, exposed `.env`
+   or `.git` files, missing HTTPS, and whether each database table the site uses answers
+   strangers. For apps with logins, add `--two-users`: with two test accounts the user makes
+   (A and B), it checks whether A can read B's rows and files. Details:
+   [going-live.md](references/going-live.md).
 3. **Use the builder's own scans** too: Lovable's security scan, Replit's Security Center,
    Supabase's Security Advisor (under Advisors).
 4. **Work through** [references/going-live.md](references/going-live.md): secrets, logins,

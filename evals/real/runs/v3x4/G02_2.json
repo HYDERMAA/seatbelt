@@ -1,0 +1,7 @@
+{
+ "id": "G02",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "Got it! That\u2019s an **Amber**\u2011level feature because it involves logins, personal data and paid credit.  \nLet\u2019s first collect a few quick details so we can plan safely.\n\n**1. Who will use the referral code?**  \n- All users (every new sign\u2011up gets a code?)  \n- Only existing users?\n\n**2. What exactly should happen on day one?**  \n- Show a referral code field when a friend signs up.  \n- Give the referrer a \u00a310 credit **to their Stripe balance** (or Supabase credit table).  \n- Show a \u201cThanks!\u201d message that the new user also gets a welcome bonus?  \n\n**3. What information will be stored?**  \n- The referrer\u2019s user ID.  \n- The generated referral code (unique).  \n- A record that the referral was used so it can\u2019t be reused.  \n\n**4. Logins** \u2013 Yes, users already log in with Supabase Auth.  \n**5. Money** \u2013 Stripe credit, so we\u2019ll be calling the Stripe API.  \n**6. Build with** \u2013 Next.js 13 app router, Supabase JS, Stripe Node SDK.\n\nLet me know your answers. Once you do, I\u2019ll draft a one\u2011screen plan and we\u2019ll tackle it step\u2011by\u2011step."
+}

@@ -1,0 +1,7 @@
+{
+ "id": "R21",
+ "sample": 0,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "Great!  \nYou want to add \u201cmagic\u2011link\u201d email\u2011only log\u2011ins to your Supabase project.\n\n**Risk level:** Amber \u2013 we\u2019re adding authentication that stores personal data (emails) and will allow people to log in.  \nWe\u2019ll create a clean, safe plan, add the feature in one small change, and keep a save point before we touch anything.\n\n---\n\n## One\u2011screen plan\n\n```\nWhat we are building: Allow users to sign in with just their email (magic link, no password).\nWho uses it: Anyone who opens the app.   Risk level: Amber (personal data, auth)\nDay\u2011one features: 1. Email\u2011only sign\u2011in button 2. \u201cCheck your email\u201d message 3. Once verified, redirect to home\nInformation it stores: email, uid, created_at. Private? yes\nLogins: Yes \u2013 Supabase Auth. Money: No payments. Rough cost: <$0.01/day on Supabase free tier\nBuilt with: Supabase Auth (magic link) + Next.js\u202f13 (or your existing front\u2011end)\nSteps: 1. Enable email auth in Supabase. 2. Add a \u201cSign in with email\u201d button and handler. 3. Test on dev server.\nSafety: secrets hidden, RLS rules on user table, save point before each step.\u202fNot in v1: password flow, social logins, emails sent via custom SMTP.\n```\n\n**Does this look right?**  \nReply \u201cyes\u201d or tell me what to change. If you\u2019re happy, I\u2019ll grab the first step."
+}

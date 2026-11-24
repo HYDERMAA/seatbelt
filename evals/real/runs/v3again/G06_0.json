@@ -1,0 +1,7 @@
+{
+ "id": "G06",
+ "sample": 0,
+ "cond": "v3again",
+ "model": "gpt-oss-20b",
+ "response": "**What we are building**: Add a Google\u2011Analytics tag to your Next.js site on Vercel.  \n**Who uses it**: Anyone who visits your site (public).  \n**Risk level**: Green \u2013 no logins, no personal data stored, no money.  \n**Day\u2011one features**: 1\ufe0f\u20e3 GA code runs in the browser.  \n**Information stored**: None on your server \u2013 GA stores data in Google\u2019s own bucket.  \n**Logins**: No.  \n**Money**: No.  \n**Built with**: Next.js + Vercel \u2013 we\u2019ll add a small piece of JavaScript.  \n**Steps**:  \n1. Add a `next.config.js` snippet that injects the GA script on every page.  \n2. Commit a small change and deploy to Vercel.  \n3. Verify the GA tag\u202f\u2013 open dev\u2011tools \u2192 **Network** and search for `collect`.  \n\n**Safety**: No secrets are added to the front\u2011end, no private data sent.  \n**Not in version\u202f1**: custom event tracking, server\u2011side rendering of GA tags, or advanced consent controls.  \n\nDoes this look right? Reply **yes** or tell me what to change."
+}

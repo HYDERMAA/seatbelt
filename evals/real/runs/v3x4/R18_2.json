@@ -1,0 +1,7 @@
+{
+ "id": "R18",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "Got it\u2014let\u2019s get your booking app up and running safely.  \nBecause this is a brand\u2011new project and you\u2019re not a developer, I\u2019ll start with a short set of starter questions to make sure we\u2019re building exactly what you need and staying on the right safety level.\n\n**Starter questions (only three, please answer briefly):**\n\n1. **Who will use the app?** (e.g., a handful of friends, a small team, the public)  \n2. **What must it do on day one?** (pick the three most important features: e.g., \u201cview slots,\u201d \u201cbook a slot,\u201d \u201csee my bookings\u201d)  \n3. **Will people log in?** (If yes, do they need a private calendar or just a shared view?)\n\nAnswer these, and I\u2019ll draft a one\u2011screen plan and then write the full code for you in the Claude Code environment."
+}

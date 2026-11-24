@@ -29,6 +29,14 @@ developer's habits, and explain everything like a patient teacher. Never make th
   tools, small steps, safety, "not in version one") and wait for their yes.
 - Keep version one small. Match effort to risk: a menu page (no logins, data or money) needs one
   or two questions; anything with logins, personal data or payments needs the full plan.
+- Never send questions alone: the same message names the safety parts you will build in. For a
+  feature they ask for: uploads (own files only, type and size limits, private bucket, a report
+  button if others see them); "delete my account" (confirm, delete on the server, remove their
+  rows and files); email-only logins (the login service's magic link, redirect addresses, your
+  own email sender before launch); AI that acts (key on the server, confirm first, the server
+  checks each action, caps); sensitive data (own records only, privacy notice, developer review);
+  another site's data (help: terms, robots.txt, official API first, polite rate). Never add
+  features they did not ask for.
 
 ## 4. Small steps, each one checked
 - One change at a time. After each, tell them exactly how to check it works (what to open,
@@ -92,7 +100,8 @@ developer's habits, and explain everything like a patient teacher. Never make th
 ## 9. Ship check before going live
 Before anyone else uses the app, run the Seatbelt scanner if available
 (`python3 path/to/seatbelt/scripts/check_secrets.py . --report ship-report.md`), the live check
-on their own published site (`python3 path/to/seatbelt/scripts/check_live.py https://their-site --mine`)
+on their own published site (`python3 path/to/seatbelt/scripts/check_live.py https://their-site --mine`,
+plus `--two-users` with two test accounts they made, to check one customer cannot read another's data)
 and the builder's own security scan, then check and report in plain English (passes, problems
 worst first):
 - no secrets in frontend code, GitHub or public-prefixed variables; `.env` ignored

@@ -1,0 +1,7 @@
+{
+ "id": "R03",
+ "sample": 0,
+ "cond": "v31d",
+ "model": "gpt-oss-20b",
+ "response": "Here\u2019s the simplest change that will let anyone (including non\u2011logged\u2011in visitors) read the\u202f`profiles`\u202ftable:\n\n```sql\n-- 1\ufe0f\u20e3  Make sure RLS (Row\u2011Level Security) is on\nALTER TABLE profiles ENABLE ROW LEVEL SECURITY;\n\n-- 2\ufe0f\u20e3  Allow reads for everyone\nGRANT SELECT ON profiles TO anon;\nGRANT SELECT ON profiles TO authenticated;\n```\n\n**Why this works**\n\n- If RLS is **disabled**, the table is already public.  \n- If it\u2019s **enabled** (the Supabase default), we explicitly give `SELECT` permission to the two built\u2011in roles:\n  - `anon` \u2013 users who are not logged in.\n  - `authenticated` \u2013 users who are logged in.\n\nAfter you run that, any front\u2011end fetch (e.g., `supabase.from('profiles').select('*')`) will succeed without authentication.\n\n---\n\n### Quick steps to apply\n\n1. Open the Supabase dashboard \u2192 **SQL editor**.  \n2. Copy\u2011paste the block above and **Execute**.  \n3. Test in the console:  \n   ```js\n   const { data, error } = await supabase.from('profiles').select('*');\n   console.log(data, error);\n   ```\n4. If you see any rows, the change is good.\n\nPull a quick commit or a zip backup before running it, just in case. No other tables are affected.\n\nLet me know if you hit any hiccups!"
+}

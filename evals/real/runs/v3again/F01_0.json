@@ -1,0 +1,7 @@
+{
+ "id": "F01",
+ "sample": 0,
+ "cond": "v3again",
+ "model": "gpt-oss-20b",
+ "response": "**When a Supabase project is paused, you\u2019re in \u201cpaused\u201d mode on the free tier.**\n\n- **Your data isn\u2019t deleted** \u2013 it stays in the database and files just as it was.\n- The project is **not running** at the moment, so you can\u2019t connect to it until you resume.\n- Once you hit \u201cResume\u201d (it\u2019s a one\u2011click button in the Supabase dashboard), everything comes back exactly as it was: tables, rows, files, authentication, etc.\n\nSo: nothing is gone, you just can\u2019t use it until you unpause.  \nJust click \u201cResume\u201d in the Supabase UI when you\u2019re ready to use it again. If you want to be sure, you can also export a database backup before resuming, but normally you won\u2019t need to \u2013 pausing is intentional and reversible."
+}

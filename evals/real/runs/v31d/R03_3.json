@@ -1,0 +1,7 @@
+{
+ "id": "R03",
+ "sample": 3,
+ "cond": "v31d",
+ "model": "gpt-oss-20b",
+ "response": "I can help you enable a read\u2011access policy on your `profiles` table so that it works immediately.  \nBelow is the SQL you\u2019ll run in your Supabase SQL editor. It does **not** expose any\nwrite privileges\u2014only read access for everyone.\n\n```sql\n-- First, enable Row Level Security on the table if it isn\u2019t already\nALTER TABLE profiles\n  ENABLE ROW LEVEL SECURITY;\n\n-- Then, create a policy that allows anyone (registered or anon) to read rows\nDROP POLICY IF EXISTS read_profiles ON profiles;\nCREATE POLICY read_profiles\n  ON profiles\n  FOR SELECT\n  USING (TRUE);   -- TRUE means \u201callow for every user, including anon\u201d\n```\n\n**What this does**\n\n1. **ENABLe RLS** \u2013 keeps the safety net on the table so future policies are respected.\n2. **`FOR SELECT USING (TRUE)`** \u2013 every request, even unauthenticated, can fetch the data.\n\nAfter running this, your app should be able to load profiles.  \nIf you later decide to restrict access (e.g., only logged\u2011in users), you can modify the policy to check `auth.role() = 'authenticated'` or similar."
+}

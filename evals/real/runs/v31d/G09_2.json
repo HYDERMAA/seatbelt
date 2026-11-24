@@ -1,0 +1,7 @@
+{
+ "id": "G09",
+ "sample": 2,
+ "cond": "v31d",
+ "model": "gpt-oss-20b",
+ "response": "**Safety parts for the new button (Amber app)**\n1. **Data export** \u2013 only the logged\u2011in user can request their own data.  \n2. **File size limit** \u2013 small CSV/JSON file, not huge downloads.  \n3. **Download link** \u2013 temporary URL that expires after a minute or two.  \n4. **Server\u2011side generation** \u2013 no user secrets in the browser.  \n5. **Logging** \u2013 keep a record of who downloaded what (for audit).  \n\n---\n\n### Next step: starter questions (amber)\n\n1. **What data do you want in the export?**  \n   - All rows from every table?  \n   - Only personal tables (e.g. `profiles`, `orders`)?  \n   - Any dates / filters?  \n\n2. **Preferred format** \u2013 CSV, JSON, zip of JSON files?  \n\n3. **Do you want any files (images, PDFs) that the user might have uploaded included?**  \n\nAnswer briefly (just a few words) and I\u2019ll write a one\u2011screen plan and the code to add.  \n\nOnce you reply, I\u2019ll:  \n- Create a new API route in the Supabase Edge Functions (or a serverless function) that pulls the user\u2019s rows, builds the file, signs a temporary download link, and sends it to the front\u2011end.  \n- Add a button to the user profile page that calls that API.  \n- Set up RLS so the function only reads the user\u2019s own data.  \n- Log the download action.  \n\nLet me know the details above, and I\u2019ll generate the plan and code snippets."
+}

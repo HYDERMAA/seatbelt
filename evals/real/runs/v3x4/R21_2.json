@@ -1,0 +1,7 @@
+{
+ "id": "R21",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "Great!  \nSince we\u2019re adding log\u2011ins, we\u2019re at **Amber** risk.  \nI\u2019ll first pin down a quick plan and then we\u2019ll ask a couple of short questions.  \n\n**One\u2011screen plan (draft)**  \n```\nWhat we\u2019re building: Email\u2011only login for your Supabase app.  \nWho uses it: Anyone who opens the app.      Risk level: Amber (logins).  \nDay\u2011one features: 1. Magic\u2011link sign\u2011in 2. Session persistence 3. \u201cLog out\u201d button  \nInformation it stores: Email address (public), session token (private).  Private? yes.  \nLogins: Email only (magic link).     Money: none (free).  \nBuilt with: Supabase Auth (magic link) + your existing stack.  \nSteps: 1\ufe0f\u20e3 Enable \u201cMagic link\u201d auth in Supabase. 2\ufe0f\u20e3 Add a login page that asks for email, sends the link. 3\ufe0f\u20e3 Handle the redirect, store session, show a welcome screen.  \nSafety: all keys in .env, session stored server\u2011side, RLS rules on user data.  \nNot in version one: password recovery, 2\u2011FA, email verification.  \n```\n\nDoes that look right?  \nIf yes, I\u2019ll proceed to the starter questions (maximum 3) to make the plan concrete.  \nIf not, let me know what to tweak."
+}

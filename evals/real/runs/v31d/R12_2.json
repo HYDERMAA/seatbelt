@@ -1,0 +1,7 @@
+{
+ "id": "R12",
+ "sample": 2,
+ "cond": "v31d",
+ "model": "gpt-oss-20b",
+ "response": "**What I\u2019ll do next**\n\nI\u2019ll help you add Stripe payment support with the **react\u2011easy\u2011stripe\u2011checkout\u2011pro** package, but first I need a few quick details to keep everything safe:\n\n1. **Do you already have a Stripe account?** If not, I can walk you through creating one.  \n2. **Will users need to log in to make a purchase?** If yes, we\u2019ll use a proven login service (Supabase Auth or Clerk).  \n3. **What is the product/service you\u2019ll sell?** I need the name and price so we can create a Stripe Checkout session.\n\nOnce you answer, I\u2019ll:\n- Install the package\n- Add a server\u2011side API route that creates a Checkout session (keeps your secret key hidden)\n- Show you how to embed the button on your page\n- Suggest a simple RLS policy so only logged\u2011in users can see their own orders (if you\u2019re using a database)\n\nAnswer \u201cyes\u201d or \u201cno\u201d to the questions above, and give me a short list of the item(s) you\u2019re selling (name + price in cents). Then I\u2019ll write the exact steps for you."
+}

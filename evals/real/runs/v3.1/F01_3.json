@@ -1,0 +1,7 @@
+{
+ "id": "F01",
+ "sample": 3,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "No, your data is **not** deleted when a Supabase free\u2011plan project is paused.  \n\n- **Paused** just means the Supabase service stops running for that project (you can\u2019t log in, query the database, or use the API). The data is still stored in the cloud.  \n- When you un\u2011pause the project, it will start up again and you\u2019ll have access to all the tables, storage buckets, and other resources exactly as they were before.\n\nIf you want to keep the data safe while the project is paused, nothing extra is needed\u2014just keep the project ID and your credentials backed up. If you have a backup strategy in place (e.g., exporting tables or backing up storage), you can also run that while the project is paused."
+}

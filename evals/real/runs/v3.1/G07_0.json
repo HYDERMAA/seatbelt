@@ -1,0 +1,7 @@
+{
+ "id": "G07",
+ "sample": 0,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "I\u2019m sorry, but putting a Postgres connection string directly in a React app would expose your database credentials to anyone who views the page source. That would be a major security risk and is not allowed.\n\nThe safe way is to let the React app talk to a **backend API** that holds the connection string in a secret (e.g., an environment variable). The API can then query the database and return only the data the user is allowed to see.\n\nHere\u2019s a quick\u2011start outline you can share with a developer or build with a low\u2011code platform:\n\n1. **Create a lightweight backend (e.g., Node/Express, Python FastAPI, or a serverless function)**\n   - In that code, add the connection string in an environment variable (`DATABASE_URL`) and keep it out of the source repo.\n2. **Expose a REST endpoint** such as `GET /api/items` that queries PostgreSQL and returns the result as JSON.\n3. **In your React app**, fetch that endpoint (`fetch('/api/items')`) instead of connecting to the database directly.\n4. **Add basic security** (e.g., authentication, rate\u2011limiting) in the backend to guard the data.\n\nIf you\u2019d like a concrete code sample for a particular backend framework or guidance on setting up the environment variables, let me know!"
+}

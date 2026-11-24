@@ -1,0 +1,7 @@
+{
+ "id": "R21",
+ "sample": 1,
+ "cond": "v3again",
+ "model": "gpt-oss-20b",
+ "response": "**We\u2019re building an \u201cemail\u2011only\u201d login for your Supabase app**  \n(also called a magic\u2011link or password\u2011less login).  \nSince this adds logins and personal data, it\u2019s an **Amber** project.  \nLet\u2019s get the quick starter details so we can plan safely.\n\n1. **What\u2019s the name of the app and what does it do on day\u202f1?**  \n   *Example: \u201cBook\u2011It \u2013 lets users book a free 30\u2011minute meeting.\u201d*  \n\n2. **How many users do you expect to use it?**  \n   *Example: \u201cA handful of friends and 10\u201115 customers.\u201d*  \n\n3. **Do you already have a Supabase project set up?**  \n   - If yes, give the project URL (e.g., `https://xyz.supabase.co`).  \n   - If no, we\u2019ll create one; no problem.\n\n4. **Do you have a domain or hosting ready?**  \n   - If you\u2019re using Vercel, Netlify, or a custom domain, let me know.\n\n5. **Do you already use any other Supabase services (e.g., a database table) that should be protected?**  \n   - If yes, list the table names.\n\nJust answer these in one small paragraph or bullet list, and we\u2019ll jump straight to a one\u2011screen plan and the first safety\u2011first step."
+}

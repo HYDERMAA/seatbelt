@@ -1,0 +1,7 @@
+{
+ "id": "R08",
+ "sample": 1,
+ "cond": "v3again",
+ "model": "gpt-oss-20b",
+ "response": "Sure! Let\u2019s sketch this out step\u2011by\u2011step.  \nI\u2019ll treat it as a *new app* that needs logins (so people can upload\u202f+\u202flike only their own photos) and stores private data (pictures). That puts us at **Amber** risk level.  \n\n### \ud83d\udd0d Starter questions\nI\u2019ll ask just a couple of quick ones to get the plan precise:\n\n1. **Who\u2019s using it?** (Only you, a small group, public site?)  \n2. **What must it do on day\u202fone?** (Examples: \u201cUpload photo\u201d, \u201cView uploads\u201d, \u201cLike a photo\u201d).  \n3. **What data will it keep?** (Your photos, likes, email, etc.)  \n4. **Will people log in?** (If yes, is it email\u2011only magic link or full auth?)  \n5. **Is money involved?** (I see none yet, just likes/photographs.)  \n6. **What platform/stack are you using?** (You said Lovable + Supabase \u2013 that\u2019s good.)\n\nGive me quick answers to the above (a single line each). I\u2019ll then produce a one\u2011screen plan with safety measures baked in. If you\u2019re happy, we\u2019ll jump straight into building the first part \u2013 the photo upload screen.  \n\n---  \n(Feel free to reply with your answers, and I\u2019ll draft the plan.)"
+}

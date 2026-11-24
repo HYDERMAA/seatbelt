@@ -1,0 +1,7 @@
+{
+ "id": "F01",
+ "sample": 2,
+ "cond": "v31c",
+ "model": "gpt-oss-20b",
+ "response": "A paused Supabase project is still there \u2013 it\u2019s just \u201cfrozen\u201d so it doesn\u2019t use any free\u2011tier resources while you\u2019re not actively working on it.  \n**Your data is still intact**. When you un\u2011pause it, all tables, files, settings, and secrets come back exactly as they were.\n\nIf you miss the un\u2011pause button:\n\n1. Go to the Supabase dashboard \u2192 *Projects*.\n2. Hover over the paused project and click the **Unpause** button (or open the project and click the \u201cUnpause\u201d banner at the top).\n3. You may see a tiny waiting screen \u2013 it\u2019s loading the resources again.\n\n**What you\u2019ll see after un\u2011pausing:**\n\n- All rows in your tables.\n- Files in any storage buckets.\n- Auth users, keys, and environment variables (just remember you still need to keep the secret keys out of your code).\n\nSo don\u2019t worry \u2013 no data is lost, just temporarily inactive. If you\u2019re not going to use the project for a while, you can keep it paused to avoid quota usage; just remember to un\u2011pause it when you\u2019re ready."
+}

@@ -1,0 +1,7 @@
+{
+ "id": "F06",
+ "sample": 2,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "I\u2019ll help you bump your Next\u202fJS app to the latest version safely.  \nFirst, could you let me know a few quick things so I can plan the upgrade correctly?\n\n1. What does the app mainly do? (e.g. static site, blog, e\u2011commerce, admin dashboard, etc.)  \n2. Does it have any user\u2011login, database, or paid\u2011API integrations?  \n3. Where is the code hosted and how do you deploy it? (GitHub\u202f\u2192 Cursor, Docker, Vercel, etc.)\n\nOnce I have that, I\u2019ll give you a one\u2011screen plan describing the steps, safety measures, and a save point to revert if anything goes wrong. If you\u2019re comfortable, just tell me those answers and we\u2019ll get started!"
+}

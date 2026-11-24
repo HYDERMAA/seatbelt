@@ -1,0 +1,7 @@
+{
+ "id": "F01",
+ "sample": 2,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "On a Supabase free plan, \u201cpaused\u201d means the project is temporarily turned off so that it doesn\u2019t use any resources (and it won\u2019t charge you).  \n**Your data is NOT deleted** \u2013 it stays in the database and storage.  \nWhen you un\u2011pause the project, everything comes back exactly as it was: tables, rows, files, and your settings.  \n\n**What to do next**\n\n1. In the Supabase dashboard, click the **\ud83d\udfe2 Resume / Unpause** button.  \n2. Wait a few seconds; the status will change to \u201crunning\u201d.  \n3. Once it\u2019s running, you can log in to the editor, run queries, view files, etc.\n\nIf you\u2019re worried, you can always export a backup before unpausing:\n\n- SQL: `pg_dump` via the Supabase CLI, or use the \u201cExport\u201d button in the SQL editor.  \n- Storage: use the \u201cDownload all\u201d button in the Storage section (or copy the bucket locally).\n\nBut normally the easiest thing is simply to unpause \u2013 everything should be back."
+}

@@ -1,0 +1,7 @@
+{
+ "id": "R06",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "I\u2019m going to get you back to that last good state and figure out what\u2019s wrong with the login.\n\n**1. Roll back to the last working commit**\n\nReplit keeps a history of every change you make.\n\n1. Click the **\u201cGit\u201d** tab on the left sidebar.  \n2. In the **\u201cCommits\u201d** list, find the commit that was made **before** the AI\u2011generated changes started messing with the code.  \n3. Click the commit and then click **\u201cRestore this commit.\u201d**  \n   - This will replace the current files with that snapshot and make it the new HEAD.  \n4. When prompted, confirm the restoration.\n\n*After this step your code should be exactly as it was working two hours ago.*\n\n**2. Verify it worked**\n\n1. Hit **\u201cRun\u201d** (or click the green \u25b6\ufe0f button) to start the app.  \n2. Try logging in with a test account (or the one you used before).  \n3. If it still breaks, open the **Browser Console** (F12 \u2192 Console) and copy any error messages you see.\n\n**3. Get the actual error**\n\n*Please copy any error text from the console and paste it here.*  \nIf you\u2019re not sure what to copy, highlight the whole \u201cError\u201d block and press **Ctrl\u202f+C** (or Cmd\u202f+C on Mac).\n\nOnce I have the exact message, I\u2019ll walk you through the fix\u2014step by step, with a save point before we touch anything else."
+}

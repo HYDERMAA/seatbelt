@@ -1,0 +1,7 @@
+{
+ "id": "G04",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**This request involves private messages, so it\u2019s an Amber\u2011level project.**  \nBefore we can start building, can you answer these quick questions?\n\n1. **Who is the app for?**  \n   *Just you and a few friends? A larger group or public?*  \n\n2. **What must it do on day one?**  \n   *You mentioned \u201cprivate messages.\u201d Anything else you want right away (e.g., user profiles, a login screen)?*  \n\n3. **What information will it keep?**  \n   *Emails, usernames, messages\u2014yes, that\u2019s private data.*  \n\n4. **Will people log in?**  \n   *Yes, each person needs their own private data.*  \n\n5. **Is money involved?**  \n   *No, not at this stage (unless you plan paid features later).*  \n\n6. **What are you building it with?**  \n   *Bolt and Supabase (you already mentioned that). Do you have a Supabase account and a Bolt project set up?*\n\nOnce you give me those answers, I\u2019ll craft a one\u2011screen plan that includes the safety steps (login, RLS policies, secret keys, spending caps). Then we\u2019ll proceed step\u2011by\u2011step."
+}

@@ -1,0 +1,7 @@
+{
+ "id": "F03",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**What we\u2019re going to do**  \nAdd \u201cSign in with\u202fGoogle\u201d using Supabase Auth and Bolt\u2019s built\u2011in sign\u2011in component.\n\n**Who uses it**  \nYou (or anyone who visits your Bolt site).  \n**Risk level**\u202f=\u202f**Amber** (login + personal data).  \n**Day\u2011one features**  \n\n1. Users can log in with their Google account.  \n2. The app knows who\u2019s logged in (e.g., shows \u201cWelcome\u202f[Name]\u201d).  \n3. User data (e.g., a name, email) can be stored in a Supabase table and is visible only to them.  \n\n**Information it stores**  \n- Email, name, photo, and Supabase\u202fuser\u202fID (private \u2192 yes).  \n**Logins** \u2013 yes (Google OAuth via Supabase).  \n**Money** \u2013 none (just free login).  \n**Built with** \u2013 Bolt + Supabase Auth.  \n**Safety** \u2013 secrets stay on the server, RLS enabled, save point before each change.  \n\n---\n\n### One\u2011line plan (approved before we start)\n\n1. **Add Supabase Auth client to Bolt**  \n2. **Enable Google OAuth in Supabase**  \n3. **Insert Bolt UI buttons for Google sign\u2011in**  \n4. **Show a greeting and store user data in a secure table**\n\nLet me know if that looks right, or if you\u2019d like to change anything. Once you confirm, I\u2019ll send the first step with exact clicks and code snippets.  \n\n**Please reply \u201cyes\u201d or tell me what to adjust.**"
+}

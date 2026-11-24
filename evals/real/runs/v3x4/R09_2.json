@@ -1,0 +1,7 @@
+{
+ "id": "R09",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**What we\u2019re building first:** A mental\u2011health journal \u2013 people sign in, write a short diary entry each day, and can read their own past entries.\n\n**Risk level:** **Amber** \u2013 we\u2019ll handle personal data (feelings, dates) and logins.\n\nLet\u2019s gather a few quick details before we start:\n\n1. **Who will use it?**  \n   *Just you, a small group, or the public?*  \n2. **What must it do right away?**  \n   (1) Sign\u2011in / sign\u2011up  \n   (2) Add a new diary entry  \n   (3) View past entries  \n   Tell me the three most important things it should do on day one.  \n3. **Which platform are you using?**  \n   *Claude Code (VS\u202fCode + terminal) with a Node/React stack, or a no\u2011code builder, etc.*  \n4. **Do you already have any accounts?**  \n   Supabase, Stripe, GitHub, etc. (If not, I\u2019ll suggest where to create them.)\n\nReply with the answers to those questions, and I\u2019ll give you a one\u2011screen plan, a save\u2011point, and the first concrete step."
+}

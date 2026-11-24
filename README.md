@@ -20,7 +20,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/readme/specs-dark.svg">
-  <img src="assets/readme/specs-light.svg" alt="At a glance: 93 automated tests. 19 of 19 planted problems caught. 0 false alarms. 88% on fresh test questions, vs 81% with no skill, on a small open model. Works in 8 places. 3 built-in checkers. Nothing to install. Free, MIT licence." width="100%">
+  <img src="assets/readme/specs-light.svg" alt="At a glance: 100 automated tests. 19 of 19 planted problems caught. 0 false alarms. 86% on fresh test questions, vs 80% for v3.0, on a small open model. Works in 8 places. 3 built-in checkers. Nothing to install. Free, MIT licence." width="100%">
 </picture>
 
 <br>
@@ -200,9 +200,14 @@ python3 skills/seatbelt/scripts/check_secrets.py /path/to/your/project --report 
 - an exposed `.env` file, `.git` folder or source maps
 - HTTPS and basic security headers
 - with `--mine`: each Supabase table your site uses, asked for one row with the public key, exactly as a stranger could. It reports row counts and column names, never the data. Firebase too.
+- with `--two-users` (new in 3.1): can one customer read another customer's data? Make two test accounts on your site, add something private as the second one, and it checks every table, storage folder and Firebase collection both ways. This is the leak a stranger test cannot find, for example a rule like `using (true)` that lets anyone who is logged in read everything. It logs in as your two test accounts and then only reads.
 
 ```bash
 python3 skills/seatbelt/scripts/check_live.py https://your-site.com --mine --report live-report.html
+
+# one customer reading another's data (asks for the two passwords without showing them)
+export SEATBELT_A_EMAIL=you+a@example.com SEATBELT_B_EMAIL=you+b@example.com
+python3 skills/seatbelt/scripts/check_live.py https://your-site.com --mine --two-users --report live-report.html
 ```
 
 </details>
@@ -342,7 +347,7 @@ The AI does what you ask. If you do not know to ask for security, you often do n
 | **Scanner accuracy:** 4 sample apps (Lovable + Supabase, Next.js + Stripe, Firebase, Bolt + Netlify), each with planted problems and a safe twin | **19 of 19** caught, **0** false alarms |
 | **Real projects:** 10 public open-source and Lovable projects | Every serious finding reviewed by hand |
 | **Database, live check and payments:** real Postgres, real PostgREST and the real `stripe` library with signed test events | Passing |
-| **The skill itself:** non-developer scenarios answered by a small, free open model, graded blind | Fresh questions: **88%** with v3, 80% with v2, 81% with no skill. [Details and caveats](evals/real/README.md) |
+| **The skill itself:** non-developer scenarios answered by a small, free open model, graded blind | Fresh questions, 4 answers each: **86%** with v3.1, 80% with v3.0. A second fresh set written for 3.1: **72%** vs 63%. Practice set: 84% vs 74%. [Details and caveats](evals/real/README.md) |
 
 <sub>The sample apps were written by the maintainer, so they show the scanner works as designed rather than proving it catches everything. Seatbelt is a safety net, not a full security audit.</sub>
 
@@ -388,7 +393,7 @@ No tool can promise that. Seatbelt avoids the most common and most expensive mis
 <details>
 <summary><b>Is the live check safe to run?</b></summary>
 <br>
-On your own site, yes. It only reads, like a visitor's browser, using the public key your site already gives every visitor. Do not run it on sites you do not own.
+On your own site, yes. It only reads, like a visitor's browser, using the public key your site already gives every visitor. With `--two-users` it also logs in as two test accounts you made, then only reads; it never tries to change or delete anything, so check that part by hand. Use test accounts, never a real customer's. Do not run it on sites you do not own.
 <br><br>
 </details>
 

@@ -1,0 +1,7 @@
+{
+ "id": "G04",
+ "sample": 1,
+ "cond": "v31",
+ "model": "gpt-oss-20b",
+ "response": "**Feature:** Private one\u2011on\u2011one messaging between logged\u2011in users.  \n\n**Safety parts we\u2019ll build:**\n\n* **Login** \u2013 users will sign in with email (magic link) via Supabase Auth.  \n* **Database rules** \u2013 a Messages table with very strict row\u2011level security (RLS).  \n  * Only the sender or receiver can read a message.  \n  * Only the sender can delete their own messages.  \n* **Storage** \u2013 no file uploads in this feature (so no storage rule needed).  \n* **AI** \u2013 none.  \n* **Privacy** \u2013 no sensitive data beyond the content of the messages; still protected by RLS.\n\n---\n\n## Starter questions (Amber \u2013 we need logins & personal data)\n\n1. **Who will use this app?**  \n   *Example*: \u201cA small community of friends\u201d or \u201cEveryone who signs up.\u201d  \n\n2. **What must it do on day one?**  \n   *Example*: \u201cLet signed\u2011in users send text messages to each other; view chat history.\u201d  \n\n3. **Will you store any additional info with a message?**  \n   *Example*: \u201cOnly the text body, timestamp, and recipient id.\u201d  \n\n4. **Do you already have a Supabase project set up?**  \n   *If yes, give the project URL (e.g. `https://your-project.supabase.co`).*  \n\nLet me know your answers, and I\u2019ll draft the one\u2011screen plan and the first build step.  If you\u2019re comfortable, you can start by telling me the answers above."
+}

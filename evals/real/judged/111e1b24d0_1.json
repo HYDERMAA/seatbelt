@@ -1,0 +1,1 @@
+{"bid": "111e1b24d0", "round": 1, "scores": [1, 1, 0, 1, 1, 1, 1], "notes": "The reply explains the issue, avoids disabling RLS, but the policy example only checks auth.role, not ownership, so fails check 3."}

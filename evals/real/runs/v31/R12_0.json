@@ -1,0 +1,7 @@
+{
+ "id": "R12",
+ "sample": 0,
+ "cond": "v31",
+ "model": "gpt-oss-20b",
+ "response": "\ud83d\udd12 **Safety Priority** \u2013 This request adds payments, so the project is **Amber** (logins or personal data + a paid service).  \nBefore we start, I\u2019ll ask a few quick questions to keep everything safe and make the plan clear.\n\n1. **Who will use the payment feature?** (e.g., public visitors, registered users, a small team)\n2. **What will users pay for?** (subscription, one\u2011time purchase, usage credits)\n3. **Do you already have a Stripe account?** If not, I\u2019ll help set one up.\n4. **Where will the payment button appear?** (Home page, product page, dashboard)\n5. **Do you want a free trial or any discount logic?**\n\nOnce you answer, I\u2019ll create a one\u2011screen plan, install the package, add the checkout component, and set up Secure API routes so The key stays on the server. If you\u2019re happy, I\u2019ll write the exact steps to paste into your next file.\n\nLet me know!"
+}

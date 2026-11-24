@@ -1,0 +1,7 @@
+{
+ "id": "G01",
+ "sample": 3,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "**Feature requested:** \u201cCustomers leave star ratings and reviews on my products.\u201d\n\n**Safety parts we\u2019ll add automatically**  \n1. **Logins** \u2013 users sign in with email magic\u2011link or code.  \n2. **Private data** \u2013 each review is tied to its author; only that user (and the app admin) can edit or delete it.  \n3. **Database rules** \u2013 Supabase Row\u2011Level\u2011Security (RLS) on the `reviews` and `products` tables so a user can only see and change their own rows.  \n4. **Spending caps** \u2013 if you use an AI summariser or sentiment\u2011analysis (optional), we\u2019ll keep a per\u2011user limit and warning.  \n5. **Secret key guard** \u2013 anything that talks to a paid AI or other service will be stored in `.env` / Secrets, never in front\u2011end code.\n\nBefore we start, I just need a couple of quick details:\n\n1. Do your customers already have accounts on the site, or will you need to add a login flow?  \n2. Will the review text stay public (anyone can read all reviews) or should it be private to the author?  \n3. Do you want to let users attach a photo with a review? (If yes, we\u2019ll add a safe upload bucket).  \n\nGive the answers (or \u201cyes/no\u201d if they\u2019re obvious), and I\u2019ll draft a one\u2011screen plan and then we can start building step by step."
+}

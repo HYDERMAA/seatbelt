@@ -1,0 +1,7 @@
+{
+ "id": "G04",
+ "sample": 2,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "**This is an\u202fAmber**\u2011level feature because it involves private user data (messages) and personal logins.\n\nBefore we start, I\u2019ll ask a couple of quick questions to make sure we build the safest version:\n\n1. **Who will be able to send messages?**  \n   *Answer: only logged\u2011in users who have an account.*\n\n2. **Do you want any moderation or report\u2011ing options for messages?**  \n   *Answer: If yes, we\u2019ll add a simple \u201creport\u201d button.*\n\nOnce you reply, I\u2019ll create a one\u2011screen plan and then start with the first step: setting up a Supabase table for messages with RLS (Row\u2011Level Security) so each user can only see their own messages."
+}

@@ -1,0 +1,7 @@
+{
+ "id": "G10",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**First, is the product list information truly public?**  \nIf it contains none of your own private data (e.g. no user\u2011names, emails, or sensitive identifiers), the app is **Green**\u2014just a simple read\u2011only endpoint.\n\n---\n\n## One\u2011screen plan\n\n```\nWhat we are building: a public API endpoint that returns your product list in JSON.\nWho uses it: anyone who can hit the URL. Risk level: Green (no personal data, no money).\nDay\u2011one features: \n  1. API route in Next.js that queries Supabase \u201cproducts\u201d table. \n  2. Supabase table has a public read policy. \n  3. CORS allows any origin. \nInformation it stores: product names, prices, images, etc. (public data). Logins: no. Money: no. Built with: Next.js (server\u2011less API route) + Supabase (Postgres). \n\nSteps: \n  1. Create/verify the Supabase \u201cproducts\u201d table + public read policy. \n  2. Add a `pages/api/products.js` file that fetches the data. \n  3. Test the endpoint locally (`npm run dev`) and on Vercel. \nSafety: key secrets hidden, save point before each step. Not in v1: pagination, filtering, auth, rate\u2011limit. \n\n```\n\n**Does this look right?** If so, reply \u201cyes\u201d and we\u2019ll start step\u202f1.  \nIf you want any changes (e.g. you already have a table, or you want a different file name), let me know."
+}

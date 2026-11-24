@@ -1,0 +1,7 @@
+{
+ "id": "F07",
+ "sample": 1,
+ "cond": "v31",
+ "model": "gpt-oss-20b",
+ "response": "**Feature:** *Profile\u2011photo upload*\n\n**Safety parts we\u2019ll build in**\n\n1. **Storage rules** \u2013 only the logged\u2011in user can add, change or delete their own photo.  \n2. **File type & size limits** \u2013 only JPEG/PNG and \u2264\u202f2\u202fMB.  \n3. **Bucket privacy** \u2013 the bucket is private; it will be public only if you explicitly choose to show photos publicly.  \n4. **Report / remove option** \u2013 users can flag a photo and we\u2019ll give you a quick way to delete it if needed.  \n\n---\n\n### Quick starter questions (just to make sure the setup is ready)\n\n1. **Do you already have a Supabase project and a bucket named `profile-photos` (or something similar) in Supabase Storage?**  \n2. **What login system are you using? (Supabase Auth, Clerk, Firebase, etc.)** \u2013 we\u2019ll need to tie the upload to the authenticated user.\n\nAnswer \u201cyes\u201d to each or let me know what\u2019s missing, and I\u2019ll give you the one\u2011screen plan and the first step."
+}

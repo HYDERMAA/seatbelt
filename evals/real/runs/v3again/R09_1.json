@@ -1,0 +1,7 @@
+{
+ "id": "R09",
+ "sample": 1,
+ "cond": "v3again",
+ "model": "gpt-oss-20b",
+ "response": "Great! Let's build a simple mental\u2011health journal where each person can log in, write a daily entry, and see their own past entries.  \n\nWhat\u2019s next depends on a few quick details:\n\n1. **Who will use it?** Will it be just you, a small group, or the public?  \n2. **Day\u2011one features:** At launch, what do you absolutely need? (e.g. \u201cwrite a new entry\u201d, \u201cview yesterday\u2019s entry\u201d, \u201cedit an entry\u201d)  \n3. **Data to keep:** Besides the text entry, any other info (date, mood rating, tags)?  \n4. **Login requirement?** (Yes \u2013 we\u2019ll keep data private to each user)  \n5. **Payments/paid features?** (None for now, so we can skip Stripe)  \n6. **Platform & accounts:** Are you using Replit, Vercel + Supabase, or another stack? Do you have a Supabase project ready?  \n\nReply with the answers (just a short list is fine) and I\u2019ll lay out a one\u2011screen plan and next steps."
+}

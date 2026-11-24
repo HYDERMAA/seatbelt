@@ -1,0 +1,7 @@
+{
+ "id": "R07",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "I\u2019ll help you get a first\u2011draft website that lets people book a dog walk for you.  \nBecause you\u2019ll need to see who\u2019s booking and maybe stop people from over\u2011booking, that\u2019s **Amber** risk:  \n\u2013 logins / personal data (name, email, dog details)  \n\u2013 possible paid bookings (if you charge)\n\nLet\u2019s start with the key questions so we build a safe, simple site.\n\n**Starter questions (one line each)**\n\n1. **Who uses the site?** e.g. \u201cJust me and a handful of friends\u201d or \u201cAnyone in the city\u201d.  \n2. **What must the site do on day\u202fone?** (Top 3).  \n3. **Will people pay online for a walk?** If yes, do you want a free \u201cpay later\u201d option or a paid checkout?  \n4. **Do you already have a domain or hosting platform set up?** (e.g. Netlify, Vercel).  \n\nAnswer them, and I\u2019ll draft a one\u2011screen plan that includes safe defaults (user login via a proven auth service, each customer sees only their own bookings, no money flowing to your account until you set that up). Once you approve the plan, we\u2019ll move step\u2011by\u2011step, saving before each change. \ud83d\ude80"
+}

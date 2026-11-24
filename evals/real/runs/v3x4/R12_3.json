@@ -1,0 +1,7 @@
+{
+ "id": "R12",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**Step 0 \u2013 Quick check**\n\nBecause you want to add a paid checkout with a new third\u2011party library, this is an **Amber** task (logins or paid API).  \nWe\u2019ll keep it safe by:\n\n1. Adding the Stripe\u2011related code **only on the server** (no keys in the browser).  \n2. Setting up a minimal paid\u2011content page that only shows the card form once a user is logged in.  \n3. Enabling a spending cap in the Stripe dashboard and showing a single\u2011use test key first.\n\n---\n\n## Starter Questions (only two)\n\n1. **Do you already have a Stripe account?** If yes, have you created a **Publishable key** and a **Secret key**?  \n2. **Will your users log in (e.g., with email)**, or is this screen open to anyone?  \n   (If anyone, note that you\u2019ll still need to store the card details securely on the server only.)\n\nAnswer these so I can generate the exact `next.config.js`, `.env.local` and code snippets for you. Once I have the keys and login status, I\u2019ll give you the next step."
+}

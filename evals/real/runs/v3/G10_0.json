@@ -1,0 +1,7 @@
+{
+ "id": "G10",
+ "sample": 0,
+ "cond": "v3",
+ "model": "gpt-oss-20b",
+ "response": "**Step 1 \u2013 Clarify the API shape**  \nTell me a bit more about what you want the public endpoint to return.  \n1. What product fields do you want to expose? (e.g. `id`, `name`, `price`, `imageUrl`)  \n2. Do you want any filtering or pagination, or will it just return every product?\n\nOnce I have those two quick answers I\u2019ll give you a one\u2011screen plan and we\u2019ll start building."
+}

@@ -1,0 +1,7 @@
+{
+ "id": "R13",
+ "sample": 1,
+ "cond": "v31d",
+ "model": "gpt-oss-20b",
+ "response": "**Quick check\u2011in first**\n\nI\u2019ll ask a couple of quick questions so I can give you a safe,\u202fready\u2011to\u2011publish checklist. It\u2019s short, just to make sure we don\u2019t miss anything that could break when you go live.\n\n1. **Who can log in?** Do you use a login system (email\u2011magic\u2011link, Google, etc.) for each user?\n2. **What data do you keep for each user?** For example: profile info, order history, uploaded files, etc.\n\nAnswer those, and I\u2019ll give you a one\u2011screen plan and a checklist that keeps your app safe before you post on Product Hunt. If you\u2019re already happy to skip the questions, just let me know and I\u2019ll jump straight to the plan."
+}

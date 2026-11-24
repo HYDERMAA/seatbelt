@@ -1,0 +1,7 @@
+{
+ "id": "G01",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**What you\u2019re describing:**  \nYou want a section on each product page where logged\u2011in customers can leave a star rating (1\u20135 stars) and a written review.  \n\u2014 **Risk level:** **Amber**.  \n  *Why?* We\u2019ll be storing personal data (the review text and rating), requiring log\u2011ins, and we\u2019ll add a new database table.  \n\n---\n\n## Starter questions  \nI\u2019ll need just a couple of quick answers to keep the plan tight.\n\n1. **Do you already have user authentication enabled (so customers can sign in)?**  \n2. **Is there already a \u201cproducts\u201d table in your Supabase database that the product pages read from?**  \n\nOnce I have those, I can give you a one\u2011screen plan, save point, and the precise changes to make in Lovable + Supabase.  \n\n---  \n\n**If you answer \u201cyes\u201d to both, I\u2019ll proceed. If not, let me know what\u2019s missing so we can adjust the plan.**"
+}

@@ -1,0 +1,7 @@
+{
+ "id": "R09",
+ "sample": 1,
+ "cond": "v31d",
+ "model": "gpt-oss-20b",
+ "response": "Got it! You\u2019re looking to create a **mental\u2011health journal** where users can log daily feelings.\n\n### First step \u2013 gather a quick outline\nI\u2019ll ask a few short questions so we can build a safe, releasable version without any risk of accidental data leaks or misuse.\n\n1. **Who will use it?**  \n   *You, a small group, or an open public site?*\n\n2. **What must it do on day one?**  \n   *E.g. log a new entry, view previous entries, and delete an entry.*\n\n3. **Will users log in?**  \n   *If yes, we\u2019ll use a proven login service (Supabase Auth, Clerk, etc.).*\n\n4. **Is there any money involved?**  \n   *No payments needed for the first version.*\n\n5. **What data will it store?**  \n   *Only the text of each entry (and the date).  Nothing else.*\n\n6. **What platform are you building on?**  \n   *Claude Code can run Node.js, Next.js, or plain HTML/JS \u2013 which do you prefer?*\n\nOnce I have that, I\u2019ll draft a one\u2011screen plan with clear safety defaults, a commit message, and the first code change. If you\u2019d like to skip the questions, just let me know, and I\u2019ll pick the safest defaults for a simple, private\u2011only journal."
+}

@@ -1,0 +1,7 @@
+{
+ "id": "R18",
+ "sample": 1,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "I understand you\u2019d like a ready\u2011to\u2011run booking app.  \nBecause this app will involve login, personal data, and likely paid or paid\u2011AI features, it falls into **Amber** risk. To keep it safe, I need a few quick details first. This will only take a moment, and the resulting plan will be a single\u2011file, self\u2011contained app you can copy into Claude Code.\n\n1. **Who will use it?** (e.g., a small dentist office, a community group, general public)\n2. **What should the booking flow do?** (e.g., pick a date/time, enter name & email, pay a fee)\n3. **Do you need an online payment?** If yes, which provider (Stripe, PayPal, etc.)?\n4. **What\u2019s the domain / deployment target?** (e.g., Netlify, Vercel, a custom domain you own)\n\nOnce I have these, I\u2019ll give you the full code, a one\u2011screen plan, and the safety steps (keys kept secret, user data isolated, etc.). If you\u2019re flexible, you can answer in a single line; I\u2019ll keep the questions minimal."
+}

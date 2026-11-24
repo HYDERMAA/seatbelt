@@ -1,0 +1,7 @@
+{
+ "id": "F03",
+ "sample": 2,
+ "cond": "v31d",
+ "model": "gpt-oss-20b",
+ "response": "**Safety parts we\u2019ll add for \u201cSign in with Google\u201d**\n\n- Use Supabase Auth\u2019s Google provider \u2013 no custom password logic.  \n- Keep all secret keys (Supabase service role, Google OAuth client secret) **on the server** only.  \n- Enable row\u2011level security (RLS) so each logged\u2011in user can only see their own data.  \n- Store a simple \u201clogin timestamp\u201d or \u201clast sign\u2011in\u201d so you can audit activity.  \n\n---\n\n### Quick starter question\n\n1. **Do you already have a Google Cloud OAuth 2.0 client set up** (client ID & secret) that you\u2019d like to use for Supabase?  \n   - If you haven\u2019t, I can show you how to create one in the Google Cloud Console.  \n\nOnce you send me the client ID and secret (or let me know you need help creating them), we\u2019ll add the Google provider to Supabase, update Bolt security settings, and make a quick test to confirm it works. Let me know!"
+}

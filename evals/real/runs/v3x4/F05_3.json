@@ -1,0 +1,7 @@
+{
+ "id": "F05",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**First, a quick safety check**\n\nBecause you want to send emails when users sign up, we\u2019re dealing with log\u2011ins, personal data (email addresses), and a paid or free email\u2011sending service.  \nThat puts the project at **Amber** risk.\n\n**What we need to do, in short**\n\n1. **Ask a few quick details** (who\u2019s mailing, how/where you\u2019ll send).  \n2. Create a one\u2011screen plan with safe defaults.  \n3. Build the plan in one small step so you can see it work.\n\nLet\u2019s start with the very basics:\n\n1. **Which authentication & database platform are you using?**  \n   *Examples:* Supabase, Firebase, Replit\u2019s own auth, a custom database.  \n2. **How do you want to send the welcome email?**  \n   *Examples:* SendGrid, SES, a Replit \u201cSend email\u201d addon, or the platform\u2019s built\u2011in mailer.\n\nOnce I know those, I\u2019ll give you the exact code snippet and the steps you need to add it. If you\u2019re unsure about any of those tools, just tell me what you have in mind (e.g. \u201cI\u2019m using Supabase, SendGrid\u201d)."
+}

@@ -1,0 +1,7 @@
+{
+ "id": "R10",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "## Rescue mode \u2013 Let\u2019s find the leak\n\nWe\u2019ll start by pinning down where the \u00a3300 came from. I\u2019ll ask a couple of quick questions, then walk you through a short check\u2011in. No secrets will be exposed here.\n\n1. **New deployments or services?**  \n   Have you (or someone else) recently added a backend, API, or a paid add\u2011on (e.g., Vercel Functions with a plan, Cloud Functions, or a paid platform like Supabase, Strapi, or a database/hosting service)?\n\n2. **Automatic scaling or high traffic?**  \n   Did your site suddenly get a huge spike in visitors or run a long\u2011running function (e.g., a script that loops for hours)?\n\nOnce you let me know, I\u2019ll show you how to:\n\n- Grab the **Billing \u2192 Overview** page in Vercel and spot the specific charge.  \n- View the **Deployments \u2192 Logs** for any deployments that ran for unusually long times or hit a \u201cpaid\u201d tier.  \n- Check the **Connected Services** section (e.g., Supabase, Stripe, etc.) for any usage spikes or accidental \u201cpaid plan\u201d upgrades.\n\nIf you\u2019re not sure what you added or how to spot these, let me know, and I\u2019ll give you step\u2011by\u2011step screenshots or copy\u2011paste commands. The goal is to locate the source of the \u00a3300 and keep future bills in the free range."
+}

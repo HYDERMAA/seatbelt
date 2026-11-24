@@ -1,0 +1,7 @@
+{
+ "id": "F02",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**What we\u2019re doing**  \nWe\u2019ll add a new \u201cAdmin\u201d page that shows every customer\u2019s order\u2014only you can see it.\n\n**Risk level**  \nAmber \u2013 it shows personal data (orders, which may include names, emails, amounts, etc.) and requires server\u2011side checks to keep the data private.\n\n**Next step \u2013 a quick clarification**\n\n1. **Do you already have a Supabase table that stores orders?**  \n   If yes, what is its name and which columns contain customer\u2011specific data?  \n2. **Do you have a way to identify yourself in the app** (e.g. a specific email or a custom \u201cadmin\u201d role that exists in Supabase Auth)?  \n\nReply with the answers, and I\u2019ll sketch the plan and guide you through the first safe change."
+}

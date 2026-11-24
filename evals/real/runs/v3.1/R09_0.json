@@ -1,0 +1,7 @@
+{
+ "id": "R09",
+ "sample": 0,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "**Hey!**  \nLet\u2019s get this mental\u2011health journal up and running.  \nBecause it will store personal feelings, we\u2019re in the **Amber** zone, so we\u2019ll ask a few quick questions and then lay out a simple, safe plan.\n\n---\n\n## Starter questions\n\n1. **Who is it for?**  \n   *Just you,* a small group like friends, or the public?  \n\n2. **What must it do on day\u202fone?**  \n   e.g. \u201cCreate a new entry,\u201d \u201cView today\u2019s entry,\u201d \u201cEdit a past entry.\u201d  \n\n3. **Will people log in?**  \n   We need a login so each user only sees their own entries.  \n\n4. **Do you want any payments or paid AI features?**  \n   (Not needed for a basic journal, but let me know if you plan anything else.)  \n\n5. **What platform will you build it on?**  \n   - Replit, Vercel (Next.js), Supabase, or something else?  \n   - Do you already have accounts for Supabase or Stripe?  \n\nReply with the answers and I\u2019ll craft a one\u2011screen plan, then we\u2019ll go step\u2011by\u2011step. \ud83c\udf31"
+}

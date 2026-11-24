@@ -1,0 +1,7 @@
+{
+ "id": "F05",
+ "sample": 1,
+ "cond": "v3again",
+ "model": "gpt-oss-20b",
+ "response": "Got it\u2014this is a **new feature** for an existing app that will send a welcome email whenever someone signs up on Replit.  \nBecause it involves user data (emails) and a third\u2011party service (the email provider), the risk level is **Amber**.  \nLet\u2019s collect a few quick details to keep the app safe:\n\n1. **How do users sign up?** (e.g., Replit\u2019s built\u2011in OAuth, email\u2011password, magic link, etc.)  \n2. **Which email service will you use?** (SendGrid, Mailgun, Postmark, SMTP, Replit\u2019s built\u2011in email, etc.)  \n3. **Do you already have an API key for that service?** (We\u2019ll keep it secret.)  \n\nAnswering these will let me create a short plan, add the necessary secrets and policies, and give you the exact code snippet to paste into your Replit project.  \n\nLet me know!"
+}

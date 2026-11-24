@@ -1,0 +1,7 @@
+{
+ "id": "R09",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "Got it! The app will let people record daily entries about how they\u2019re feeling \u2013 a simple mental\u2011health journal.\n\n**Because it stores personal feelings, we\u2019ll treat it as an **Amber**\u2011risk app** \u2013 we need to protect the data, give each user their own private space, and keep any future paid or AI features safe.\n\nLet\u2019s start with a few quick questions so the rest of the build stays on track:\n\n1. **Who will use it?**  \n   - Just you? A small group of friends? The public?\n2. **What must it do on day one?**  \n   - List the three top things it should be able to do right away. (e.g., sign\u2011in, add an entry, view past entries)\n3. **What information will it keep?**  \n   - Any names, emails, or other private details you want to store?\n4. **Will people log in?**  \n   - If yes, do you want email\u2011only magic\u2011link sign\u2011in, or something else?\n5. **Will there ever be money involved?**  \n   - (e.g., subscription, paid AI summaries, etc.) If so, let me know now.\n\nJust give short answers, and we\u2019ll draft a one\u2011screen plan that shows what\u2019s built, how we keep data safe, and the next step. Then we\u2019ll hit \u201cyes\u201d and start the first small change."
+}

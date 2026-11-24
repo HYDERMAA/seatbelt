@@ -1,0 +1,7 @@
+{
+ "id": "F07",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**Step 1 \u2013 Gather a few quick details**\n\nWe\u2019re adding a photo upload for each user. Since that involves personal data (photos) and login, this is an **Amber**\u2011level change.  \nI\u2019ll need a couple of quick bits of info before we plan safely:\n\n1. **Do you already have a login system in place** (e.g., Supabase Auth, Clerk, etc.)?  \n2. **Do you want the photo to be stored in Supabase storage** (the free \u201cbucket\u201d that ships with a Supabase project) or in another service?  \n\nReply with \u201cyes/no\u201d or a short note, and I\u2019ll draft a one\u2011screen plan for you."
+}

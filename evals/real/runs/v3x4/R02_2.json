@@ -1,0 +1,7 @@
+{
+ "id": "R02",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**Quick answer:**  \nNo, you should **never** trust `user.isPro` that lives in the browser.  \nInstead:\n\n1. Store a `is_pro` flag in your Supabase **server\u2011side** table and protect it with\n   Row\u2011Level Security (RLS).  \n2. When a Stripe checkout completes, receive the webhook on a serverless function,\n   verify the payload, then flip that flag for the user.  \n3. In the front\u2011end, read the flag from the database (via an authenticated request) \u2013  \n   if `is_pro` is `true`, show the paid pages; otherwise redirect to a pricing page.\n\nThis keeps the flag out of the client, prevents a user from faking \u201cpro\u201d status, and\nlets you enforce limits (e.g., 1\u202fuser can\u2019t just set `isPro = true` in devtools).\n\n**Next steps**  \n- Add a `is_pro` boolean column to your `users` table.  \n- Enable RLS and create a policy: \u201cSELECT, UPDATE\u201d only for the row where `id = auth.uid()`.  \n- Write a serverless function (e.g., Netlify Edge, Vercel Serverless) to listen to the Stripe webhook and update `is_pro`.  \n- Update the client to fetch `is_pro` from the server and guard routes accordingly.\n\nLet me know which part you\u2019d like help with first, and I\u2019ll walk you through the exact files and commands."
+}

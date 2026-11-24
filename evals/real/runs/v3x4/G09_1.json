@@ -1,0 +1,7 @@
+{
+ "id": "G09",
+ "sample": 1,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "---\n\n### Quick check: what do we need to know before building?\n\nBecause you want users to download **their own data**:\n1. **Which tables contain their data?**  \n   *List the table names (e.g., `profiles`, `orders`, `messages`).*  \n2. **What format would you like?**  \n   *CSV, JSON, or a zip bundle?*  \n3. **Do you already have a Supabase storage bucket set up?**  \n   *If not, we\u2019ll create one called `user-data`.*\n4. **Where in the UI should the button appear?**  \n   *Top\u2011right corner of the profile page, or a dedicated \u201cSettings\u201d tab?*\n\nAnswer these in 1\u20112 sentences each, and I\u2019ll draft the one\u2011screen plan and first step.\n\n---\n\n### If you\u2019re happy with the default:\n\n- **Tables**: all tables where the current user\u2019s `user_id` is stored (e.g., `profiles`, `orders`, `messages`).  \n- **Format**: a zip file containing one CSV per table.  \n- **Storage**: a new bucket named `user-data`.  \n- **UI**: a single button in the user\u2019s profile page, labelled \u201cDownload My Data\u201d.\n\nFeel free to correct any of the above, then we\u2019ll move on to the plan."
+}

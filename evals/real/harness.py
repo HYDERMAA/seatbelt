@@ -46,7 +46,7 @@ def scenarios():
         return json.load(fh)
 
 
-def gen(cond, skill, samples, workers):
+def gen(cond, skill, samples, workers, prefix=None):
     out = os.path.join(HERE, "runs", cond)
     os.makedirs(out, exist_ok=True)
     system = BASE_SYS
@@ -56,6 +56,8 @@ def gen(cond, skill, samples, workers):
                        + fh.read() + "\n</skill>")
     jobs = []
     for s in scenarios():
+        if prefix and not s["id"].startswith(tuple(prefix.split(","))):
+            continue
         for k in range(samples):
             path = os.path.join(out, f"{s['id']}_{k}.json")
             if not os.path.exists(path):
@@ -83,7 +85,7 @@ JUDGE_SYS = ("You are a strict, fair examiner grading an AI assistant's reply to
              "Answer with JSON only: {\"scores\": [0 or 1, ...], \"notes\": \"one short sentence\"}.")
 
 
-def judge(conds, workers, rounds):
+def judge(conds, workers, rounds, prefix=None):
     jdir = os.path.join(HERE, "judged")
     os.makedirs(jdir, exist_ok=True)
     keypath = os.path.join(jdir, "key.json")
@@ -94,6 +96,8 @@ def judge(conds, workers, rounds):
         d = os.path.join(HERE, "runs", cond)
         for name in sorted(os.listdir(d)):
             rec = json.load(open(os.path.join(d, name)))
+            if prefix and not rec["id"].startswith(tuple(prefix.split(","))):
+                continue
             bid = hashlib.sha256(f"{cond}/{name}/seatbelt".encode()).hexdigest()[:10]
             key[bid] = {"cond": cond, "id": rec["id"], "sample": rec["sample"]}
             for r in range(rounds):
@@ -132,7 +136,7 @@ def judge(conds, workers, rounds):
                 print("ERROR", e, flush=True)
 
 
-def report(conds, prefix=None):
+def report(conds, prefix=None, max_samples=None, totals_only=False):
     jdir = os.path.join(HERE, "judged")
     key = json.load(open(os.path.join(jdir, "key.json")))
     scen = {s["id"]: s for s in scenarios()}
@@ -144,7 +148,9 @@ def report(conds, prefix=None):
             continue
         d = json.load(open(os.path.join(jdir, name)))
         k = key[d["bid"]]
-        if k["cond"] not in tot or (prefix and not k["id"].startswith(prefix)):
+        if k["cond"] not in tot or (prefix and not k["id"].startswith(tuple(prefix.split(",")))):
+            continue
+        if max_samples is not None and k["sample"] >= max_samples:
             continue
         n_spec = len(scen[k["id"]]["checks"])
         tot[k["cond"]][0] += sum(d["scores"]); tot[k["cond"]][1] += len(d["scores"])
@@ -153,7 +159,7 @@ def report(conds, prefix=None):
         p[k["cond"]][0] += sum(d["scores"]); p[k["cond"]][1] += len(d["scores"])
     pct = lambda a: f"{a[0]}/{a[1]} ({100*a[0]/a[1]:.0f}%)" if a[1] else "n/a"
     lines = ["| Scenario | " + " | ".join(conds) + " |", "|---|" + "---|" * len(conds)]
-    for sid in sorted(per):
+    for sid in ([] if totals_only else sorted(per)):
         lines.append(f"| {sid} | " + " | ".join(pct(per[sid][c]) for c in conds) + " |")
     lines.append("| **All checks** | " + " | ".join(f"**{pct(tot[c])}**" for c in conds) + " |")
     lines.append("| Global checks only | " + " | ".join(pct(glob[c]) for c in conds) + " |")
@@ -169,11 +175,13 @@ if __name__ == "__main__":
     ap.add_argument("--samples", type=int, default=2)
     ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--rounds", type=int, default=1)
-    ap.add_argument("--only", help="report only scenario ids starting with this, for example F for the fresh set")
+    ap.add_argument("--only", help="only scenario ids starting with this (comma-separated prefixes), for example F for the fresh set")
+    ap.add_argument("--max-samples", type=int, help="report only the first N samples per scenario (2 matches the v3 table)")
+    ap.add_argument("--totals", action="store_true", help="totals only, no per-scenario rows")
     a = ap.parse_args()
     if a.cmd == "gen":
-        gen(a.cond, a.skill, a.samples, a.workers)
+        gen(a.cond, a.skill, a.samples, a.workers, a.only)
     elif a.cmd == "judge":
-        judge(a.conds.split(","), a.workers, a.rounds)
+        judge(a.conds.split(","), a.workers, a.rounds, a.only)
     elif a.cmd == "report":
-        report(a.conds.split(","), a.only)
+        report(a.conds.split(","), a.only, a.max_samples, a.totals)

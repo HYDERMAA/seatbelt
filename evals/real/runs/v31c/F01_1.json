@@ -1,0 +1,7 @@
+{
+ "id": "F01",
+ "sample": 1,
+ "cond": "v31c",
+ "model": "gpt-oss-20b",
+ "response": "A \u201cpaused\u201d status on Supabase only means the project is in **read\u2011only** mode for the free tier.  \nIt\u2019s like putting the server on airplane mode \u2013 no new writes or real\u2011time changes, but all the data you already have is still stored and available.\n\n**What you can still do:**\n\n- \u2705\u00a0Query and read everything (you can run SELECT statements in the SQL editor or your app).  \n- \ud83d\udd27\u00a0If you upgrade or resume, writes will work again immediately.  \n- \ud83d\udce6\u00a0Your storage bucket and database schemas are preserved; no rows or files are deleted.\n\n**What you can\u2019t do while paused:**\n\n- \u274c\u00a0Insert, update or delete rows.  \n- \u274c\u00a0Upload new files to storage or delete existing ones.  \n- \u274c\u00a0Trigger real\u2011time subscriptions or function calls that modify data.\n\n**How to get it back to normal**\n\n1. Go to the Supabase dashboard \u2192 **Project Settings \u2192 Overview**.  \n2. Find the \u201cPause\u201d toggle and click **Resume** (you might need to confirm).  \n3. Once resumed, your app can start writing again.\n\n> **Tip** \u2013 If you\u2019re planning to keep the project long\u2011term, consider upgrading to a paid plan to avoid accidental pauses and to keep your app running 24/7.  \n\nSo, no: your data isn\u2019t gone; it\u2019s just temporarily locked for writes while the project is paused."
+}

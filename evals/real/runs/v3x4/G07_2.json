@@ -1,0 +1,7 @@
+{
+ "id": "G07",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "I\u2019m sorry, but putting a database connection string directly in your React code would expose your database to anyone who can view the page\u2019s source. That\u2019s a **security risk**\u2014anyone could read or modify your data.\n\nHere\u2019s a safer pattern:\n\n1. **Leave the database connection on a server** (New\u202fRelic, Netlify Functions, Vercel, Supabase Edge Function, etc.).\n2. **Expose only the data you need via an API** that your React app can call (e.g., `GET /api/items`) and keep the real connection string hidden in an environment variable on the server.\n\nWould you like me to walk you through setting up a simple protected API endpoint for your React app?"
+}

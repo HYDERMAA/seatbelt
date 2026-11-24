@@ -134,10 +134,10 @@ def hero(mode):
 
 # =====================================================================
 SPECS = [
-    ("93", "automated tests", "Scripts, database rules, payments and the skill text"),
+    ("100", "automated tests", "Scripts, database rules, payments and the skill text"),
     ("19/19", "planted problems caught", "Across 4 sample apps built the AI way"),
     ("0", "false alarms", "On the safe twin of every sample app"),
-    ("88%", "on fresh test questions", "vs 81% with no skill, on a small open model"),
+    ("86%", "on fresh test questions", "vs 80% for v3.0, on a small open model"),
     ("8", "places it works", "Claude, Claude Code, Codex, Cursor, Lovable, Bolt, Replit, v0"),
     ("3", "built-in checkers", "Ship check, live check and change explainer"),
     ("0", "installs or sign-ups", "Plain Python 3. Nothing is sent anywhere"),
@@ -148,10 +148,10 @@ SPECS = [
 def specs(mode):
     t = THEMES[mode]
     W, H = 1200, 500
-    d = Doc(W, H, "Seatbelt at a glance: 93 automated tests; 19 of 19 planted problems caught with 0 false alarms; 88% vs 81% on fresh test questions with a small open model; works in 8 places; 3 built-in checkers; nothing to install; free, MIT licence.")
+    d = Doc(W, H, "Seatbelt at a glance: 100 automated tests; 19 of 19 planted problems caught with 0 false alarms; 86% on fresh test questions vs 80% for v3.0, with a small open model; works in 8 places; 3 built-in checkers; nothing to install; free, MIT licence.")
     card(d, t, 10, 10, W - 20, H - 30, 24)
     eyebrow(d, t, 50, 62, "At a glance")
-    d.text(W - 50, 62, "Seatbelt 3.0", 17, t["mute"], 600, anchor="end", track=0.04)
+    d.text(W - 50, 62, "Seatbelt 3.1", 17, t["mute"], 600, anchor="end", track=0.04)
     d.add(f'<path d="M10 86H{W-10}" stroke="{t["line2"]}"/>')
     cols, cw = 4, (W - 20) / 4
     for i, (big, lab, sub) in enumerate(SPECS):

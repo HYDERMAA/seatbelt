@@ -1,0 +1,1 @@
+{"bid": "b0994ab01f", "round": 1, "scores": [1, 0, 0, 0, 1, 1, 1], "notes": "The answer correctly explains the anon key is public but misses RLS, service_role, and oversimplifies hiding; still clear for non-developers, practical steps, and honest."}

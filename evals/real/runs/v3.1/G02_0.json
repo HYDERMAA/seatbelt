@@ -1,0 +1,7 @@
+{
+ "id": "G02",
+ "sample": 0,
+ "cond": "v3.1",
+ "model": "gpt-oss-20b",
+ "response": "**This is a new feature.**  \nIt involves logins (Supabase Auth) and money (Stripe credits), so it\u2019s an **Amber**\u2011level task.  \nBefore we start, I need a few quick details so I can build it safely and keep everything locked to each user.\n\nPlease answer:\n\n1. **Who will use this feature?**  \n   *e.g. \u201cany visitor who signs up with a referral link\u201d or \u201conly existing customers can refer\u201d*\n\n2. **What must happen on day one?**  \n   *e.g. \u201cWhen a new user signs up via a referral code they should see a \u00a310 credit added to their Stripe balance, and the referrer should get a record of the referral\u201d*\n\n3. **What information will be stored?**  \n   *e.g. \u201cReferrer ID, referred user ID, referral code, credit amount, timestamp\u201d* \n\n4. **Will users already be logged in?**  \n   *Yes, we\u2019ll use Supabase Auth (magic link/email).*\n\n5. **Will this create a new Stripe wallet or use an existing one?**  \n   *We\u2019re adding a \u201ccredit\u201d that can be used to pay later, so we\u2019ll store a balance in Supabase and use Stripe for the charge later.*\n\nOnce you give me those answers, I\u2019ll lay out a one\u2011screen plan and we can start with a safe default implementation (secret keys hidden, RLS rules, immediate save point, etc.)."
+}

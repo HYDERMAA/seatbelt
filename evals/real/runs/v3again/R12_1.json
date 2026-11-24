@@ -1,0 +1,7 @@
+{
+ "id": "R12",
+ "sample": 1,
+ "cond": "v3again",
+ "model": "gpt-oss-20b",
+ "response": "Got it. We\u2019re going to add a Stripe\u2011based checkout to your Next.js app using **react\u2011easy\u2011stripe\u2011checkout\u2011pro**.\n\nBecause payments are involved, this falls under the **Amber** risk level, so we\u2019ll start with a couple of quick questions to keep the setup safe and painless.\n\n---\n\n### Starter questions (amber)\n\n1. **Do you already have a Stripe account and a Publishable key?**  \n   If not, you\u2019ll need to create one here: <https://dashboard.stripe.com/register>.\n\n2. **Will users need to sign in before paying, or is it a one\u2011time \u201cguest\u201d checkout?**  \n   If you need logins, we\u2019ll set up a simple auth flow. If not, we\u2019ll keep it simple.\n\nReply \u201cyes\u201d or \u201cno\u201d (and a short answer) to each. Then we\u2019ll write a concise one\u2011screen plan and start the first step."
+}

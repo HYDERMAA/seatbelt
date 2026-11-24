@@ -1,0 +1,7 @@
+{
+ "id": "R08",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "Got it! Let\u2019s build a small \u201cPet Photo Share\u201d app in Lovable with Supabase so anybody can sign\u2011in, upload a picture of their pet, and other users can \u201clike\u201d it.\n\n**Step 1 \u2013 Starter questions (Amber)**  \nI\u2019ll need a few quick details to keep everything safe and ready to launch.\n\n1. **Who should see the photos?**  \n   - All signed\u2011in users, or a public feed?  \n2. **Do you want any paid features or ads?** (e.g. premium photo\u2011stuffs, background\u2011removal)  \n3. **Do you already have a Supabase project and Lovable account?** If not, I can guide you through setting them up.  \n\nReply with the answers, and I\u2019ll draft a one\u2011screen plan with a simple, safe default setup. Once you confirm, we\u2019ll start!"
+}

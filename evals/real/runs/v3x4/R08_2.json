@@ -1,0 +1,7 @@
+{
+ "id": "R08",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "Great \u2013 let\u2019s get started building a photo\u2011share app for pets on Lovable with Supabase.  \nFirst, I\u2019ll walk through the quick starter questions to make sure we\u2019re on the same page.  \nI\u2019ll keep the language short and plain.\n\n**1. Who is it for?**  \n- Is it just for a few friends, or anyone who visits the app?  \n**2. What must it do on day one?**  \n- \u201cUpload a photo\u201d, \u201cView recent photos\u201d, \u201cLike a photo\u201d \u2013 is that everything?  \n**3. What information will it keep?**  \n- Photos you upload, who uploaded them, who liked them (no other private data needed).  \n**4. Will people log in?**  \n- To like a photo we need to know who\u2019s liking it. Would you like to use magic\u2011link sign\u2011ups or email\u2011password sign\u2011ups?  \n**5. Is money involved?**  \n- No payments, just a free photo feed and likes.  \n\nOnce you give me those answers, I\u2019ll draft a one\u2011screen plan (risk level, features, safety notes) and then we\u2019ll execute in Lovable step by step.  \n\nJust reply with your short answers, and we\u2019ll keep the app simple and secure."
+}

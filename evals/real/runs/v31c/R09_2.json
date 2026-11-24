@@ -1,0 +1,7 @@
+{
+ "id": "R09",
+ "sample": 2,
+ "cond": "v31c",
+ "model": "gpt-oss-20b",
+ "response": "Great! We\u2019ll build a **mental\u2011health journal** where users can log how they feel each day.\n\nBecause the app will store sensitive personal data, it\u2019s a **Red** project. I\u2019ll follow the seatbelt safety habits, and we\u2019ll start with the required starter questions before we plan anything.\n\n---\n\n## Starter Questions (one short reply at a time)\n\n1. **Who is it for?**  \n   Example: \u201cjust me\u201d, \u201ca small group of friends\u201d, \u201cthe public\u201d\n2. **What must it do on day one?**  \n   List the three most important features (e.g., login, daily entry, view history)\n3. **What information will it keep?**  \n   Anything private (text entries, dates, feelings, GPS, etc.)\n4. **Will people log in?** (Yes/No)\n5. **Is money involved?** (payments, paid AI, subscriptions)\n6. **What are you building it with?** (for example: React + Supabase, Flutter, no-code builder)\n\nOnce you answer these, we\u2019ll create a one\u2011screen plan, get your approval, and start building step\u2011by\u2011step. Remember, every change will be saved as a checkpoint so you can roll back if needed.\n\nLet me know your answers!"
+}

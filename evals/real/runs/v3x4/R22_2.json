@@ -1,0 +1,7 @@
+{
+ "id": "R22",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**It looks like you want to add a chatbot that can chat with users and also book appointments for them.**  \nThat\u2019s a new feature involving logins, personal data, and a paid AI service (if you need an LLM), so it falls under **Amber** risk.  \n\nBefore we can start, I need a few quick details:\n\n1. **Audience** \u2013 Who will be using this? (you, a small group, or the public?)  \n2. **Core actions** \u2013 On day one, you want the bot to:  \n   - Chat with the user  \n   - Book an appointment (choose date/time, confirm, maybe send an email reminder)  \n   - Maybe cancel or reschedule?  \n3. **Data you\u2019ll store** \u2013 Will we keep names, emails, phone numbers, appointment slots, etc.?  \n4. **Logins** \u2013 Do users need to log in to see their own appointments?  \n5. **Payments** \u2013 Will booking cost money or will an AI call be paid? (If you use an LLM, you\u2019ll need a key and usage cap.)  \n6. **Platform / tech** \u2013 You\u2019re on Lovable with Supabase. Do you already have an AI provider key (e.g., OpenAI, Anthropic) or should I suggest a free tier?\n\nGive me short answers to these, and we\u2019ll craft a safe one\u2011screen plan and start building step by step."
+}

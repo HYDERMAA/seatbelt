@@ -1,0 +1,7 @@
+{
+ "id": "G06",
+ "sample": 2,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "**What we\u2019re doing:**  \nAdd Google\u202fAnalytics (GA4) to your Next.js site so you can see traffic, but keep everything safe and neat.\n\n**Risk level:** **Green** \u2013 No logins, no money, only a tracking script.\n\n**Plan (one\u2011screen):**\n\n| What we\u2019re building | \n|---|\n| **Add GA4 tracking code** to the head of every page. |\n| **Who uses it?** Anyone who visits your site. |\n| **Day\u2011one features**  \n  1. Insert GA4 script into `_app.js`/`_document.js`.  \n  2. Verify the script runs (console shows `gtag`).  \n  3. Test by visiting a page and seeing a record in GA. |\n| **Info stored** \u2013 only analytics data in GA, not on your server. |\n| **Logins:** none.  \n| **Money:** none (GA is free base). |\n| **Built with:** Next.js (already there). |\n| **Safety:** no secret keys in the repo, just a public GA measurement ID. |\n| **Next step:** Save point, add script, test. |\n\n> **Does this look right? Reply \u201cyes\u201d or tell me what to change.**  \n\nOnce you confirm, I'll give you the exact file edits and how to check that GA is working."
+}

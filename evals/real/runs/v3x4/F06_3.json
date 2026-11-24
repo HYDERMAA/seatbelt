@@ -1,0 +1,7 @@
+{
+ "id": "F06",
+ "sample": 3,
+ "cond": "v3x4",
+ "model": "gpt-oss-20b",
+ "response": "Sure thing! Upgrading a Next.js app is a safe\u2011first step\u2014just swap out a few files and bump a couple of packages.  \nI\u2019ll need a tiny bit of info so I can make the safest, quickest upgrade for you.\n\n**1. What version of Next.js are you running now?**  \n(You can find it in `package.json` under `\"next\"`.)\n\n**2. Does your project use TypeScript, ESLint, or any custom Next.js config (`next.config.js`, `tsconfig.json`)?**  \nIf so, let me know which of those you have.\n\nOnce I have that, I\u2019ll give you a short, one\u2013screen plan, a safe \u201csave point\u201d suggestion, and the exact changes to apply. Then we\u2019ll run a quick check to make sure everything still works."
+}
