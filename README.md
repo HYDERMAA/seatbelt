@@ -485,5 +485,5 @@ tools/                        build, check and README drawing scripts for mainta
 <br>
 
 <a href="#top">
-  <img src="assets/readme/footer.svg" alt="Seatbelt. Free and open source under the MIT licence. Made by Mohammed Hyder. A safety net, not a full security audit." width="100%">
+  <img src="assets/readme/footer.svg" alt="Seatbelt. Free and open source under the MIT licence. Made by Hyder. A safety net, not a full security audit." width="100%">
 </a>

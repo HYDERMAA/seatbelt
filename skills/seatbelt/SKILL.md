@@ -3,7 +3,7 @@ name: seatbelt
 description: Safe vibe coding for non-developers. Use when someone builds, fixes or launches an app with AI, says make me an app, my app broke, or vibe coding. Plans first, saves often, guards keys and data.
 license: MIT (see LICENSE.txt)
 metadata:
-  author: Mohammed Hyder
+  author: Hyder
   version: "3.1.0"
   homepage: https://github.com/HYDERMAA/seatbelt
 ---

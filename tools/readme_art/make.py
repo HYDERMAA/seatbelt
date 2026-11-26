@@ -409,7 +409,7 @@ def stats(mode):
 def footer(mode):
     t = THEMES[mode]
     W, H = 1200, 220
-    d = Doc(W, H, "Seatbelt. Free and open source under the MIT licence. Made by Mohammed Hyder. A safety net, not a full security audit.")
+    d = Doc(W, H, "Seatbelt. Free and open source under the MIT licence. Made by Hyder. A safety net, not a full security audit.")
     grad(d, "fb", "#0b1026", "#1a1554", 1, 1)
     grad(d, "strap", "#ffb547", "#ff5f6d", 1, 1)
     d.adddef('<clipPath id="fc"><rect width="1200" height="220" rx="24"/></clipPath>')
@@ -417,7 +417,7 @@ def footer(mode):
     d.add('<path d="M1000 -20 L1090 -20 L1240 240 L1150 240 Z" fill="url(#strap)" opacity="0.95"/></g>')
     d.add('<g transform="translate(60 66)"><path d="M30 0 L60 10.5 L60 34.5 C60 54 46.5 67.5 30 75 C13.5 67.5 0 54 0 34.5 L0 10.5 Z" fill="#fff" fill-opacity="0.08" stroke="#8fb0ff" stroke-width="2.5"/><path d="M17 37.5 L27 47.5 L45 27" fill="none" stroke="#7CFFB2" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></g>')
     d.text(146, 112, "Seatbelt", 44, "#ffffff", 800, track=-0.03)
-    d.text(148, 146, "Free and open source. MIT licence. Made by Mohammed Hyder.", 19, "#b9c2e0", 500)
+    d.text(148, 146, "Free and open source. MIT licence. Made by Hyder.", 19, "#b9c2e0", 500)
     d.text(148, 176, "A safety net, not a full security audit.", 17, "#8a94b8", 500)
     return d
 
