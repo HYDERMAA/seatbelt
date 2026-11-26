@@ -40,7 +40,7 @@ Type these two lines into Claude Code:
 
 ```
 /plugin marketplace add HYDERMAA/seatbelt
-/plugin install seatbelt@hydermaa
+/plugin install seatbelt@seatbelt
 ```
 
 </td>
@@ -116,7 +116,7 @@ That is it. Your AI uses Seatbelt by itself whenever you build, fix or launch an
 
 Skills work on Free, Pro, Max, Ultra, Team and Enterprise plans. On Team and Enterprise, your organisation owner may need to allow skills first. [Anthropic's guide](https://support.claude.com/en/articles/12512180-use-skills-in-claude)
 
-**Claude Code** from your terminal: `claude plugin marketplace add HYDERMAA/seatbelt` then `claude plugin install seatbelt@hydermaa`.
+**Claude Code** from your terminal: `claude plugin marketplace add HYDERMAA/seatbelt` then `claude plugin install seatbelt@seatbelt`.
 
 **By hand, for any skill-aware agent**
 

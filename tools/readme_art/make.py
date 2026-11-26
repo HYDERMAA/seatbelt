@@ -76,7 +76,7 @@ def hero(mode):
     ink2 = "#b9c2e0" if dark else t["ink2"]
     # pill
     px, py = 64, 70
-    label = "Agent skill  ·  v3.0.0  ·  Free and open source"
+    label = "Agent skill  ·  v3.1.0  ·  Free and open source"
     w = d.measure(label, 16, 600) + 42
     d.add(f'<rect x="{px}" y="{py}" width="{w:.0f}" height="34" rx="17" fill="{"#ffffff" if dark else "#4f46e5"}" fill-opacity="{0.08 if dark else 0.08}" stroke="{"#ffffff" if dark else "#4f46e5"}" stroke-opacity="{0.18 if dark else 0.25}"/>')
     d.add(f'<circle cx="{px+20}" cy="{py+17}" r="4" fill="{"#4ade80" if dark else "#16a34a"}"/>')
